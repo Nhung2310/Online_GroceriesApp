@@ -1,9 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:online_groceries_app/app_color.dart';
-import 'package:online_groceries_app/assets.dart';
+import 'package:online_groceries_app/app_assets.dart';
+import 'package:online_groceries_app/ui/onbording.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    Future.delayed(const Duration(seconds: 3), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Onbording()),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

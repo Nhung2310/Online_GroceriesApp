@@ -59,6 +59,7 @@ flutter:
   assets:
      - 'assets/man.png'
      - 'assets/carot.png'
+     - 'assets/carot_red.png'
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
