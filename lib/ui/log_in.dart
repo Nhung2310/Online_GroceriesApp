@@ -5,6 +5,7 @@ import 'package:online_groceries_app/app_color.dart';
 import 'package:online_groceries_app/ui/email_field_check.dart';
 import 'package:online_groceries_app/ui/password_field.dart';
 import 'package:online_groceries_app/ui/sign_up.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -20,27 +21,27 @@ class _LoginState extends State<Login> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
             //  padding: const EdgeInsets.symmetric(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: 50),
+                SizedBox(height: 50.h),
                 Center(
                   child: Image.asset(
-                    width: 50,
-                    height: 50,
+                    width: 50.w,
+                    height: 50.h,
                     AppAssets.icCarotRed,
                     fit: BoxFit.contain,
                   ),
                 ),
-
+                SizedBox(height: 50.h),
                 Text(
                   'Loging',
                   style: TextStyle(
-                    fontSize: 25,
+                    fontSize: 25.sp,
                     fontWeight: FontWeight.bold,
                     color: AppColor.black,
                   ),
@@ -48,7 +49,7 @@ class _LoginState extends State<Login> {
 
                 Text(
                   'Entern your email and password',
-                  style: TextStyle(fontSize: 15, color: AppColor.gray),
+                  style: TextStyle(fontSize: 15.sp, color: AppColor.gray),
                 ),
 
                 // TextField(
@@ -58,55 +59,58 @@ class _LoginState extends State<Login> {
                 //   ),
                 //   keyboardType: TextInputType.emailAddress,
                 // ),
+                SizedBox(height: 10.h),
+
                 EmailFieldWithCheck(),
+                SizedBox(height: 10.h),
                 PasswordField(),
-                SizedBox(width: 30),
+                SizedBox(height: 10.h),
                 Align(
                   alignment: Alignment.centerRight,
                   child: Text(
                     'Forgot Password?',
-                    style: TextStyle(fontSize: 13, color: AppColor.gray),
+                    style: TextStyle(fontSize: 13.sp, color: AppColor.gray),
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 Center(
                   child: SizedBox(
-                    width: 300,
+                    width: 300.w,
 
                     child: ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 15),
+                        padding: EdgeInsets.symmetric(vertical: 15.h),
                         backgroundColor: AppColor.green,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12.r),
                         ),
                       ),
                       child: Text(
                         "Log in",
-                        style: TextStyle(fontSize: 18, color: Colors.white),
+                        style: TextStyle(fontSize: 18.sp, color: Colors.white),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: 30.h),
                 Center(
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 50),
+                    padding: EdgeInsets.only(bottom: 20.h),
                     child: RichText(
                       text: TextSpan(
                         children: [
                           TextSpan(
                             text: 'Don’t have an account? ',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 20.sp,
                               color: AppColor.gray,
                             ),
                           ),
                           TextSpan(
                             text: 'Singup',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 20.sp,
                               color: AppColor.green,
                             ),
 
