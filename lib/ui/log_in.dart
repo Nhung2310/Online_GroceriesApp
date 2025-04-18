@@ -32,7 +32,7 @@ class _LoginState extends State<Login> {
                   child: Image.asset(
                     width: 50,
                     height: 50,
-                    AppAssets.icCarot_red,
+                    AppAssets.icCarotRed,
                     fit: BoxFit.contain,
                   ),
                 ),

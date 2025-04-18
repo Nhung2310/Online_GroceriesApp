@@ -32,7 +32,7 @@ class _SingUpState extends State<SignUp> {
                   child: Image.asset(
                     width: 50,
                     height: 50,
-                    AppAssets.icCarot_red,
+                    AppAssets.icCarotRed,
                     fit: BoxFit.contain,
                   ),
                 ),
