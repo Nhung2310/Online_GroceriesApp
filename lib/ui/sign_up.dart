@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
+import 'package:online_groceries_app/services/auth_service.dart';
+import 'package:online_groceries_app/ui/email_field_check.dart';
 import 'package:online_groceries_app/ui/password_field.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignUp extends StatefulWidget {
@@ -14,6 +15,10 @@ class SignUp extends StatefulWidget {
 }
 
 class _SingUpState extends State<SignUp> {
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -53,6 +58,7 @@ class _SingUpState extends State<SignUp> {
                 ),
 
                 TextField(
+                  controller: usernameController,
                   decoration: InputDecoration(
                     labelText: 'Use Name',
                     border: UnderlineInputBorder(),
@@ -60,15 +66,16 @@ class _SingUpState extends State<SignUp> {
                   keyboardType: TextInputType.text,
                 ),
                 SizedBox(height: 10.h),
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    border: UnderlineInputBorder(),
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                ),
+                // TextField(
+                //   decoration: InputDecoration(
+                //     labelText: 'Email',
+                //     border: UnderlineInputBorder(),
+                //   ),
+                //   keyboardType: TextInputType.emailAddress,
+                // ),
+                EmailFieldWithCheck(controller: emailController),
                 SizedBox(height: 10.h),
-                PasswordField(),
+                PasswordField(controller: passwordController),
                 SizedBox(height: 20.h),
                 RichText(
                   text: TextSpan(
@@ -104,7 +111,25 @@ class _SingUpState extends State<SignUp> {
                   child: SizedBox(
                     width: 300.w,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        final error = await AuthService.sign_up(
+                          email: emailController.text.trim(),
+                          password: passwordController.text.trim(),
+                          username: usernameController.text.trim(),
+                        );
+                        if (error == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Bạn đã đăng ký thành công"),
+                            ),
+                          );
+                          Navigator.pop(context);
+                        } else {
+                          ScaffoldMessenger.of(
+                            context,
+                          ).showSnackBar(SnackBar(content: Text(error)));
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 15.h),
                         backgroundColor: AppColor.green,
@@ -168,4 +193,37 @@ class _SingUpState extends State<SignUp> {
       ),
     );
   }
+
+  // Future<void> signUp() async {
+  //   final username = usernameController.text.trim();
+  //   final email = emailController.text.trim();
+  //   final password = passwordController.text.trim();
+
+  //   if (username.isEmpty || email.isEmpty || password.isEmpty) {
+  //     ScaffoldMessenger.of(
+  //       context,
+  //     ).showSnackBar(SnackBar(content: Text("Vui lòng điền đầy đủ thông tin")));
+  //     return;
+  //   }
+  //   try {
+  //     final userCredential = await FirebaseAuth.instance
+  //         .createUserWithEmailAndPassword(email: email, password: password);
+  //     await userCredential.user!.updateDisplayName(username);
+
+  //     ScaffoldMessenger.of(
+  //       context,
+  //     ).showSnackBar(SnackBar(content: Text("Đăng ký thành công!")));
+  //     Navigator.pop(context);
+  //   } on FirebaseAuthException catch (e) {
+  //     String msg = '';
+  //     if (e.code == 'email-already-in-use') {
+  //       msg = 'Email đã được đăng ký, vui lòng chọn email khác';
+  //     } else if (e.code == 'weak-password') {
+  //       msg = 'Mật khẩu quá yếu vui lòng đặt mật khẩu mạnh hơn >=6 ký tự';
+  //     } else {
+  //       msg = e.message ?? 'Lỗi không xác định';
+  //     }
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+  //   }
+  // }
 }

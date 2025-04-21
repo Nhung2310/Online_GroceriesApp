@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:online_groceries_app/app_color.dart';
 
 class EmailFieldWithCheck extends StatefulWidget {
-  const EmailFieldWithCheck({super.key});
+  final TextEditingController controller;
+
+  const EmailFieldWithCheck({super.key, required this.controller});
 
   @override
   State<EmailFieldWithCheck> createState() => _EmailFieldWithCheckState();
 }
 
 class _EmailFieldWithCheckState extends State<EmailFieldWithCheck> {
-  final TextEditingController _emailController = TextEditingController();
+  //final TextEditingController _emailController = TextEditingController();
   bool _isValidEmail = false;
 
   // Regex kiểm tra định dạng email
@@ -20,9 +22,9 @@ class _EmailFieldWithCheckState extends State<EmailFieldWithCheck> {
   @override
   void initState() {
     super.initState();
-    _emailController.addListener(() {
+    widget.controller.addListener(() {
       setState(() {
-        _isValidEmail = isEmailValid(_emailController.text);
+        _isValidEmail = isEmailValid(widget.controller.text);
       });
     });
   }
@@ -30,7 +32,7 @@ class _EmailFieldWithCheckState extends State<EmailFieldWithCheck> {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: _emailController,
+      controller: widget.controller,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
         labelText: 'Email',
@@ -41,11 +43,5 @@ class _EmailFieldWithCheckState extends State<EmailFieldWithCheck> {
                 : null,
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    super.dispose();
   }
 }

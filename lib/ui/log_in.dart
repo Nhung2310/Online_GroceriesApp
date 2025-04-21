@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:online_groceries_app/app_assets.dart';
@@ -14,6 +15,24 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  // Future<void> singInWithEmail() async{
+  //   final email =emailController.text.trim();
+  //   final password=passwordController.text.trim();
+
+  //   if( email.isEmpty || password.isEmpty){
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text("Email và mật khẩu không được để trống")),
+
+  //     );
+  //     return;
+  //   }try{
+  //     await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password)
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,9 +80,9 @@ class _LoginState extends State<Login> {
                 // ),
                 SizedBox(height: 10.h),
 
-                EmailFieldWithCheck(),
+                EmailFieldWithCheck(controller: emailController),
                 SizedBox(height: 10.h),
-                PasswordField(),
+                PasswordField(controller: passwordController),
                 SizedBox(height: 10.h),
                 Align(
                   alignment: Alignment.centerRight,
