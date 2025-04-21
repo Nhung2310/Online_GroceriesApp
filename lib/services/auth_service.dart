@@ -21,4 +21,23 @@ class AuthService {
       }
     }
   }
+
+  static Future<String?> log_in({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final UserCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      return null;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        return 'Tài khoản không tồn tại';
+      } else if (e.code == 'wrong-password') {
+        return 'Sai mật khẩu';
+      } else {
+        return e.message ?? ' Lỗi không xác định chờ xíu nhé';
+      }
+    }
+  }
 }

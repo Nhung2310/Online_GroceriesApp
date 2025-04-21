@@ -31,7 +31,7 @@ class _EmailFieldWithCheckState extends State<EmailFieldWithCheck> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: widget.controller,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
@@ -42,6 +42,14 @@ class _EmailFieldWithCheckState extends State<EmailFieldWithCheck> {
                 ? const Icon(Icons.check, color: AppColor.green)
                 : null,
       ),
+      validator: (value) {
+        if (value == null || value.trim().isEmpty) {
+          return 'Email không được để trống';
+          // } else if (isEmailValid(value)) {
+          //   return 'Email không hợp lệ';
+        }
+        return null;
+      },
     );
   }
 }

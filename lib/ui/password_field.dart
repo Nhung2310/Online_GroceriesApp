@@ -19,7 +19,7 @@ class _PasswordFieldState extends State<PasswordField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: widget.controller,
       obscureText: _obscureText,
       decoration: InputDecoration(
@@ -30,6 +30,11 @@ class _PasswordFieldState extends State<PasswordField> {
           onPressed: _Visibility,
         ),
       ),
+      validator: (value) {
+        if (value == null || value.trim().isEmpty) {
+          return 'Mật khẩu không được để trống';
+        }
+      },
     );
   }
 }

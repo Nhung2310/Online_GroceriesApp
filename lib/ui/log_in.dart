@@ -3,10 +3,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
+import 'package:online_groceries_app/services/auth_service.dart';
 import 'package:online_groceries_app/ui/email_field_check.dart';
 import 'package:online_groceries_app/ui/password_field.dart';
 import 'package:online_groceries_app/ui/sign_up.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:online_groceries_app/widget/loading_dialog.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -15,23 +17,9 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
-  // Future<void> singInWithEmail() async{
-  //   final email =emailController.text.trim();
-  //   final password=passwordController.text.trim();
-
-  //   if( email.isEmpty || password.isEmpty){
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text("Email và mật khẩu không được để trống")),
-
-  //     );
-  //     return;
-  //   }try{
-  //     await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password)
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +85,29 @@ class _LoginState extends State<Login> {
                     width: 300.w,
 
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        //if (_formKey.currentState!.validate()) {
+                        //showAboutDialog(context: context);
+                        final error = await AuthService.log_in(
+                          email: emailController.text.trim(),
+                          password: passwordController.text.trim(),
+                        );
+
+                        //LoadingDialog(context);
+                        if (error == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Bạn đã đăng nhập thành công'),
+                            ),
+                          );
+                          Navigator.pop(context);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Đăng nhập thất bại')),
+                          );
+                        }
+                        // }
+                      },
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 15.h),
                         backgroundColor: AppColor.green,
