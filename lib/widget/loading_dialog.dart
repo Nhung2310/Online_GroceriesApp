@@ -29,6 +29,6 @@ void showLoadingDialog(BuildContext context) {
   );
 }
 
-void LoadingDialog(BuildContext context) {
+void dismissDialog(BuildContext context) {
   Navigator.of(context, rootNavigator: true).pop();
 }

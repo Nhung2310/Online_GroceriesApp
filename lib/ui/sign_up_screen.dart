@@ -5,6 +5,8 @@ import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:online_groceries_app/services/auth_service.dart';
 import 'package:online_groceries_app/ui/email_field_check.dart';
+import 'package:online_groceries_app/ui/email_verified_screen.dart';
+import 'package:online_groceries_app/ui/log_in_screen.dart';
 import 'package:online_groceries_app/ui/password_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/widget/loading_dialog.dart';
@@ -71,7 +73,7 @@ class _SingUpState extends State<SignUp> {
                     ),
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'Tên không được để trống';
+                        return 'The name field cannot be empty.';
                       }
                       return null;
                     },
@@ -130,30 +132,7 @@ class _SingUpState extends State<SignUp> {
                       width: 300.w,
                       child: ElevatedButton(
                         onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            //
-                            //setState(() => isLoading = true);
-                            showLoadingDialog(context);
-                            final error = await AuthService.sign_up(
-                              email: emailController.text.trim(),
-                              password: passwordController.text.trim(),
-                              username: usernameController.text.trim(),
-                            );
-                            // setState(() => isLoading = false);
-                            LoadingDialog(context);
-                            if (error == null) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text("Bạn đã đăng ký thành công"),
-                                ),
-                              );
-                              Navigator.pop(context);
-                            } else {
-                              ScaffoldMessenger.of(
-                                context,
-                              ).showSnackBar(SnackBar(content: Text(error)));
-                            }
-                          }
+                          await onclickSignUp(context);
                         },
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(vertical: 15.h),
@@ -230,36 +209,54 @@ class _SingUpState extends State<SignUp> {
     );
   }
 
-  // Future<void> signUp() async {
-  //   final username = usernameController.text.trim();
-  //   final email = emailController.text.trim();
-  //   final password = passwordController.text.trim();
+  Future<void> onclickLogin(BuildContext context) async {
+    final error = await AuthService.logIn(
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
+    );
 
-  //   if (username.isEmpty || email.isEmpty || password.isEmpty) {
-  //     ScaffoldMessenger.of(
-  //       context,
-  //     ).showSnackBar(SnackBar(content: Text("Vui lòng điền đầy đủ thông tin")));
-  //     return;
-  //   }
-  //   try {
-  //     final userCredential = await FirebaseAuth.instance
-  //         .createUserWithEmailAndPassword(email: email, password: password);
-  //     await userCredential.user!.updateDisplayName(username);
+    //LoadingDialog(context);
+    // if (error == null) {
+    //   ScaffoldMessenger.of(
+    //     context,
+    //   ).showSnackBar(SnackBar(content: Text('Bạn đã đăng nhập thành công')));
+    //   Navigator.pop(context);
+    // } else {
+    //   ScaffoldMessenger.of(
+    //     context,
+    //   ).showSnackBar(SnackBar(content: Text('Đăng nhập thất bại')));
+    // }
+  }
 
-  //     ScaffoldMessenger.of(
-  //       context,
-  //     ).showSnackBar(SnackBar(content: Text("Đăng ký thành công!")));
-  //     Navigator.pop(context);
-  //   } on FirebaseAuthException catch (e) {
-  //     String msg = '';
-  //     if (e.code == 'email-already-in-use') {
-  //       msg = 'Email đã được đăng ký, vui lòng chọn email khác';
-  //     } else if (e.code == 'weak-password') {
-  //       msg = 'Mật khẩu quá yếu vui lòng đặt mật khẩu mạnh hơn >=6 ký tự';
-  //     } else {
-  //       msg = e.message ?? 'Lỗi không xác định';
-  //     }
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
-  //   }
-  // }
+  Future<void> onclickSignUp(BuildContext context) async {
+    if (_formKey.currentState!.validate()) {
+      showLoadingDialog(context);
+      final error = await AuthService.signUp(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+        username: usernameController.text.trim(),
+      );
+      // setState(() => isLoading = false);
+      dismissDialog(context);
+      if (error == null) {
+        //await sendVerificationEmail(context);
+        onclickLogin(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder:
+                (context) =>
+                    EmailVerifiedScreen(email: emailController.text.trim()),
+          ),
+        );
+
+        // ).showSnackBar(SnackBar(content: Text("Bạn đã đăng ký thành công")));
+        // Navigator.pop(context);
+      } else {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(error)));
+      }
+    }
+  }
 }

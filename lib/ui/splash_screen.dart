@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:online_groceries_app/app_assets.dart';
-import 'package:online_groceries_app/ui/onbording.dart';
+import 'package:online_groceries_app/ui/onbording_screen.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
   @override
-  State<Home> createState() => _HomeState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _HomeState extends State<Home> {
+class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     // TODO: implement initState

@@ -5,8 +5,9 @@ import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:online_groceries_app/services/auth_service.dart';
 import 'package:online_groceries_app/ui/email_field_check.dart';
+import 'package:online_groceries_app/ui/home_screen.dart';
 import 'package:online_groceries_app/ui/password_field.dart';
-import 'package:online_groceries_app/ui/sign_up.dart';
+import 'package:online_groceries_app/ui/sign_up_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/widget/loading_dialog.dart';
 
@@ -59,13 +60,6 @@ class _LoginState extends State<Login> {
                   style: TextStyle(fontSize: 15.sp, color: AppColor.gray),
                 ),
 
-                // TextField(
-                //   decoration: InputDecoration(
-                //     labelText: 'Email',
-                //     border: UnderlineInputBorder(),
-                //   ),
-                //   keyboardType: TextInputType.emailAddress,
-                // ),
                 SizedBox(height: 10.h),
 
                 EmailFieldWithCheck(controller: emailController),
@@ -86,27 +80,7 @@ class _LoginState extends State<Login> {
 
                     child: ElevatedButton(
                       onPressed: () async {
-                        //if (_formKey.currentState!.validate()) {
-                        //showAboutDialog(context: context);
-                        final error = await AuthService.log_in(
-                          email: emailController.text.trim(),
-                          password: passwordController.text.trim(),
-                        );
-
-                        //LoadingDialog(context);
-                        if (error == null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Bạn đã đăng nhập thành công'),
-                            ),
-                          );
-                          Navigator.pop(context);
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Đăng nhập thất bại')),
-                          );
-                        }
-                        // }
+                        await onclickLogin(context);
                       },
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 15.h),
@@ -165,5 +139,29 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  Future<void> onclickLogin(BuildContext context) async {
+    final error = await AuthService.logIn(
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
+    );
+
+    //LoadingDialog(context);
+    if (error == null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('You have successfully logged in.')),
+      );
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Login failed')));
+    }
   }
 }

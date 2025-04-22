@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
-import 'package:online_groceries_app/ui/log_in.dart';
+import 'package:online_groceries_app/ui/log_in_screen.dart';
 
 class Onbording extends StatelessWidget {
   const Onbording({super.key});

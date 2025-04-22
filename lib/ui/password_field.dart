@@ -32,7 +32,7 @@ class _PasswordFieldState extends State<PasswordField> {
       ),
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
-          return 'Mật khẩu không được để trống';
+          return 'The password field cannot be empty.';
         }
       },
     );

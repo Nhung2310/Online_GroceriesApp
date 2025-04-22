@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
-  static Future<String?> sign_up({
+  static Future<String?> signUp({
     required String email,
     required String password,
     required String username,
@@ -10,6 +10,7 @@ class AuthService {
       final UserCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       await UserCredential.user!.updateDisplayName(username);
+      await UserCredential.user!.sendEmailVerification();
       return null;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
@@ -22,7 +23,7 @@ class AuthService {
     }
   }
 
-  static Future<String?> log_in({
+  static Future<String?> logIn({
     required String email,
     required String password,
   }) async {
