@@ -1,136 +1,67 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:online_groceries_app/ui/account_screen.dart';
+import 'package:online_groceries_app/ui/cart_screen.dart';
+import 'package:online_groceries_app/ui/explore_screen.dart';
+import 'package:online_groceries_app/ui/favourite_screen.dart';
+import 'package:online_groceries_app/ui/shop_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
   @override
-  State<StatefulWidget> createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  TextEditingController searchController = TextEditingController();
+  int _selectedIndex = 0;
 
-  @override
-  void dispose() {
-    searchController.dispose();
-    super.dispose();
+  final List<Widget> _screens = [
+    ShopScreen(),
+    ExploreScreen(),
+    CartScreen(),
+    FavouriteScreen(),
+    AccountScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+      body: _screens[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        selectedItemColor: AppColor.green,
+        unselectedItemColor: AppColor.black,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.storefront_sharp),
 
-            children: [
-              SizedBox(height: 50.h),
-              Center(
-                child: Image.asset(
-                  width: 50.w,
-                  height: 50.h,
-                  AppAssets.icCarotRed,
-                  fit: BoxFit.contain,
-                ),
-              ),
-              SizedBox(height: 20.h),
-              Center(
-                child: Row(
-                  children: [
-                    Icon(Icons.location_on, color: AppColor.gray, size: 20.sp),
-                    Text(
-                      'HCM, Vietnam',
-                      style: TextStyle(color: AppColor.black, fontSize: 16.sp),
-                    ),
-                  ],
-                ),
-              ),
-              TextField(
-                controller: searchController,
-                decoration: InputDecoration(
-                  labelText: 'Search Store',
-                  prefixIcon: Icon(Icons.search),
-
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50.r),
-                    borderSide: BorderSide(color: AppColor.gray, width: 2),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20.h),
-
-              CarouselSlider(
-                options: CarouselOptions(
-                  autoPlay: true,
-                  enlargeCenterPage: true,
-                  aspectRatio: 16 / 9,
-                  viewportFraction: 1.0,
-                ),
-                items: [
-                  //slider1
-                  Container(
-                    color: AppColor.green,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            width: 150,
-                            height: 150,
-                            AppAssets.vegetables,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  Container(
-                    color: AppColor.green,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            AppAssets.vegetables,
-                            width: 150,
-                            height: 150,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  Container(
-                    color: AppColor.green,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            AppAssets.vegetables,
-                            height: 150,
-                            width: 150,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+            label: 'Shop',
           ),
-        ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.manage_search_sharp),
+            label: 'Explore',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart_checkout_outlined),
+            label: 'Cart',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite_border_outlined),
+            label: 'Favorite',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.manage_accounts_outlined),
+            label: 'Account',
+          ),
+        ],
       ),
     );
   }

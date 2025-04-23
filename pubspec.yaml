@@ -69,6 +69,7 @@ flutter:
      - 'assets/adress.png'
      - 'assets/vegetables.jpg'
      - 'assets/dialog.png'
+     - 'assets/avatar.jpg'
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

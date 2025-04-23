@@ -22,7 +22,7 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  bool _isLoggedIn = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -157,24 +157,18 @@ class _LoginState extends State<Login> {
         password: passwordController.text.trim(),
         context: context,
       );
-      showLoadingDialog(context);
-      dismissDialog(context);
+      //dismissDialog(context);
       if (error == null) {
-        if (!_isLoggedIn) {
-          setState(() {
-            _isLoggedIn = true;
-          });
-          // Navigator.pushReplacement(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => HomeScreen()),
-          // );
+        // Navigator.pushReplacement(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => HomeScreen()),
+        // );
 
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => HomeScreen()),
-            (Route<dynamic> route) => false,
-          );
-        }
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+          (Route<dynamic> route) => false,
+        );
       } else {
         showErrorDialog(context, error);
       }
