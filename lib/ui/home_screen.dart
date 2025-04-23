@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -67,7 +68,66 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              SizedBox(),
+              SizedBox(height: 20.h),
+
+              CarouselSlider(
+                options: CarouselOptions(
+                  autoPlay: true,
+                  enlargeCenterPage: true,
+                  aspectRatio: 16 / 9,
+                  viewportFraction: 1.0,
+                ),
+                items: [
+                  //slider1
+                  Container(
+                    color: AppColor.green,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            width: 150,
+                            height: 150,
+                            AppAssets.vegetables,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(
+                    color: AppColor.green,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            AppAssets.vegetables,
+                            width: 150,
+                            height: 150,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(
+                    color: AppColor.green,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            AppAssets.vegetables,
+                            height: 150,
+                            width: 150,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

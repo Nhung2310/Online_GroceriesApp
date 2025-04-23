@@ -4,4 +4,5 @@ class AppAssets {
   static const String icCarotRed = 'assets/carot_red.png';
   static const String icEmail = 'assets/email.png';
   static const String adress = 'assets/adress.png';
+  static const String vegetables = 'assets/vegetables.jpg';
 }

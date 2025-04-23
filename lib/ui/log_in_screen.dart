@@ -147,21 +147,21 @@ class _LoginState extends State<Login> {
       password: passwordController.text.trim(),
     );
 
-    //LoadingDialog(context);
     if (error == null) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
       );
 
+      // Hiển thị thông báo đăng nhập thành công
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('You have successfully logged in.')),
       );
-      Navigator.pop(context);
     } else {
+      // Nếu có lỗi, bạn có thể hiển thị thông báo lỗi ở đây.
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Login failed')));
+      ).showSnackBar(SnackBar(content: Text(error)));
     }
   }
 }
