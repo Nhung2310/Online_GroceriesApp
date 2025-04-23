@@ -151,30 +151,32 @@ class _LoginState extends State<Login> {
   Future<void> onclickLogin(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       showLoadingDialog(context);
-      final error = await AuthService.logIn(
+      dismissDialog(context);
+      final error = await AuthService.logInAndCheckVerifyEmai(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
+        context: context,
       );
+      showLoadingDialog(context);
       dismissDialog(context);
       if (error == null) {
         if (!_isLoggedIn) {
           setState(() {
             _isLoggedIn = true;
           });
-          Navigator.pushReplacement(
+          // Navigator.pushReplacement(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => HomeScreen()),
+          // );
+
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => HomeScreen()),
+            (Route<dynamic> route) => false,
           );
-
-          // ScaffoldMessenger.of(context).showSnackBar(
-          //   SnackBar(content: Text('You have successfully logged in.')),
-          // );
         }
       } else {
         showErrorDialog(context, error);
-        // ScaffoldMessenger.of(
-        //   context,
-        // ).showSnackBar(SnackBar(content: Text(error)));
       }
     }
   }

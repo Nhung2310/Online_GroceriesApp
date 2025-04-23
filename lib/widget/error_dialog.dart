@@ -18,7 +18,7 @@ void showErrorDialog(BuildContext context, String errorMessage) {
             mainAxisSize: MainAxisSize.min,
             children: [
               Align(
-                alignment: Alignment.topRight,
+                alignment: Alignment.topLeft,
                 child: IconButton(
                   icon: Icon(Icons.close, color: AppColor.black),
                   onPressed: () {
@@ -26,21 +26,33 @@ void showErrorDialog(BuildContext context, String errorMessage) {
                   },
                 ),
               ),
-              Image.asset(AppAssets.icimagedialog, width: 100.h, height: 100.h),
-              SizedBox(height: 20.h),
+              Image.asset(AppAssets.icimagedialog, width: 150.h, height: 150.h),
+              SizedBox(height: 40.h),
 
-              Text(
-                errorMessage,
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  color: AppColor.black,
-                  fontWeight: FontWeight.bold,
-                ),
+              RichText(
                 textAlign: TextAlign.center,
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'Oops! Order Failed\n',
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        color: AppColor.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    TextSpan(
+                      text: errorMessage,
+                      style: TextStyle(fontSize: 20.sp, color: AppColor.gray),
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(height: 20.h),
+              SizedBox(height: 70.h),
               Center(
                 child: SizedBox(
+                  width: 200.w,
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -49,7 +61,7 @@ void showErrorDialog(BuildContext context, String errorMessage) {
                       padding: EdgeInsets.symmetric(vertical: 15.h),
                       backgroundColor: AppColor.green,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.r),
+                        borderRadius: BorderRadius.circular(20.r),
                       ),
                     ),
                     child: Text(
