@@ -18,7 +18,7 @@ void showLoadingDialog(BuildContext context) {
               CircularProgressIndicator(),
               SizedBox(height: 20),
               Text(
-                "Chờ xíu nha...",
+                "Loading...",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
             ],

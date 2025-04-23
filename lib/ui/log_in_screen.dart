@@ -9,6 +9,7 @@ import 'package:online_groceries_app/ui/home_screen.dart';
 import 'package:online_groceries_app/ui/password_field.dart';
 import 'package:online_groceries_app/ui/sign_up_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:online_groceries_app/widget/error_dialog.dart';
 import 'package:online_groceries_app/widget/loading_dialog.dart';
 
 class Login extends StatefulWidget {
@@ -21,7 +22,7 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
+  bool _isLoggedIn = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,109 +32,115 @@ class _LoginState extends State<Login> {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
             //  padding: const EdgeInsets.symmetric(),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(height: 50.h),
-                Center(
-                  child: Image.asset(
-                    width: 50.w,
-                    height: 50.h,
-                    AppAssets.icCarotRed,
-                    fit: BoxFit.contain,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(height: 50.h),
+                  Center(
+                    child: Image.asset(
+                      width: 50.w,
+                      height: 50.h,
+                      AppAssets.icCarotRed,
+                      fit: BoxFit.contain,
+                    ),
                   ),
-                ),
-                SizedBox(height: 50.h),
-                Text(
-                  'Loging',
-                  style: TextStyle(
-                    fontSize: 25.sp,
-                    fontWeight: FontWeight.bold,
-                    color: AppColor.black,
+                  SizedBox(height: 50.h),
+                  Text(
+                    'Loging',
+                    style: TextStyle(
+                      fontSize: 25.sp,
+                      fontWeight: FontWeight.bold,
+                      color: AppColor.black,
+                    ),
                   ),
-                ),
 
-                Text(
-                  'Entern your email and password',
-                  style: TextStyle(fontSize: 15.sp, color: AppColor.gray),
-                ),
-
-                SizedBox(height: 10.h),
-
-                EmailFieldWithCheck(controller: emailController),
-                SizedBox(height: 10.h),
-                PasswordField(controller: passwordController),
-                SizedBox(height: 10.h),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    'Forgot Password?',
-                    style: TextStyle(fontSize: 13.sp, color: AppColor.gray),
+                  Text(
+                    'Entern your email and password',
+                    style: TextStyle(fontSize: 15.sp, color: AppColor.gray),
                   ),
-                ),
-                SizedBox(height: 20.h),
-                Center(
-                  child: SizedBox(
-                    width: 300.w,
 
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        await onclickLogin(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 15.h),
-                        backgroundColor: AppColor.green,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.r),
+                  SizedBox(height: 10.h),
+
+                  EmailFieldWithCheck(controller: emailController),
+                  SizedBox(height: 10.h),
+                  PasswordField(controller: passwordController),
+                  SizedBox(height: 10.h),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'Forgot Password?',
+                      style: TextStyle(fontSize: 13.sp, color: AppColor.gray),
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
+                  Center(
+                    child: SizedBox(
+                      width: 300.w,
+
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          await onclickLogin(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(vertical: 15.h),
+                          backgroundColor: AppColor.green,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                        ),
+                        child: Text(
+                          "Log in",
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                      child: Text(
-                        "Log in",
-                        style: TextStyle(fontSize: 18.sp, color: Colors.white),
-                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 30.h),
-                Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: 20.h),
-                    child: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: 'Don’t have an account? ',
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              color: AppColor.gray,
+                  SizedBox(height: 30.h),
+                  Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 20.h),
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'Don’t have an account? ',
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                                color: AppColor.gray,
+                              ),
                             ),
-                          ),
-                          TextSpan(
-                            text: 'Singup',
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              color: AppColor.green,
-                            ),
+                            TextSpan(
+                              text: 'Singup',
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                                color: AppColor.green,
+                              ),
 
-                            recognizer:
-                                TapGestureRecognizer()
-                                  ..onTap = () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => SignUp(),
-                                      ),
-                                    );
-                                  },
-                          ),
-                        ],
+                              recognizer:
+                                  TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SignUp(),
+                                        ),
+                                      );
+                                    },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -142,26 +149,33 @@ class _LoginState extends State<Login> {
   }
 
   Future<void> onclickLogin(BuildContext context) async {
-    final error = await AuthService.logIn(
-      email: emailController.text.trim(),
-      password: passwordController.text.trim(),
-    );
-
-    if (error == null) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+    if (_formKey.currentState!.validate()) {
+      showLoadingDialog(context);
+      final error = await AuthService.logIn(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
       );
+      dismissDialog(context);
+      if (error == null) {
+        if (!_isLoggedIn) {
+          setState(() {
+            _isLoggedIn = true;
+          });
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+          );
 
-      // Hiển thị thông báo đăng nhập thành công
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('You have successfully logged in.')),
-      );
-    } else {
-      // Nếu có lỗi, bạn có thể hiển thị thông báo lỗi ở đây.
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(error)));
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   SnackBar(content: Text('You have successfully logged in.')),
+          // );
+        }
+      } else {
+        showErrorDialog(context, error);
+        // ScaffoldMessenger.of(
+        //   context,
+        // ).showSnackBar(SnackBar(content: Text(error)));
+      }
     }
   }
 }

@@ -126,9 +126,7 @@ class _EmailVerifiedScreenState extends State<EmailVerifiedScreen> {
                     text: '${widget.email}',
                     style: TextStyle(color: AppColor.black),
                   ),
-                  TextSpan(
-                    text: ' with a link to access your account.',
-                  ), // Phần còn lại của văn bản
+                  TextSpan(text: ' with a link to access your account.'),
                 ],
               ),
             ),
@@ -153,7 +151,7 @@ class _EmailVerifiedScreenState extends State<EmailVerifiedScreen> {
                     ),
                   ),
                   child: Text(
-                    'Cancel  ($_countdownTime)',
+                    'Cancel ',
                     style: TextStyle(fontSize: 18.sp, color: AppColor.white),
                   ),
                 ),

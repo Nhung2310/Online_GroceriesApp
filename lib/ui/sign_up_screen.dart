@@ -9,6 +9,7 @@ import 'package:online_groceries_app/ui/email_verified_screen.dart';
 import 'package:online_groceries_app/ui/log_in_screen.dart';
 import 'package:online_groceries_app/ui/password_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:online_groceries_app/widget/error_dialog.dart';
 import 'package:online_groceries_app/widget/loading_dialog.dart';
 
 class SignUp extends StatefulWidget {
@@ -142,22 +143,23 @@ class _SingUpState extends State<SignUp> {
                           ),
                         ),
                         child:
-                            isLoading
-                                ? SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: AppColor.green,
-                                  ),
-                                )
-                                : Text(
-                                  "Sing Up ",
-                                  style: TextStyle(
-                                    fontSize: 18.sp,
-                                    color: AppColor.white,
-                                  ),
-                                ),
+                        // isLoading
+                        //     ? SizedBox(
+                        //       width: 20,
+                        //       height: 20,
+                        //       child: CircularProgressIndicator(
+                        //         strokeWidth: 2,
+                        //         color: AppColor.green,
+                        //       ),
+                        //     )
+                        //     :
+                        Text(
+                          "Sing Up ",
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            color: AppColor.white,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -214,18 +216,6 @@ class _SingUpState extends State<SignUp> {
       email: emailController.text.trim(),
       password: passwordController.text.trim(),
     );
-
-    //LoadingDialog(context);
-    // if (error == null) {
-    //   ScaffoldMessenger.of(
-    //     context,
-    //   ).showSnackBar(SnackBar(content: Text('Bạn đã đăng nhập thành công')));
-    //   Navigator.pop(context);
-    // } else {
-    //   ScaffoldMessenger.of(
-    //     context,
-    //   ).showSnackBar(SnackBar(content: Text('Đăng nhập thất bại')));
-    // }
   }
 
   Future<void> onclickSignUp(BuildContext context) async {
@@ -249,13 +239,11 @@ class _SingUpState extends State<SignUp> {
                     EmailVerifiedScreen(email: emailController.text.trim()),
           ),
         );
-
-        // ).showSnackBar(SnackBar(content: Text("Bạn đã đăng ký thành công")));
-        // Navigator.pop(context);
       } else {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(error)));
+        showErrorDialog(context, error);
+        // ScaffoldMessenger.of(
+        //   context,
+        // ).showSnackBar(SnackBar(content: Text(error)));
       }
     }
   }

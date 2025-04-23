@@ -7,18 +7,18 @@ class AuthService {
     required String username,
   }) async {
     try {
-      final UserCredential = await FirebaseAuth.instance
+      final userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      await UserCredential.user!.updateDisplayName(username);
-      await UserCredential.user!.sendEmailVerification();
+      await userCredential.user!.updateDisplayName(username);
+      await userCredential.user!.sendEmailVerification();
       return null;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
-        return 'Email đã được đăng ký vui lòng chọn Email khác';
+        return 'This email address is already registered. Please choose another email.';
       } else if (e.code == 'weak-password') {
-        return 'Mật khẩu quá yếu ( số ký tự >=6)';
+        return 'Password is too weak (minimum 6 characters).';
       } else {
-        return e.message ?? 'Lỗi không xác định chờ xíu nhé';
+        return e.message ?? 'An unknown error occurred. Please wait a moment.';
       }
     }
   }
@@ -28,16 +28,16 @@ class AuthService {
     required String password,
   }) async {
     try {
-      final UserCredential = await FirebaseAuth.instance
+      final userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       return null;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        return 'Tài khoản không tồn tại';
+        return 'Account does not exist.';
       } else if (e.code == 'wrong-password') {
-        return 'Sai mật khẩu';
+        return 'Incorrect password.';
       } else {
-        return e.message ?? ' Lỗi không xác định chờ xíu nhé';
+        return e.message ?? 'An unknown error occurred. Please wait a moment.';
       }
     }
   }

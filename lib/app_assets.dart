@@ -5,4 +5,5 @@ class AppAssets {
   static const String icEmail = 'assets/email.png';
   static const String adress = 'assets/adress.png';
   static const String vegetables = 'assets/vegetables.jpg';
+  static const String icimagedialog = 'assets/dialog.png';
 }

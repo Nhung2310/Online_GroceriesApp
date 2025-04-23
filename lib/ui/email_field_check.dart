@@ -44,11 +44,11 @@ class _EmailFieldWithCheckState extends State<EmailFieldWithCheck> {
       ),
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
-          return 'Email không được để trống';
-          // } else if (isEmailValid(value)) {
-          //   return 'Email không hợp lệ';
-        }
-        return null;
+          return 'Email cannot be blank.';
+        } else if (isEmailValid(value))
+          //   return 'Invalid email.';
+          // }
+          return null;
       },
     );
   }
