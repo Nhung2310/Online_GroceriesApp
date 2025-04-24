@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Favorite',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.manage_accounts_outlined),
+            icon: Icon(Icons.person_2_outlined),
             label: 'Account',
           ),
         ],
