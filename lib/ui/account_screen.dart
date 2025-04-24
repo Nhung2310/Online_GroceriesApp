@@ -60,76 +60,32 @@ class _AccountScreenState extends State<AccountScreen> {
             ),
           ),
           Divider(),
-          ListTile(
-            leading: Icon(Icons.assignment_outlined),
-            title: Text(
-              'Orders',
-              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
-            ),
-            trailing: Icon(Icons.arrow_forward_ios),
-            onTap: () {},
-          ),
-          Divider(), // đường kẻ ngang giữa list
-          ListTile(
-            leading: Icon(Icons.co_present_rounded),
-            title: Text(
-              'My Details',
-              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
-            ),
-            trailing: Icon(Icons.arrow_forward_ios),
-            onTap: () {},
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.person_pin_circle_outlined),
-            title: Text(
-              'Delivery Address',
-              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
-            ),
-            trailing: Icon(Icons.arrow_forward_ios),
-            onTap: () {},
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.payment_outlined),
-            title: Text(
-              'Payment Methods',
-              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
-            ),
-            trailing: Icon(Icons.arrow_forward_ios),
-            onTap: () {},
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.discount_outlined),
-            title: Text(
-              'Promo Cord',
-              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
-            ),
-            trailing: Icon(Icons.arrow_forward_ios),
-            onTap: () {},
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.notifications_active_outlined),
-            title: Text(
-              'Notifecations',
-              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
-            ),
-            trailing: Icon(Icons.arrow_forward_ios),
-            onTap: () {},
-          ),
-          Divider(),
+          itemOptionAccount(Icons.assignment_outlined, 'Orders'),
 
-          ListTile(
-            leading: Icon(Icons.help_outline_sharp),
-            title: Text(
-              'Help',
-              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
-            ),
-            trailing: Icon(Icons.arrow_forward_ios),
-            onTap: () {},
+          Divider(),
+          itemOptionAccount(Icons.co_present_rounded, 'My Details'),
+
+          Divider(),
+          itemOptionAccount(
+            Icons.person_pin_circle_outlined,
+            'Delivery Address',
           ),
+
+          Divider(),
+          itemOptionAccount(Icons.payment_outlined, 'Payment Methods'),
+
+          Divider(),
+          itemOptionAccount(Icons.discount_outlined, 'Promo Cord'),
+
+          Divider(),
+          itemOptionAccount(
+            Icons.notifications_active_outlined,
+            'Notifecations',
+          ),
+
+          Divider(),
+          itemOptionAccount(Icons.help_outline_sharp, 'Help'),
+
           Divider(),
           itemOptionAccount(Icons.warning_rounded, "About"),
           // ListTile(
