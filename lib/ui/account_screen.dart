@@ -14,6 +14,29 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+  String userName = '';
+  String userEmail = '';
+
+  void initState() {
+    super.initState();
+    _getUserInfo();
+  }
+
+  Future<void> _getUserInfo() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      setState(() {
+        userName = user.displayName ?? "No Name";
+        userEmail = user.email ?? "No Email";
+      });
+    } else {
+      setState(() {
+        userName = " ";
+        userEmail = " ";
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,11 +62,13 @@ class _AccountScreenState extends State<AccountScreen> {
                     Row(
                       children: [
                         Text(
-                          'Trùm mafia',
+                          userName,
                           style: TextStyle(
                             color: AppColor.black,
                             fontWeight: FontWeight.bold,
+                            fontSize: 12.sp,
                           ),
+                          softWrap: true,
                         ),
                         SizedBox(width: 10),
                         Icon(Icons.edit, color: AppColor.green),
@@ -51,8 +76,9 @@ class _AccountScreenState extends State<AccountScreen> {
                     ),
 
                     Text(
-                      '123sksk@gmail.com',
-                      style: TextStyle(color: AppColor.black),
+                      userEmail,
+                      style: TextStyle(color: AppColor.black, fontSize: 12.sp),
+                      softWrap: true,
                     ),
                   ],
                 ),
@@ -88,15 +114,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
           Divider(),
           itemOptionAccount(Icons.warning_rounded, "About"),
-          // ListTile(
-          //   leading: Icon(Icons.warning_rounded),
-          //   title: Text(
-          //     'About',
-          //     style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
-          //   ),
-          //   trailing: Icon(Icons.arrow_forward_ios),
-          //   onTap: () {},
-          // ),
+
           Divider(),
           Padding(
             padding: const EdgeInsets.all(30.0),
