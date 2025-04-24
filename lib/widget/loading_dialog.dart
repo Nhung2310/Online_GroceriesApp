@@ -6,6 +6,7 @@ void showLoadingDialog(BuildContext context) {
   showDialog(
     context: context,
     barrierDismissible: false,
+    useRootNavigator: true,
     builder: (BuildContext context) {
       return Dialog(
         backgroundColor: AppColor.white,

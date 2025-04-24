@@ -151,13 +151,13 @@ class _LoginState extends State<Login> {
   Future<void> onclickLogin(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       showLoadingDialog(context);
-      dismissDialog(context);
+      //dismissDialog(context);
       final error = await AuthService.logInAndCheckVerifyEmai(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
         context: context,
       );
-      //dismissDialog(context);
+      dismissDialog(context);
       if (error == null) {
         // Navigator.pushReplacement(
         //   context,

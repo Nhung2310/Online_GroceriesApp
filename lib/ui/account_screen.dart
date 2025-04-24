@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
+import 'package:online_groceries_app/ui/log_in_screen.dart';
+import 'package:online_groceries_app/widget/loading_dialog.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -15,7 +18,6 @@ class _AccountScreenState extends State<AccountScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.white,
-
       body: ListView(
         children: <Widget>[
           Container(
@@ -129,22 +131,22 @@ class _AccountScreenState extends State<AccountScreen> {
             onTap: () {},
           ),
           Divider(),
-
-          ListTile(
-            leading: Icon(Icons.warning_rounded),
-            title: Text(
-              'About',
-              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
-            ),
-            trailing: Icon(Icons.arrow_forward_ios),
-            onTap: () {},
-          ),
+          itemOptionAccount(Icons.warning_rounded, "About"),
+          // ListTile(
+          //   leading: Icon(Icons.warning_rounded),
+          //   title: Text(
+          //     'About',
+          //     style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
+          //   ),
+          //   trailing: Icon(Icons.arrow_forward_ios),
+          //   onTap: () {},
+          // ),
           Divider(),
           Padding(
             padding: const EdgeInsets.all(30.0),
             child: GestureDetector(
               onTap: () {
-                print("Logging out...");
+                logOut(context);
               },
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
@@ -170,5 +172,36 @@ class _AccountScreenState extends State<AccountScreen> {
         ],
       ),
     );
+  }
+
+  Widget itemOptionAccount(IconData icon, String title) {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(
+        title,
+        style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
+      ),
+      trailing: Icon(Icons.arrow_forward_ios),
+      onTap: () {},
+    );
+  }
+
+  Future<void> logOut(BuildContext context) async {
+    try {
+      showLoadingDialog(context);
+      await FirebaseAuth.instance.signOut();
+      dismissDialog(context);
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Login()),
+      );
+    } catch (e) {
+      print('Error while logging out: $e');
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Logout failed: $e')));
+    }
   }
 }
