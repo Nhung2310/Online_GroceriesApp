@@ -1,0 +1,85 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:get/get.dart';
+import 'package:online_groceries_app/model/product.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class ProductController extends GetxController {
+  var exclusiveOfferProducts =
+      <Product>[].obs; // Danh sách cho isExclusiveOffer
+  var bestSellingProducts = <Product>[].obs; // Danh sách cho isBestSelling
+  var groceriesProducts = <Product>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchProductsIsExclusiveOffer();
+    fetchProductsIsBestSelling();
+    fetchProductsIsGroceries();
+  }
+
+  // lấy danh sách từ firestore
+  Future<void> fetchProductsIsExclusiveOffer() async {
+    try {
+      final QuerySnapshot result =
+          await FirebaseFirestore.instance
+              .collection('products')
+              .where('isExclusiveOffer', isEqualTo: true)
+              .get();
+
+      var productList =
+          result.docs.map((doc) {
+            var data = doc.data() as Map<String, dynamic>;
+            data['id'] = doc.id; // Thêm id từ Firestore
+            return Product.fromMap(data);
+          }).toList();
+
+      exclusiveOfferProducts.assignAll(
+        productList,
+      ); // Cập nhật danh sách sản phẩm
+    } catch (e) {
+      print('Error fetching products: $e');
+    }
+  }
+
+  Future<void> fetchProductsIsBestSelling() async {
+    try {
+      final QuerySnapshot result =
+          await FirebaseFirestore.instance
+              .collection('products')
+              .where('isBestSelling', isEqualTo: true)
+              .get();
+
+      var productList =
+          result.docs.map((doc) {
+            var data = doc.data() as Map<String, dynamic>;
+            data['id'] = doc.id; // Thêm id từ Firestore
+            return Product.fromMap(data);
+          }).toList();
+
+      bestSellingProducts.assignAll(productList); // Cập nhật danh sách sản phẩm
+    } catch (e) {
+      print('Error fetching products: $e');
+    }
+  }
+
+  Future<void> fetchProductsIsGroceries() async {
+    try {
+      final QuerySnapshot result =
+          await FirebaseFirestore.instance
+              .collection('products')
+              .where('isGroceries', isEqualTo: true)
+              .get();
+
+      var productList =
+          result.docs.map((doc) {
+            var data = doc.data() as Map<String, dynamic>;
+            data['id'] = doc.id; // Thêm id từ Firestore
+            return Product.fromMap(data);
+          }).toList();
+
+      groceriesProducts.assignAll(productList); // Cập nhật danh sách sản phẩm
+    } catch (e) {
+      print('Error fetching products: $e');
+    }
+  }
+}

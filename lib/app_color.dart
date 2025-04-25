@@ -5,4 +5,5 @@ class AppColor {
   static const green = Colors.green;
   static const black = Colors.black;
   static const gray = Colors.grey;
+  static const graysearch = Color.fromARGB(223, 240, 239, 239);
 }
