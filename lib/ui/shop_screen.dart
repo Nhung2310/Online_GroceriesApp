@@ -7,6 +7,8 @@ import 'package:online_groceries_app/app_color.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 import 'package:online_groceries_app/controller/product_controller.dart';
+import 'package:online_groceries_app/ui/beverages_screen.dart';
+import 'package:online_groceries_app/ui/product_detail_screen.dart';
 
 class ShopScreen extends StatefulWidget {
   const ShopScreen({super.key});
@@ -121,7 +123,18 @@ class _ShopScreenState extends State<ShopScreen> {
                 ),
               ),
               SizedBox(height: 30.h),
-              text('Exclusive Offer'),
+              text('Exclusive Offer', () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) => BeveragesScreen(
+                          title: 'Exclusive Offer',
+                          product: productController.exclusiveOfferProducts,
+                        ),
+                  ),
+                );
+              }),
 
               Obx(() {
                 if (productController.exclusiveOfferProducts.isEmpty) {
@@ -142,89 +155,101 @@ class _ShopScreenState extends State<ShopScreen> {
                       itemBuilder: (context, index) {
                         final product =
                             productController.exclusiveOfferProducts[index];
-                        return Card(
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.r),
-                            side: BorderSide(
-                              color: AppColor.graysearch,
-                              width: 1,
+                        return GestureDetector(
+                          onTap: () {
+                            // Điều hướng sang màn hình chi tiết sản phẩm
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) =>
+                                        ProductDetailScreen(product: product),
+                              ),
+                            );
+                          },
+
+                          child: Card(
+                            elevation: 0,
+
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                              side: BorderSide(color: AppColor.gray, width: 1),
                             ),
-                          ),
-                          child: Container(
-                            width: 180.w,
-                            child: Padding(
-                              padding: EdgeInsets.all(12.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Center(
-                                    child: Image.network(
-                                      product.image,
-                                      height: 90.h,
-                                      width: 90.w,
-                                      fit: BoxFit.contain,
-                                      errorBuilder: (
-                                        context,
-                                        error,
-                                        stackTrace,
-                                      ) {
-                                        return Icon(Icons.error, size: 50.sp);
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(height: 10.h),
-                                  Text(
-                                    product.title,
-                                    style: TextStyle(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColor.black,
-                                    ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  SizedBox(height: 4.h),
-                                  Text(
-                                    product.unitPrice,
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: AppColor.gray,
-                                    ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  SizedBox(height: 10.h),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        '\$${product.price.toStringAsFixed(2)}',
-                                        style: TextStyle(
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColor.black,
-                                        ),
+                            child: Container(
+                              width: 180.w,
+                              child: Padding(
+                                padding: EdgeInsets.all(12.w),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Center(
+                                      child: Image.network(
+                                        product.image,
+                                        height: 90.h,
+                                        width: 90.w,
+                                        fit: BoxFit.contain,
+                                        errorBuilder: (
+                                          context,
+                                          error,
+                                          stackTrace,
+                                        ) {
+                                          return Icon(Icons.error, size: 50.sp);
+                                        },
                                       ),
-                                      Container(
-                                        width: 36.w,
-                                        height: 36.h,
-                                        decoration: BoxDecoration(
-                                          color: AppColor.green,
-                                          borderRadius: BorderRadius.circular(
-                                            10.r,
+                                    ),
+                                    SizedBox(height: 10.h),
+                                    Text(
+                                      product.title,
+                                      style: TextStyle(
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColor.black,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    SizedBox(height: 4.h),
+                                    Text(
+                                      product.unitPrice,
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: AppColor.gray,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    SizedBox(height: 10.h),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          '\$${product.price.toStringAsFixed(2)}',
+                                          style: TextStyle(
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColor.black,
                                           ),
                                         ),
-                                        child: Icon(
-                                          Icons.add,
-                                          color: AppColor.white,
-                                          size: 20.sp,
+                                        Container(
+                                          width: 36.w,
+                                          height: 36.h,
+                                          decoration: BoxDecoration(
+                                            color: AppColor.green,
+                                            borderRadius: BorderRadius.circular(
+                                              10.r,
+                                            ),
+                                          ),
+                                          child: Icon(
+                                            Icons.add,
+                                            color: AppColor.white,
+                                            size: 20.sp,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -235,7 +260,19 @@ class _ShopScreenState extends State<ShopScreen> {
                 }
               }),
               SizedBox(height: 30.h),
-              text('Best Selling'),
+
+              text('Best Selling', () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) => BeveragesScreen(
+                          title: 'Best Selling',
+                          product: productController.bestSellingProducts,
+                        ),
+                  ),
+                );
+              }),
 
               Obx(() {
                 if (productController.bestSellingProducts.isEmpty) {
@@ -256,89 +293,99 @@ class _ShopScreenState extends State<ShopScreen> {
                       itemBuilder: (context, index) {
                         final product =
                             productController.bestSellingProducts[index];
-                        return Card(
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.r),
-                            side: BorderSide(
-                              color: AppColor.graysearch,
-                              width: 1,
+                        return GestureDetector(
+                          onTap: () {
+                            // Điều hướng sang màn hình chi tiết sản phẩm
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) =>
+                                        ProductDetailScreen(product: product),
+                              ),
+                            );
+                          },
+                          child: Card(
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                              side: BorderSide(color: AppColor.gray, width: 1),
                             ),
-                          ),
-                          child: Container(
-                            width: 180.w,
-                            child: Padding(
-                              padding: EdgeInsets.all(12.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Center(
-                                    child: Image.network(
-                                      product.image,
-                                      height: 90.h,
-                                      width: 90.w,
-                                      fit: BoxFit.contain,
-                                      errorBuilder: (
-                                        context,
-                                        error,
-                                        stackTrace,
-                                      ) {
-                                        return Icon(Icons.error, size: 50.sp);
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(height: 10.h),
-                                  Text(
-                                    product.title,
-                                    style: TextStyle(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColor.black,
-                                    ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  SizedBox(height: 4.h),
-                                  Text(
-                                    product.unitPrice,
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: AppColor.gray,
-                                    ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  SizedBox(height: 10.h),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        '\$${product.price.toStringAsFixed(2)}',
-                                        style: TextStyle(
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColor.black,
-                                        ),
+                            child: Container(
+                              width: 180.w,
+                              child: Padding(
+                                padding: EdgeInsets.all(12.w),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Center(
+                                      child: Image.network(
+                                        product.image,
+                                        height: 90.h,
+                                        width: 90.w,
+                                        fit: BoxFit.contain,
+                                        errorBuilder: (
+                                          context,
+                                          error,
+                                          stackTrace,
+                                        ) {
+                                          return Icon(Icons.error, size: 50.sp);
+                                        },
                                       ),
-                                      Container(
-                                        width: 36.w,
-                                        height: 36.h,
-                                        decoration: BoxDecoration(
-                                          color: AppColor.green,
-                                          borderRadius: BorderRadius.circular(
-                                            10.r,
+                                    ),
+                                    SizedBox(height: 10.h),
+                                    Text(
+                                      product.title,
+                                      style: TextStyle(
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColor.black,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    SizedBox(height: 4.h),
+                                    Text(
+                                      product.unitPrice,
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: AppColor.gray,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    SizedBox(height: 10.h),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          '\$${product.price.toStringAsFixed(2)}',
+                                          style: TextStyle(
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColor.black,
                                           ),
                                         ),
-                                        child: Icon(
-                                          Icons.add,
-                                          color: AppColor.white,
-                                          size: 20.sp,
+                                        Container(
+                                          width: 36.w,
+                                          height: 36.h,
+                                          decoration: BoxDecoration(
+                                            color: AppColor.green,
+                                            borderRadius: BorderRadius.circular(
+                                              10.r,
+                                            ),
+                                          ),
+                                          child: Icon(
+                                            Icons.add,
+                                            color: AppColor.white,
+                                            size: 20.sp,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -349,8 +396,19 @@ class _ShopScreenState extends State<ShopScreen> {
                 }
               }),
               SizedBox(height: 30.h),
-              text('Groceries'),
 
+              text('Groceries', () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) => BeveragesScreen(
+                          title: 'Groceries',
+                          product: productController.groceriesProducts,
+                        ),
+                  ),
+                );
+              }),
               Obx(() {
                 if (productController.groceriesProducts.isEmpty) {
                   return Center(child: CircularProgressIndicator());
@@ -369,89 +427,99 @@ class _ShopScreenState extends State<ShopScreen> {
                       itemBuilder: (context, index) {
                         final product =
                             productController.groceriesProducts[index];
-                        return Card(
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.r),
-                            side: BorderSide(
-                              color: AppColor.graysearch,
-                              width: 1,
+                        return GestureDetector(
+                          onTap: () {
+                            // Điều hướng sang màn hình chi tiết sản phẩm
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) =>
+                                        ProductDetailScreen(product: product),
+                              ),
+                            );
+                          },
+                          child: Card(
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.r),
+                              side: BorderSide(color: AppColor.gray, width: 1),
                             ),
-                          ),
-                          child: Container(
-                            width: 180.w,
-                            child: Padding(
-                              padding: EdgeInsets.all(12.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Center(
-                                    child: Image.network(
-                                      product.image,
-                                      height: 90.h,
-                                      width: 90.w,
-                                      fit: BoxFit.contain,
-                                      errorBuilder: (
-                                        context,
-                                        error,
-                                        stackTrace,
-                                      ) {
-                                        return Icon(Icons.error, size: 50.sp);
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(height: 10.h),
-                                  Text(
-                                    product.title,
-                                    style: TextStyle(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColor.black,
-                                    ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  SizedBox(height: 4.h),
-                                  Text(
-                                    product.unitPrice,
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: AppColor.gray,
-                                    ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  SizedBox(height: 10.h),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        '\$${product.price.toStringAsFixed(2)}',
-                                        style: TextStyle(
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColor.black,
-                                        ),
+                            child: Container(
+                              width: 180.w,
+                              child: Padding(
+                                padding: EdgeInsets.all(12.w),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Center(
+                                      child: Image.network(
+                                        product.image,
+                                        height: 90.h,
+                                        width: 90.w,
+                                        fit: BoxFit.contain,
+                                        errorBuilder: (
+                                          context,
+                                          error,
+                                          stackTrace,
+                                        ) {
+                                          return Icon(Icons.error, size: 50.sp);
+                                        },
                                       ),
-                                      Container(
-                                        width: 36.w,
-                                        height: 36.h,
-                                        decoration: BoxDecoration(
-                                          color: AppColor.green,
-                                          borderRadius: BorderRadius.circular(
-                                            10.r,
+                                    ),
+                                    SizedBox(height: 10.h),
+                                    Text(
+                                      product.title,
+                                      style: TextStyle(
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColor.black,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    SizedBox(height: 4.h),
+                                    Text(
+                                      product.unitPrice,
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: AppColor.gray,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    SizedBox(height: 10.h),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          '\$${product.price.toStringAsFixed(2)}',
+                                          style: TextStyle(
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColor.black,
                                           ),
                                         ),
-                                        child: Icon(
-                                          Icons.add,
-                                          color: AppColor.white,
-                                          size: 20.sp,
+                                        Container(
+                                          width: 36.w,
+                                          height: 36.h,
+                                          decoration: BoxDecoration(
+                                            color: AppColor.green,
+                                            borderRadius: BorderRadius.circular(
+                                              10.r,
+                                            ),
+                                          ),
+                                          child: Icon(
+                                            Icons.add,
+                                            color: AppColor.white,
+                                            size: 20.sp,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -482,8 +550,9 @@ class _ShopScreenState extends State<ShopScreen> {
     );
   }
 
-  Widget text(String text) {
+  Widget text(String text, VoidCallback onSeeAllTap) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           text,
@@ -493,11 +562,13 @@ class _ShopScreenState extends State<ShopScreen> {
             fontSize: 15.sp,
           ),
         ),
-        Spacer(),
 
-        Text(
-          'See all',
-          style: TextStyle(color: AppColor.green, fontSize: 14.sp),
+        GestureDetector(
+          onTap: onSeeAllTap,
+          child: Text(
+            'See all',
+            style: TextStyle(color: AppColor.green, fontSize: 14.sp),
+          ),
         ),
       ],
     );
