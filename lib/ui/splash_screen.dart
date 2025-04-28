@@ -1,10 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:online_groceries_app/app_color.dart';
 import 'package:online_groceries_app/app_assets.dart';
+import 'package:online_groceries_app/app_color.dart';
+import 'package:online_groceries_app/ui/home_screen.dart';
+import 'package:online_groceries_app/ui/log_in_screen.dart';
 import 'package:online_groceries_app/ui/onbording_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
@@ -12,15 +17,34 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    _navigateAfterDelay();
+  }
 
-    Future.delayed(const Duration(seconds: 3), () {
+  Future<void> _navigateAfterDelay() async {
+    await Future.delayed(const Duration(seconds: 2));
+
+    final prefs = await SharedPreferences.getInstance();
+    final hasSeenOnboarding = prefs.getBool('has_seen_onboarding') ?? false;
+    final isLoggedIn = FirebaseAuth.instance.currentUser != null;
+
+    if (!hasSeenOnboarding) {
+      prefs.setBool('has_seen_onboarding', true);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const Onbording()),
       );
-    });
+    } else if (isLoggedIn) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Login()),
+      );
+    }
   }
 
   @override
@@ -33,15 +57,15 @@ class _SplashScreenState extends State<SplashScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
+                AppAssets.icCarot,
                 width: 70,
                 height: 70,
-                AppAssets.icCarot,
                 fit: BoxFit.contain,
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'necta',
@@ -51,9 +75,8 @@ class _SplashScreenState extends State<SplashScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
                   Text(
-                    'online groceriet',
+                    'online groceries',
                     style: TextStyle(fontSize: 12, color: AppColor.white),
                   ),
                 ],
