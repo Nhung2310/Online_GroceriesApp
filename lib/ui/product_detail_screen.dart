@@ -21,21 +21,76 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     final product = widget.product;
 
     return Scaffold(
+      extendBodyBehindAppBar: false,
+
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(300),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            bottomLeft: Radius.circular(24),
+            bottomRight: Radius.circular(24),
+          ),
+          child: Container(
+            color: AppColor.graysearch,
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Image.network(
+                      product.image,
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(color: Colors.grey[200]);
+                      },
+                    ),
+                  ),
+                ),
+
+                Positioned(
+                  top: MediaQuery.of(context).padding.top + 10,
+                  left: 10,
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_back, color: AppColor.black),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+
+                Positioned(
+                  top: MediaQuery.of(context).padding.top + 10,
+                  right: 10,
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.unarchive_outlined,
+                      color: AppColor.black,
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 50, 20, 50),
+          padding: const EdgeInsets.fromLTRB(20, 10, 20, 50),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Center(
-                child: Image.network(
-                  product.image,
-                  height: 200,
-                  fit: BoxFit.fill,
-                ),
-              ),
+              // Container(
+              //   height: 200,
+              //   decoration: BoxDecoration(
+              //     color: AppColor.graysearch,
+              //     borderRadius: BorderRadius.circular(10.r),
+              //   ),
+              //   child: Image.network(product.image, fit: BoxFit.fill),
+              // ),
               SizedBox(height: 20.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

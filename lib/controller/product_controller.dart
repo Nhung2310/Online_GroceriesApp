@@ -82,4 +82,50 @@ class ProductController extends GetxController {
       print('Error fetching products: $e');
     }
   }
+
+  Future<List<Product>> fetchProductsByType(String type) async {
+    try {
+      final QuerySnapshot result =
+          await FirebaseFirestore.instance
+              .collection('products')
+              .where('type', isEqualTo: type)
+              .get();
+      var productList =
+          result.docs.map((doc) {
+            var data = doc.data() as Map<String, dynamic>;
+            data['id'] = doc.id;
+            return Product.fromMap(data);
+          }).toList();
+      return productList;
+    } catch (e) {
+      print('Error fetching product:$e');
+      return [];
+    }
+  }
+
+  Future<List<Product>> searchProduct(String keyword) async {
+    try {
+      // Lấy toàn bộ sản phẩm từ Firestore
+      final QuerySnapshot result =
+          await FirebaseFirestore.instance.collection('products').get();
+
+      List<Product> products =
+          result.docs.map((doc) {
+            var data = doc.data() as Map<String, dynamic>;
+            data['id'] = doc.id;
+            return Product.fromMap(data);
+          }).toList();
+
+      keyword = keyword.toLowerCase();
+
+      return products.where((product) {
+        final title = product.title.toLowerCase();
+        final type = (product.type ?? '').toLowerCase();
+        return title.contains(keyword) || type.contains(keyword);
+      }).toList();
+    } catch (e) {
+      print('Error fetching product: $e');
+      return [];
+    }
+  }
 }

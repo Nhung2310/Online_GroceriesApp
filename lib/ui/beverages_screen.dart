@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:online_groceries_app/controller/product_controller.dart';
 import 'package:online_groceries_app/model/product.dart';
 import 'package:online_groceries_app/ui/product_detail_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:online_groceries_app/widget/error_dialog.dart';
+import 'package:online_groceries_app/widget/loading_dialog.dart';
 
 class BeveragesScreen extends StatefulWidget {
   final String title;
@@ -29,7 +32,7 @@ class _BeveragesScreenState extends State<BeveragesScreen> {
             physics: NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 0.65,
+              childAspectRatio: 0.6,
               crossAxisSpacing: 10.w,
               mainAxisSpacing: 10.h,
             ),
