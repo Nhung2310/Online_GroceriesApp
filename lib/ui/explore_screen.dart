@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
+
 import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:online_groceries_app/controller/product_controller.dart';
+
+import 'package:online_groceries_app/controller/explore_controller.dart';
 import 'package:online_groceries_app/model/product.dart';
 import 'package:online_groceries_app/ui/beverages_screen.dart';
 import 'package:online_groceries_app/widget/error_dialog.dart';
@@ -19,7 +20,7 @@ class ExploreScreen extends StatefulWidget {
 
 class _ExploreScreenState extends State<ExploreScreen> {
   TextEditingController searchController = TextEditingController();
-  final ProductController productController = Get.put(ProductController());
+  final ExploreController exploreController = Get.put(ExploreController());
   final List<Map<String, dynamic>> categories = [
     {
       'name': 'Frash Fruits & Vegetable',
@@ -172,7 +173,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       }
 
                       print('Fetching products for type: $type');
-                      List<Product> product = await productController
+                      List<Product> product = await exploreController
                           .fetchProductsByType(type);
                       print('Fetched products count: ${product.length}');
 
@@ -239,7 +240,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
     }
     showLoadingDialog(context);
 
-    List<Product> product = await productController.searchProduct(keyword);
+    List<Product> product = await exploreController.searchProduct(keyword);
     dismissDialog(context);
 
     if (product.isNotEmpty) {
