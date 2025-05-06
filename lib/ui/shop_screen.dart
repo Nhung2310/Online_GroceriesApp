@@ -1,14 +1,15 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
+import 'package:online_groceries_app/controller/cart_controller.dart';
 import 'package:online_groceries_app/controller/product_controller.dart';
+import 'package:online_groceries_app/model/product.dart';
 import 'package:online_groceries_app/ui/beverages_screen.dart';
 import 'package:online_groceries_app/ui/product_detail_screen.dart';
+import 'package:online_groceries_app/model/cart.dart';
 
 class ShopScreen extends StatefulWidget {
   const ShopScreen({super.key});
@@ -21,6 +22,7 @@ class _ShopScreenState extends State<ShopScreen> {
 
   TextEditingController searchController = TextEditingController();
   bool isSeeAll = false;
+  final CartController cartController = CartController();
   @override
   void dispose() {
     searchController.dispose();
@@ -240,10 +242,10 @@ class _ShopScreenState extends State<ShopScreen> {
                                               10.r,
                                             ),
                                           ),
-                                          child: Icon(
-                                            Icons.add,
-                                            color: AppColor.white,
-                                            size: 20.sp,
+                                          child: buildAddToCartButton(
+                                            product,
+                                            cartController,
+                                            context,
                                           ),
                                         ),
                                       ],
@@ -376,10 +378,10 @@ class _ShopScreenState extends State<ShopScreen> {
                                               10.r,
                                             ),
                                           ),
-                                          child: Icon(
-                                            Icons.add,
-                                            color: AppColor.white,
-                                            size: 20.sp,
+                                          child: buildAddToCartButton(
+                                            product,
+                                            cartController,
+                                            context,
                                           ),
                                         ),
                                       ],
@@ -510,10 +512,10 @@ class _ShopScreenState extends State<ShopScreen> {
                                               10.r,
                                             ),
                                           ),
-                                          child: Icon(
-                                            Icons.add,
-                                            color: AppColor.white,
-                                            size: 20.sp,
+                                          child: buildAddToCartButton(
+                                            product,
+                                            cartController,
+                                            context,
                                           ),
                                         ),
                                       ],
@@ -571,6 +573,36 @@ class _ShopScreenState extends State<ShopScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget buildAddToCartButton(
+    Product product,
+    CartController cartController,
+    BuildContext context,
+  ) {
+    return IconButton(
+      icon: Icon(Icons.add, color: AppColor.white, size: 20.sp),
+      onPressed: () async {
+        try {
+          final cartItem = Cart(
+            productId: product.id,
+            title: product.title,
+            price: product.price,
+            quantity: 1,
+            unitPrice: product.unitPrice,
+            image: product.image,
+          );
+          await cartController.addToCart(cartItem);
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Added to cart!')));
+        } catch (e) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Error: $e')));
+        }
+      },
     );
   }
 }

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:online_groceries_app/controller/product_controller.dart';
+import 'package:online_groceries_app/app_color.dart';
+import 'package:online_groceries_app/controller/cart_controller.dart';
+
 import 'package:online_groceries_app/model/product.dart';
 import 'package:online_groceries_app/ui/product_detail_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:online_groceries_app/widget/error_dialog.dart';
-import 'package:online_groceries_app/widget/loading_dialog.dart';
+import 'package:online_groceries_app/model/cart.dart';
 
 class BeveragesScreen extends StatefulWidget {
   final String title;
@@ -20,6 +21,7 @@ class BeveragesScreen extends StatefulWidget {
 }
 
 class _BeveragesScreenState extends State<BeveragesScreen> {
+  final CartController cartController = CartController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,10 +110,11 @@ class _BeveragesScreenState extends State<BeveragesScreen> {
                                 color: Colors.green,
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: Icon(
-                                Icons.add,
-                                color: Colors.white,
-                                size: 20,
+
+                              child: buildAddToCartButton(
+                                product,
+                                cartController,
+                                context,
                               ),
                             ),
                           ],
@@ -125,6 +128,36 @@ class _BeveragesScreenState extends State<BeveragesScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildAddToCartButton(
+    Product product,
+    CartController cartController,
+    BuildContext context,
+  ) {
+    return IconButton(
+      icon: Icon(Icons.add, color: AppColor.white, size: 20.sp),
+      onPressed: () async {
+        try {
+          final cartItem = Cart(
+            productId: product.id,
+            title: product.title,
+            price: product.price,
+            quantity: 1,
+            unitPrice: product.unitPrice,
+            image: product.image,
+          );
+          await cartController.addToCart(cartItem);
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Added to cart!')));
+        } catch (e) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Error: $e')));
+        }
+      },
     );
   }
 }

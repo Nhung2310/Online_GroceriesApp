@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/app_color.dart';
+import 'package:online_groceries_app/controller/cart_controller.dart';
+import 'package:online_groceries_app/controller/favorites_controller.dart';
+import 'package:online_groceries_app/model/cart.dart';
+import 'package:online_groceries_app/model/favorites.dart';
 import 'package:online_groceries_app/model/product.dart';
-import 'package:online_groceries_app/controller/product_controller.dart';
+import 'package:online_groceries_app/ui/favorite_button.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final Product product;
@@ -16,6 +20,8 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   int tam = 1;
   bool _isExpanded = false;
+  final CartController cartController = CartController();
+  final FavoritesController favoritesController = FavoritesController();
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
@@ -83,14 +89,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Container(
-              //   height: 200,
-              //   decoration: BoxDecoration(
-              //     color: AppColor.graysearch,
-              //     borderRadius: BorderRadius.circular(10.r),
-              //   ),
-              //   child: Image.network(product.image, fit: BoxFit.fill),
-              // ),
               SizedBox(height: 20.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -103,7 +101,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                   ),
 
-                  Icon(Icons.favorite_border_outlined, color: AppColor.gray),
+                  FavoriteButton(
+                    product: product,
+                    favoritesController: favoritesController,
+                  ),
                 ],
               ),
 
@@ -260,7 +261,26 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 child: SizedBox(
                   width: 300.w,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      try {
+                        final cartItem = Cart(
+                          productId: product.id,
+                          title: product.title,
+                          price: product.price,
+                          quantity: tam,
+                          unitPrice: product.unitPrice,
+                          image: product.image,
+                        );
+                        await cartController.addToCart(cartItem);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Added to cart!')),
+                        );
+                      } catch (e) {
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(SnackBar(content: Text('Error: $e')));
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 15.h),
                       backgroundColor: AppColor.green,
@@ -281,4 +301,34 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       ),
     );
   }
+
+  // Widget buildAddToFavoritesButton(
+  //   Product product,
+  //   FavoritesController favoritesController,
+  //   BuildContext context,
+  // ) {
+  //   return IconButton(
+  //     icon: Icon(Icons.add, color: AppColor.white, size: 20.sp),
+  //     onPressed: () async {
+  //       try {
+  //         final favoritesItem = Favorites(
+  //           productId: product.id,
+  //           title: product.title,
+  //           price: product.price,
+  //           quantity: 1,
+  //           unitPrice: product.unitPrice,
+  //           image: product.image,
+  //         );
+  //         await favoritesController.addToFavorites(favoritesItem);
+  //         ScaffoldMessenger.of(
+  //           context,
+  //         ).showSnackBar(const SnackBar(content: Text('Added to cart!')));
+  //       } catch (e) {
+  //         ScaffoldMessenger.of(
+  //           context,
+  //         ).showSnackBar(SnackBar(content: Text('Error: $e')));
+  //       }
+  //     },
+  //   );
+  // }
 }

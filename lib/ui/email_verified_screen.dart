@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:online_groceries_app/ui/home_screen.dart';
-import 'package:online_groceries_app/ui/splash_screen.dart';
+
 import 'package:online_groceries_app/ui/log_in_screen.dart';
 
 class EmailVerifiedScreen extends StatefulWidget {
