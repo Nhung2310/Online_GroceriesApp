@@ -1,11 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+
+import 'package:get/get.dart';
 import 'package:online_groceries_app/model/cart.dart';
 
-class CartController {
+class CartController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+
+  final RxList<Cart> cartItems = <Cart>[].obs;
+
+  void onInit() {
+    super.onInit();
+    fetchCartItems();
+  }
+
+  Future<void> fetchCartItems() async {
+    try {
+      cartItems.value = await getCartItems();
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to load cart items');
+    }
+  }
+
+  Future<void> refreshCart() async {
+    await fetchCartItems();
+  }
 
   Future<void> addToCart(Cart cartItem) async {
     if (userId.isEmpty) {
@@ -26,6 +46,7 @@ class CartController {
       } else {
         await cartItemRef.set(cartItem.toMap());
       }
+      cartItems.refresh();
     } catch (e) {
       throw Exception('Error adding to cart: $e');
     }

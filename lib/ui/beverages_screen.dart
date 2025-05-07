@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/route_manager.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:online_groceries_app/controller/cart_controller.dart';
 
@@ -21,7 +23,8 @@ class BeveragesScreen extends StatefulWidget {
 }
 
 class _BeveragesScreenState extends State<BeveragesScreen> {
-  final CartController cartController = CartController();
+  final CartController cartController = Get.find<CartController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -149,6 +152,7 @@ class _BeveragesScreenState extends State<BeveragesScreen> {
             image: product.image,
           );
           await cartController.addToCart(cartItem);
+          await cartController.refreshCart();
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(const SnackBar(content: Text('Added to cart!')));

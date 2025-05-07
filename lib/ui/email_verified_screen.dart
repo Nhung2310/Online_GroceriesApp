@@ -19,14 +19,14 @@ class EmailVerifiedScreen extends StatefulWidget {
 
 class _EmailVerifiedScreenState extends State<EmailVerifiedScreen> {
   late Timer _timer;
-  int _countdownTime = 30;
+  //int _countdownTime = 30;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     checkEmailVerifiedAndRedirect();
-    startCountDown();
+    //startCountDown();
   }
 
   Future<void> sendEmailVerification() async {
@@ -57,21 +57,21 @@ class _EmailVerifiedScreenState extends State<EmailVerifiedScreen> {
     });
   }
 
-  void startCountDown() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      if (_countdownTime == 0) {
-        _timer.cancel();
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => Login()),
-        );
-      } else {
-        setState(() {
-          _countdownTime--;
-        });
-      }
-    });
-  }
+  // void startCountDown() {
+  //   _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+  //     if (_countdownTime == 0) {
+  //       _timer.cancel();
+  //       Navigator.pushReplacement(
+  //         context,
+  //         MaterialPageRoute(builder: (context) => Login()),
+  //       );
+  //     } else {
+  //       setState(() {
+  //         _countdownTime--;
+  //       });
+  //     }
+  //   });
+  // }
 
   @override
   void dispose() {
@@ -101,7 +101,7 @@ class _EmailVerifiedScreenState extends State<EmailVerifiedScreen> {
             SizedBox(height: 50.h),
             Center(
               child: Text(
-                '"Confirm',
+                'Confirm',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20.sp,

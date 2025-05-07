@@ -68,10 +68,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   top: MediaQuery.of(context).padding.top + 10,
                   right: 10,
                   child: IconButton(
-                    icon: const Icon(
-                      Icons.unarchive_outlined,
-                      color: AppColor.black,
-                    ),
+                    icon: const Icon(Icons.ios_share, color: AppColor.black),
                     onPressed: () {},
                   ),
                 ),
@@ -272,6 +269,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           image: product.image,
                         );
                         await cartController.addToCart(cartItem);
+                        await cartController.refreshCart();
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Added to cart!')),
                         );
@@ -301,34 +299,4 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       ),
     );
   }
-
-  // Widget buildAddToFavoritesButton(
-  //   Product product,
-  //   FavoritesController favoritesController,
-  //   BuildContext context,
-  // ) {
-  //   return IconButton(
-  //     icon: Icon(Icons.add, color: AppColor.white, size: 20.sp),
-  //     onPressed: () async {
-  //       try {
-  //         final favoritesItem = Favorites(
-  //           productId: product.id,
-  //           title: product.title,
-  //           price: product.price,
-  //           quantity: 1,
-  //           unitPrice: product.unitPrice,
-  //           image: product.image,
-  //         );
-  //         await favoritesController.addToFavorites(favoritesItem);
-  //         ScaffoldMessenger.of(
-  //           context,
-  //         ).showSnackBar(const SnackBar(content: Text('Added to cart!')));
-  //       } catch (e) {
-  //         ScaffoldMessenger.of(
-  //           context,
-  //         ).showSnackBar(SnackBar(content: Text('Error: $e')));
-  //       }
-  //     },
-  //   );
-  // }
 }

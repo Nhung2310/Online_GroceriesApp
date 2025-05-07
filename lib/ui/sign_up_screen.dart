@@ -81,13 +81,7 @@ class _SingUpState extends State<SignUp> {
                     keyboardType: TextInputType.text,
                   ),
                   SizedBox(height: 10.h),
-                  // TextField(
-                  //   decoration: InputDecoration(
-                  //     labelText: 'Email',
-                  //     border: UnderlineInputBorder(),
-                  //   ),
-                  //   keyboardType: TextInputType.emailAddress,
-                  // ),
+
                   EmailFieldWithCheck(controller: emailController),
                   SizedBox(height: 10.h),
                   PasswordField(controller: passwordController),
@@ -142,19 +136,8 @@ class _SingUpState extends State<SignUp> {
                             borderRadius: BorderRadius.circular(12.r),
                           ),
                         ),
-                        child:
-                        // isLoading
-                        //     ? SizedBox(
-                        //       width: 20,
-                        //       height: 20,
-                        //       child: CircularProgressIndicator(
-                        //         strokeWidth: 2,
-                        //         color: AppColor.green,
-                        //       ),
-                        //     )
-                        //     :
-                        Text(
-                          "Sing Up ",
+                        child: Text(
+                          "Sign Up ",
                           style: TextStyle(
                             fontSize: 18.sp,
                             color: AppColor.white,

@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/controller/favorites_controller.dart';
+import 'package:online_groceries_app/controller/product_controller.dart';
 import 'package:online_groceries_app/model/favorites.dart';
+import 'package:online_groceries_app/model/product.dart';
+import 'package:online_groceries_app/ui/product_detail_screen.dart';
+import 'package:get/get.dart';
 
 class FavouriteScreen extends StatefulWidget {
   const FavouriteScreen({super.key});
@@ -13,6 +17,7 @@ class FavouriteScreen extends StatefulWidget {
 
 class _FavouriteScreenState extends State<FavouriteScreen> {
   final FavoritesController favoritesController = FavoritesController();
+  final ProductController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +49,12 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                   }
                   List<Favorites> cartItems = snapshot.data!;
                   if (cartItems.isEmpty) {
-                    return const Center(child: Text('Your Favorites is empty'));
+                    return Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: const Center(
+                        child: Text('Your Favorites is empty'),
+                      ),
+                    );
                   }
                   return ListView.builder(
                     shrinkWrap: true,
@@ -74,15 +84,9 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            item.title,
-                                            style: TextStyle(fontSize: 16.sp),
-                                          ),
-                                        ],
+                                      Text(
+                                        item.title,
+                                        style: TextStyle(fontSize: 16.sp),
                                       ),
 
                                       Text(
@@ -92,17 +96,37 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                           color: AppColor.gray,
                                         ),
                                       ),
-
-                                      SizedBox(width: 30.w),
-                                      Text(
-                                        '\$${item.price}',
-                                        style: TextStyle(
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
                                     ],
                                   ),
+                                ),
+
+                                Text(
+                                  '\$${item.price}',
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+
+                                IconButton(
+                                  onPressed: () {
+                                    final product = controller.getProductById(
+                                      item.productId,
+                                    );
+                                    if (product != null) {
+                                      Get.to(
+                                        () => ProductDetailScreen(
+                                          product: product,
+                                        ),
+                                      );
+                                    } else {
+                                      Get.snackbar(
+                                        'Lỗi',
+                                        'Không tìm thấy sản phẩm!',
+                                      );
+                                    }
+                                  },
+                                  icon: Icon(Icons.arrow_forward_ios),
                                 ),
                               ],
                             ),
@@ -114,6 +138,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                 },
               ),
               SizedBox(height: 20.h),
+              Divider(),
+              SizedBox(height: 40.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                 child: FutureBuilder<List<Favorites>>(
@@ -169,7 +195,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                               horizontal: 10.w,
                               vertical: 5.h,
                             ),
-                            color: const Color.fromARGB(255, 64, 148, 64),
+                            color: AppColor.green,
                             child: Text(
                               '\$${total.toStringAsFixed(2)}',
                               style: TextStyle(

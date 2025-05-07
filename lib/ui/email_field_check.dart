@@ -11,10 +11,8 @@ class EmailFieldWithCheck extends StatefulWidget {
 }
 
 class _EmailFieldWithCheckState extends State<EmailFieldWithCheck> {
-  //final TextEditingController _emailController = TextEditingController();
   bool _isValidEmail = false;
 
-  // Regex kiểm tra định dạng email
   bool isEmailValid(String email) {
     return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
   }

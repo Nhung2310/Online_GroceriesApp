@@ -10,6 +10,8 @@ import 'package:online_groceries_app/model/product.dart';
 import 'package:online_groceries_app/ui/beverages_screen.dart';
 import 'package:online_groceries_app/ui/product_detail_screen.dart';
 import 'package:online_groceries_app/model/cart.dart';
+import 'package:online_groceries_app/widget/error_dialog.dart';
+import 'package:online_groceries_app/widget/loading_dialog.dart';
 
 class ShopScreen extends StatefulWidget {
   const ShopScreen({super.key});
@@ -21,7 +23,7 @@ class _ShopScreenState extends State<ShopScreen> {
   final ProductController productController = Get.put(ProductController());
 
   TextEditingController searchController = TextEditingController();
-  bool isSeeAll = false;
+
   final CartController cartController = CartController();
   @override
   void dispose() {
@@ -104,6 +106,9 @@ class _ShopScreenState extends State<ShopScreen> {
                   ),
                 ),
                 style: TextStyle(fontSize: 14.sp, color: AppColor.black),
+                onSubmitted: (value) {
+                  searchProduct(value);
+                },
               ),
               SizedBox(height: 20.h),
 
@@ -594,6 +599,7 @@ class _ShopScreenState extends State<ShopScreen> {
             image: product.image,
           );
           await cartController.addToCart(cartItem);
+          await cartController.refreshCart();
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(const SnackBar(content: Text('Added to cart!')));
@@ -604,5 +610,31 @@ class _ShopScreenState extends State<ShopScreen> {
         }
       },
     );
+  }
+
+  void searchProduct(String keyword) async {
+    if (keyword.isEmpty) {
+      showErrorDialog(context, 'Please enter a search keyword');
+      return;
+    }
+    showLoadingDialog(context);
+
+    List<Product> product = await productController.searchProduct(keyword);
+    dismissDialog(context);
+
+    if (product.isNotEmpty) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder:
+              (context) => BeveragesScreen(
+                title: 'Search results for "$keyword"',
+                product: product,
+              ),
+        ),
+      );
+    } else {
+      showErrorDialog(context, 'No product found for "$keyword"');
+    }
   }
 }
