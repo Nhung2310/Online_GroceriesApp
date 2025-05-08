@@ -131,16 +131,22 @@ class _ShopScreenState extends State<ShopScreen> {
               ),
               SizedBox(height: 30.h),
               text('Exclusive Offer', () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder:
-                        (context) => BeveragesScreen(
-                          title: 'Exclusive Offer',
-                          product: productController.exclusiveOfferProducts,
-                        ),
+                Get.to(
+                  BeveragesScreen(
+                    title: 'Exclusive Offer',
+                    product: productController.exclusiveOfferProducts,
                   ),
                 );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder:
+                //         (context) => BeveragesScreen(
+                //           title: 'Exclusive Offer',
+                //           product: productController.exclusiveOfferProducts,
+                //         ),
+                //   ),
+                // );
               }),
 
               Obx(() {
@@ -164,15 +170,15 @@ class _ShopScreenState extends State<ShopScreen> {
                             productController.exclusiveOfferProducts[index];
                         return GestureDetector(
                           onTap: () {
-                            // Điều hướng sang màn hình chi tiết sản phẩm
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder:
-                                    (context) =>
-                                        ProductDetailScreen(product: product),
-                              ),
-                            );
+                            Get.to(ProductDetailScreen(product: product));
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder:
+                            //         (context) =>
+                            //             ProductDetailScreen(product: product),
+                            //   ),
+                            // );
                           },
 
                           child: Card(
@@ -302,15 +308,15 @@ class _ShopScreenState extends State<ShopScreen> {
                             productController.bestSellingProducts[index];
                         return GestureDetector(
                           onTap: () {
-                            // Điều hướng sang màn hình chi tiết sản phẩm
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder:
-                                    (context) =>
-                                        ProductDetailScreen(product: product),
-                              ),
-                            );
+                            Get.to(ProductDetailScreen(product: product));
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder:
+                            //         (context) =>
+                            //             ProductDetailScreen(product: product),
+                            //   ),
+                            // );
                           },
                           child: Card(
                             elevation: 0,
@@ -405,16 +411,22 @@ class _ShopScreenState extends State<ShopScreen> {
               SizedBox(height: 30.h),
 
               text('Groceries', () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder:
-                        (context) => BeveragesScreen(
-                          title: 'Groceries',
-                          product: productController.groceriesProducts,
-                        ),
+                Get.to(
+                  BeveragesScreen(
+                    title: 'Groceries',
+                    product: productController.groceriesProducts,
                   ),
                 );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder:
+                //         (context) => BeveragesScreen(
+                //           title: 'Groceries',
+                //           product: productController.groceriesProducts,
+                //         ),
+                //   ),
+                // );
               }),
               Obx(() {
                 if (productController.groceriesProducts.isEmpty) {
@@ -436,15 +448,15 @@ class _ShopScreenState extends State<ShopScreen> {
                             productController.groceriesProducts[index];
                         return GestureDetector(
                           onTap: () {
-                            // Điều hướng sang màn hình chi tiết sản phẩm
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder:
-                                    (context) =>
-                                        ProductDetailScreen(product: product),
-                              ),
-                            );
+                            Get.to(ProductDetailScreen(product: product));
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder:
+                            //         (context) =>
+                            //             ProductDetailScreen(product: product),
+                            //   ),
+                            // );
                           },
                           child: Card(
                             elevation: 0,

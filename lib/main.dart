@@ -10,7 +10,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // Đăng ký controller
   Get.put(ProductController());
 
   runApp(const MyApp());

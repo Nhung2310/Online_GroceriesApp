@@ -165,13 +165,6 @@ class CheckoutScreen extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () async {
                   try {
-                    // if (cartController.cartItems.isEmpty) {
-                    //   Get.snackbar(
-                    //     'Cart is empty',
-                    //     'There are no items in the cart to order',
-                    //   );
-                    //   return;
-                    // }
                     await cartController.clearCart();
                     await cartController.fetchCartItems();
                     Get.off(() => OrderAccepted());

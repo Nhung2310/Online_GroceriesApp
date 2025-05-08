@@ -23,11 +23,9 @@ class _SingUpState extends State<SignUp> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SafeArea(

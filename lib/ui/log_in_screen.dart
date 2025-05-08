@@ -158,11 +158,6 @@ class _LoginState extends State<Login> {
       );
       dismissDialog(context);
       if (error == null) {
-        // Navigator.pushReplacement(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => HomeScreen()),
-        // );
-
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => HomeScreen()),

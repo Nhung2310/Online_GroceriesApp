@@ -124,9 +124,14 @@ class _CartScreenState extends State<CartScreen> {
                                                         item.productId,
                                                         item.quantity - 1,
                                                       );
+                                                } else if (item.quantity == 1) {
                                                   await cartController
-                                                      .refreshCart();
+                                                      .removeFromCart(
+                                                        item.productId,
+                                                      );
                                                 }
+                                                await cartController
+                                                    .refreshCart();
                                               },
                                               icon: const Icon(Icons.remove),
                                             ),
