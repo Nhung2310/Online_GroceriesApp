@@ -27,6 +27,7 @@ class CheckoutScreen extends StatelessWidget {
           children: [
             Row(
               children: [
+                SizedBox(width: 10.w),
                 Text(
                   'Checkout',
                   textAlign: TextAlign.center,
@@ -47,6 +48,7 @@ class CheckoutScreen extends StatelessWidget {
             Divider(),
             Row(
               children: [
+                SizedBox(width: 10.w),
                 Text(
                   'Delivery',
                   style: TextStyle(fontSize: 14.sp, color: AppColor.gray),
@@ -69,6 +71,7 @@ class CheckoutScreen extends StatelessWidget {
             Divider(),
             Row(
               children: [
+                SizedBox(width: 10.w),
                 Text(
                   'Payment',
                   style: TextStyle(fontSize: 14.sp, color: AppColor.gray),
@@ -84,6 +87,7 @@ class CheckoutScreen extends StatelessWidget {
             Divider(),
             Row(
               children: [
+                SizedBox(width: 10.w),
                 Text(
                   'Promo Code',
                   style: TextStyle(fontSize: 14.sp, color: AppColor.gray),
@@ -106,6 +110,7 @@ class CheckoutScreen extends StatelessWidget {
             Divider(),
             Row(
               children: [
+                SizedBox(width: 10.w),
                 Text(
                   'Total Cost',
                   style: TextStyle(fontSize: 14.sp, color: AppColor.gray),
