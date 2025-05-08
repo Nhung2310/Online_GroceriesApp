@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:online_groceries_app/controller/cart_controller.dart';
 import 'package:online_groceries_app/controller/favorites_controller.dart';
 import 'package:online_groceries_app/controller/product_controller.dart';
 import 'package:online_groceries_app/model/favorites.dart';
-import 'package:online_groceries_app/model/product.dart';
 import 'package:online_groceries_app/ui/product_detail_screen.dart';
 import 'package:get/get.dart';
+import 'package:online_groceries_app/model/cart.dart';
 
 class FavouriteScreen extends StatefulWidget {
   const FavouriteScreen({super.key});
@@ -18,7 +19,7 @@ class FavouriteScreen extends StatefulWidget {
 class _FavouriteScreenState extends State<FavouriteScreen> {
   final FavoritesController favoritesController = FavoritesController();
   final ProductController controller = Get.find();
-
+  final CartController cartController = Get.put(CartController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -158,16 +159,13 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                         ),
                         onPressed: () {},
                         child: const Text(
-                          'Go to Checkout - \$0.00',
+                          'Add All To Cart',
                           style: TextStyle(fontSize: 16, color: AppColor.white),
                         ),
                       );
                     }
                     List<Favorites> favoritesItems = snapshot.data!;
-                    double total = favoritesItems.fold(
-                      0,
-                      (sum, item) => sum + item.price * item.quantity,
-                    );
+
                     return ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColor.green,
@@ -176,13 +174,41 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                           borderRadius: BorderRadius.circular(10.r),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () async {
+                        if (favoritesItems.isEmpty) {
+                          Get.snackbar(
+                            'Favorites is empty',
+                            'There are no items in your wishlist to add to cart',
+                          );
+                          return;
+                        }
+                        for (var favorite in favoritesItems) {
+                          Cart cartItem = Cart(
+                            productId: favorite.productId,
+                            title: favorite.title,
+                            unitPrice: favorite.unitPrice,
+                            image: favorite.image,
+                            price: favorite.price,
+                            quantity: favorite.quantity,
+                          );
+
+                          try {
+                            await cartController.addToCart(cartItem);
+                          } catch (e) {
+                            print('Error adding ${cartItem.title} to cart: $e');
+                          }
+                        }
+                        Get.snackbar(
+                          'Success',
+                          'Successfully added all items to cart!',
+                        );
+                      },
                       child: Row(
                         children: [
                           Expanded(
                             child: Center(
                               child: Text(
-                                'Go to Checkout',
+                                'Add All To Cart',
                                 style: TextStyle(
                                   fontSize: 16.sp,
                                   color: AppColor.white,
@@ -196,13 +222,6 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                               vertical: 5.h,
                             ),
                             color: AppColor.green,
-                            child: Text(
-                              '\$${total.toStringAsFixed(2)}',
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                color: AppColor.white,
-                              ),
-                            ),
                           ),
                         ],
                       ),

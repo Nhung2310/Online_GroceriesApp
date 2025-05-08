@@ -153,9 +153,7 @@ class _BeveragesScreenState extends State<BeveragesScreen> {
           );
           await cartController.addToCart(cartItem);
           await cartController.refreshCart();
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(const SnackBar(content: Text('Added to cart!')));
+          Get.snackbar('Success', 'Successfully added to cart!');
         } catch (e) {
           ScaffoldMessenger.of(
             context,

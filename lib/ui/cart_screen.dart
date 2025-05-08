@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/state_manager.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/controller/cart_controller.dart';
 import 'package:online_groceries_app/model/cart.dart';
+import 'package:online_groceries_app/ui/checkout_screen.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -39,15 +41,6 @@ class _CartScreenState extends State<CartScreen> {
               Obx(() {
                 final cartItems = cartController.cartItems();
                 cartController.refreshCart();
-
-                // builder: (context, snapshot) {
-                //   if (snapshot.connectionState == ConnectionState.waiting) {
-                //     return const Center(child: CircularProgressIndicator());
-                //   }
-                //   if (snapshot.hasError || snapshot.data == null) {
-                //     return const Center(child: Text('Error loading cart'));
-                //   }
-                //   List<Cart> cartItems = snapshot.data!;
 
                 if (cartItems.isEmpty) {
                   return Padding(
@@ -217,7 +210,22 @@ class _CartScreenState extends State<CartScreen> {
                       borderRadius: BorderRadius.circular(10.r),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    if (cartController.cartItems.isEmpty) {
+                      Get.snackbar(
+                        'Cart is empty',
+                        'There are no items in the cart to order',
+                      );
+                      return;
+                    }
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      builder: (context) => CheckoutScreen(price: total),
+                    );
+                  },
+
                   child: Row(
                     children: [
                       Expanded(

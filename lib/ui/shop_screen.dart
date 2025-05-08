@@ -600,9 +600,7 @@ class _ShopScreenState extends State<ShopScreen> {
           );
           await cartController.addToCart(cartItem);
           await cartController.refreshCart();
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(const SnackBar(content: Text('Added to cart!')));
+          Get.snackbar('Success', 'Successfully added to cart!');
         } catch (e) {
           ScaffoldMessenger.of(
             context,
@@ -623,16 +621,22 @@ class _ShopScreenState extends State<ShopScreen> {
     dismissDialog(context);
 
     if (product.isNotEmpty) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder:
-              (context) => BeveragesScreen(
-                title: 'Search results for "$keyword"',
-                product: product,
-              ),
+      Get.to(
+        BeveragesScreen(
+          title: 'Search results for "$keyword"',
+          product: product,
         ),
       );
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder:
+      //         (context) => BeveragesScreen(
+      //           title: 'Search results for "$keyword"',
+      //           product: product,
+      //         ),
+      //   ),
+      // );
     } else {
       showErrorDialog(context, 'No product found for "$keyword"');
     }

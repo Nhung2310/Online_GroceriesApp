@@ -7,6 +7,7 @@ import 'package:online_groceries_app/model/cart.dart';
 import 'package:online_groceries_app/model/favorites.dart';
 import 'package:online_groceries_app/model/product.dart';
 import 'package:online_groceries_app/ui/favorite_button.dart';
+import 'package:get/get.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final Product product;
@@ -270,9 +271,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         );
                         await cartController.addToCart(cartItem);
                         await cartController.refreshCart();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Added to cart!')),
-                        );
+                        Get.snackbar('Success', 'Successfully added to cart!');
                       } catch (e) {
                         ScaffoldMessenger.of(
                           context,

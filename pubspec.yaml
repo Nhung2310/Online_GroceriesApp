@@ -78,6 +78,7 @@ flutter:
      - 'assets/cooking_oil_ghee.png'
      - 'assets/beverages.png'
      - 'assets/bakery_snacks.png'
+     - 'assets/check.png'
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

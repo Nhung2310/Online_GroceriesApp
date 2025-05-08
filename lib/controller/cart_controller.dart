@@ -46,7 +46,6 @@ class CartController extends GetxController {
       } else {
         await cartItemRef.set(cartItem.toMap());
       }
-      cartItems.refresh();
     } catch (e) {
       throw Exception('Error adding to cart: $e');
     }
@@ -112,6 +111,28 @@ class CartController extends GetxController {
           .delete();
     } catch (e) {
       throw Exception('Error removing from cart: $e');
+    }
+  }
+
+  Future<void> clearCart() async {
+    if (userId.isEmpty) {
+      throw Exception('User not logged in');
+    }
+
+    try {
+      final cartCollection = _firestore
+          .collection('user')
+          .doc(userId)
+          .collection('carts');
+
+      final snapshot = await cartCollection.get();
+      for (var doc in snapshot.docs) {
+        await doc.reference.delete();
+      }
+
+      cartItems.clear();
+    } catch (e) {
+      throw Exception('Error clearing cart: $e');
     }
   }
 }

@@ -14,4 +14,5 @@ class AppAssets {
   static const String icCookingOilGhee = 'assets/cooking_oil_ghee.png';
   static const String icBeverages = 'assets/beverages.png';
   static const String icBakerySnacks = 'assets/bakery_snacks.png';
+  static const String icCheck = 'assets/check.png';
 }
