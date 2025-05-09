@@ -6,7 +6,7 @@ import 'package:online_groceries_app/controller/favorites_controller.dart';
 import 'package:online_groceries_app/model/cart.dart';
 import 'package:online_groceries_app/model/favorites.dart';
 import 'package:online_groceries_app/model/product.dart';
-import 'package:online_groceries_app/ui/favorite_button.dart';
+import 'package:online_groceries_app/widget/favorite_button.dart';
 import 'package:get/get.dart';
 
 class ProductDetailScreen extends StatefulWidget {

@@ -57,22 +57,6 @@ class _EmailVerifiedScreenState extends State<EmailVerifiedScreen> {
     });
   }
 
-  // void startCountDown() {
-  //   _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-  //     if (_countdownTime == 0) {
-  //       _timer.cancel();
-  //       Navigator.pushReplacement(
-  //         context,
-  //         MaterialPageRoute(builder: (context) => Login()),
-  //       );
-  //     } else {
-  //       setState(() {
-  //         _countdownTime--;
-  //       });
-  //     }
-  //   });
-  // }
-
   @override
   void dispose() {
     _timer.cancel();
