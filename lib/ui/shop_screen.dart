@@ -272,12 +272,7 @@ class _ShopScreenState extends State<ShopScreen> {
     dismissDialog(context);
 
     if (product.isNotEmpty) {
-      Get.to(
-        CategoryScreen(
-          title: 'Search results for "$keyword"',
-          product: product,
-        ),
-      );
+      Get.to(CategoryScreen(title: '$keyword', product: product));
     } else {
       showErrorDialog(context, 'No product found for "$keyword"');
     }
