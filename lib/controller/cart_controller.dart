@@ -9,7 +9,7 @@ class CartController extends GetxController {
   final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
   final RxList<Cart> cartItems = <Cart>[].obs;
-
+  @override
   void onInit() {
     super.onInit();
     fetchCartItems();
