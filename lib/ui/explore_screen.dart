@@ -57,7 +57,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
   String mapCategoryNameToType(String name) {
     switch (name) {
       case 'Frash Fruits & Vegetable':
-        return 'Frash Fruits & Vegetable';
+        return 'Fruits & Vegetable';
       case 'Cooking Oil & Ghee':
         return 'Cooking Oil & Ghee';
       case 'Meat & Fish':
