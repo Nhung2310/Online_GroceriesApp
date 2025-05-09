@@ -20,6 +20,14 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   final FavoritesController favoritesController = FavoritesController();
   final ProductController controller = Get.find();
   final CartController cartController = Get.put(CartController());
+  late Future<List<Favorites>> _favoritesFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _favoritesFuture = favoritesController.getFavoritesItems();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +38,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
           child: Column(
             children: [
               Text(
-                'Favorurite',
+                'Favourite',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24.sp,
@@ -40,7 +48,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
               ),
 
               FutureBuilder<List<Favorites>>(
-                future: favoritesController.getFavoritesItems(),
+                future: _favoritesFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
@@ -144,7 +152,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
                 child: FutureBuilder<List<Favorites>>(
-                  future: favoritesController.getFavoritesItems(),
+                  future: _favoritesFuture,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting ||
                         snapshot.hasError ||
