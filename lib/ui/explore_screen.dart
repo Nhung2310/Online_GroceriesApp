@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:online_groceries_app/controller/explore_controller.dart';
 import 'package:online_groceries_app/model/product.dart';
-import 'package:online_groceries_app/ui/beverages_screen.dart';
+import 'package:online_groceries_app/ui/category_screen.dart';
 import 'package:online_groceries_app/widget/error_dialog.dart';
 import 'package:online_groceries_app/widget/loading_dialog.dart';
 import 'package:get/get.dart';
@@ -182,7 +182,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                           context,
                           MaterialPageRoute(
                             builder:
-                                (context) => BeveragesScreen(
+                                (context) => CategoryScreen(
                                   title: categories[index]['name'],
                                   product: product,
                                 ),
@@ -248,10 +248,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
         context,
         MaterialPageRoute(
           builder:
-              (context) => BeveragesScreen(
-                title: 'Search results for "$keyword"',
-                product: product,
-              ),
+              (context) => CategoryScreen(title: '$keyword', product: product),
         ),
       );
     } else {

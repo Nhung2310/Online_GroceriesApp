@@ -52,6 +52,8 @@ class ProductController extends GetxController {
       var productList =
           result.docs.map((doc) {
             var data = doc.data() as Map<String, dynamic>;
+            print(data);
+
             data['id'] = doc.id; // Thêm id từ Firestore
             return Product.fromMap(data);
           }).toList();

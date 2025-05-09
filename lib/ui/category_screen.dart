@@ -9,21 +9,18 @@ import 'package:online_groceries_app/ui/product_detail_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/model/cart.dart';
 
-class BeveragesScreen extends StatefulWidget {
+class CategoryScreen extends StatefulWidget {
   final String title;
   final List<Product> product;
-  const BeveragesScreen({
-    super.key,
-    required this.title,
-    required this.product,
-  });
+  const CategoryScreen({super.key, required this.title, required this.product});
 
   @override
-  State<BeveragesScreen> createState() => _BeveragesScreenState();
+  State<CategoryScreen> createState() => _CategoryScreenState();
 }
 
-class _BeveragesScreenState extends State<BeveragesScreen> {
-  final CartController cartController = Get.find<CartController>();
+class _CategoryScreenState extends State<CategoryScreen> {
+  // final CartController cartController = CartController();
+  final CartController cartController = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {

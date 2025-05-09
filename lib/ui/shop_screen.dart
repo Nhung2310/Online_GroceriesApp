@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:online_groceries_app/controller/cart_controller.dart';
 import 'package:online_groceries_app/controller/product_controller.dart';
 import 'package:online_groceries_app/model/product.dart';
-import 'package:online_groceries_app/ui/beverages_screen.dart';
+import 'package:online_groceries_app/ui/category_screen.dart';
 import 'package:online_groceries_app/ui/product_detail_screen.dart';
 import 'package:online_groceries_app/model/cart.dart';
 import 'package:online_groceries_app/widget/error_dialog.dart';
@@ -33,7 +33,6 @@ class _ShopScreenState extends State<ShopScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -124,7 +123,7 @@ class _ShopScreenState extends State<ShopScreen> {
                   ),
                   items: [
                     itemContainer(AppAssets.vegetables),
-                    itemContainer(AppAssets.vegetables),
+                    itemContainer(AppAssets.icbanner),
                     itemContainer(AppAssets.vegetables),
                   ],
                 ),
@@ -132,7 +131,7 @@ class _ShopScreenState extends State<ShopScreen> {
               SizedBox(height: 30.h),
               text('Exclusive Offer', () {
                 Get.to(
-                  BeveragesScreen(
+                  CategoryScreen(
                     title: 'Exclusive Offer',
                     product: productController.exclusiveOfferProducts,
                   ),
@@ -149,129 +148,10 @@ class _ShopScreenState extends State<ShopScreen> {
                 // );
               }),
 
-              Obx(() {
-                if (productController.exclusiveOfferProducts.isEmpty) {
-                  return Center(child: CircularProgressIndicator());
-                } else {
-                  return SizedBox(
-                    height: 250.h,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      physics: AlwaysScrollableScrollPhysics(),
-
-                      itemCount:
-                          productController.exclusiveOfferProducts.length > 3
-                              ? 3
-                              : productController.exclusiveOfferProducts.length,
-
-                      itemBuilder: (context, index) {
-                        final product =
-                            productController.exclusiveOfferProducts[index];
-                        return GestureDetector(
-                          onTap: () {
-                            Get.to(ProductDetailScreen(product: product));
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder:
-                            //         (context) =>
-                            //             ProductDetailScreen(product: product),
-                            //   ),
-                            // );
-                          },
-
-                          child: Card(
-                            elevation: 0,
-
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.r),
-                              side: BorderSide(color: AppColor.gray, width: 1),
-                            ),
-                            child: Container(
-                              width: 180.w,
-                              child: Padding(
-                                padding: EdgeInsets.all(12.w),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Center(
-                                      child: Image.network(
-                                        product.image,
-                                        height: 90.h,
-                                        width: 90.w,
-                                        fit: BoxFit.contain,
-                                        errorBuilder: (
-                                          context,
-                                          error,
-                                          stackTrace,
-                                        ) {
-                                          return Icon(Icons.error, size: 50.sp);
-                                        },
-                                      ),
-                                    ),
-                                    SizedBox(height: 10.h),
-                                    Text(
-                                      product.title,
-                                      style: TextStyle(
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColor.black,
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    SizedBox(height: 4.h),
-                                    Text(
-                                      product.unitPrice,
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: AppColor.gray,
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    SizedBox(height: 10.h),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          '\$${product.price.toStringAsFixed(2)}',
-                                          style: TextStyle(
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: AppColor.black,
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 36.w,
-                                          height: 36.h,
-                                          decoration: BoxDecoration(
-                                            color: AppColor.green,
-                                            borderRadius: BorderRadius.circular(
-                                              10.r,
-                                            ),
-                                          ),
-                                          child: buildAddToCartButton(
-                                            product,
-                                            cartController,
-                                            context,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                }
-              }),
+              buildProductList(
+                productList: productController.exclusiveOfferProducts,
+                cartController: cartController,
+              ),
               SizedBox(height: 30.h),
 
               text('Best Selling', () {
@@ -279,7 +159,7 @@ class _ShopScreenState extends State<ShopScreen> {
                   context,
                   MaterialPageRoute(
                     builder:
-                        (context) => BeveragesScreen(
+                        (context) => CategoryScreen(
                           title: 'Best Selling',
                           product: productController.bestSellingProducts,
                         ),
@@ -287,267 +167,26 @@ class _ShopScreenState extends State<ShopScreen> {
                 );
               }),
 
-              Obx(() {
-                if (productController.bestSellingProducts.isEmpty) {
-                  return Center(child: CircularProgressIndicator());
-                } else {
-                  return SizedBox(
-                    height: 250.h,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      physics: AlwaysScrollableScrollPhysics(),
+              buildProductList(
+                productList: productController.bestSellingProducts,
+                cartController: cartController,
+              ),
 
-                      itemCount:
-                          productController.bestSellingProducts.length > 3
-                              ? 3
-                              : productController.bestSellingProducts.length,
-                      //itemCount: productController.bestSellingProducts.length,
-                      itemBuilder: (context, index) {
-                        final product =
-                            productController.bestSellingProducts[index];
-                        return GestureDetector(
-                          onTap: () {
-                            Get.to(ProductDetailScreen(product: product));
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder:
-                            //         (context) =>
-                            //             ProductDetailScreen(product: product),
-                            //   ),
-                            // );
-                          },
-                          child: Card(
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.r),
-                              side: BorderSide(color: AppColor.gray, width: 1),
-                            ),
-                            child: Container(
-                              width: 180.w,
-                              child: Padding(
-                                padding: EdgeInsets.all(12.w),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Center(
-                                      child: Image.network(
-                                        product.image,
-                                        height: 90.h,
-                                        width: 90.w,
-                                        fit: BoxFit.contain,
-                                        errorBuilder: (
-                                          context,
-                                          error,
-                                          stackTrace,
-                                        ) {
-                                          return Icon(Icons.error, size: 50.sp);
-                                        },
-                                      ),
-                                    ),
-                                    SizedBox(height: 10.h),
-                                    Text(
-                                      product.title,
-                                      style: TextStyle(
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColor.black,
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    SizedBox(height: 4.h),
-                                    Text(
-                                      product.unitPrice,
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: AppColor.gray,
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    SizedBox(height: 10.h),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          '\$${product.price.toStringAsFixed(2)}',
-                                          style: TextStyle(
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: AppColor.black,
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 36.w,
-                                          height: 36.h,
-                                          decoration: BoxDecoration(
-                                            color: AppColor.green,
-                                            borderRadius: BorderRadius.circular(
-                                              10.r,
-                                            ),
-                                          ),
-                                          child: buildAddToCartButton(
-                                            product,
-                                            cartController,
-                                            context,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                }
-              }),
               SizedBox(height: 30.h),
 
               text('Groceries', () {
                 Get.to(
-                  BeveragesScreen(
+                  CategoryScreen(
                     title: 'Groceries',
                     product: productController.groceriesProducts,
                   ),
                 );
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder:
-                //         (context) => BeveragesScreen(
-                //           title: 'Groceries',
-                //           product: productController.groceriesProducts,
-                //         ),
-                //   ),
-                // );
               }),
-              Obx(() {
-                if (productController.groceriesProducts.isEmpty) {
-                  return Center(child: CircularProgressIndicator());
-                } else {
-                  return SizedBox(
-                    height: 250.h,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      physics: AlwaysScrollableScrollPhysics(),
 
-                      itemCount:
-                          productController.groceriesProducts.length > 3
-                              ? 3
-                              : productController.groceriesProducts.length,
-                      itemBuilder: (context, index) {
-                        final product =
-                            productController.groceriesProducts[index];
-                        return GestureDetector(
-                          onTap: () {
-                            Get.to(ProductDetailScreen(product: product));
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder:
-                            //         (context) =>
-                            //             ProductDetailScreen(product: product),
-                            //   ),
-                            // );
-                          },
-                          child: Card(
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.r),
-                              side: BorderSide(color: AppColor.gray, width: 1),
-                            ),
-                            child: Container(
-                              width: 180.w,
-                              child: Padding(
-                                padding: EdgeInsets.all(12.w),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Center(
-                                      child: Image.network(
-                                        product.image,
-                                        height: 90.h,
-                                        width: 90.w,
-                                        fit: BoxFit.contain,
-                                        errorBuilder: (
-                                          context,
-                                          error,
-                                          stackTrace,
-                                        ) {
-                                          return Icon(Icons.error, size: 50.sp);
-                                        },
-                                      ),
-                                    ),
-                                    SizedBox(height: 10.h),
-                                    Text(
-                                      product.title,
-                                      style: TextStyle(
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColor.black,
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    SizedBox(height: 4.h),
-                                    Text(
-                                      product.unitPrice,
-                                      style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: AppColor.gray,
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    SizedBox(height: 10.h),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          '\$${product.price.toStringAsFixed(2)}',
-                                          style: TextStyle(
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: AppColor.black,
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 36.w,
-                                          height: 36.h,
-                                          decoration: BoxDecoration(
-                                            color: AppColor.green,
-                                            borderRadius: BorderRadius.circular(
-                                              10.r,
-                                            ),
-                                          ),
-                                          child: buildAddToCartButton(
-                                            product,
-                                            cartController,
-                                            context,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                }
-              }),
+              buildProductList(
+                productList: productController.groceriesProducts,
+                cartController: cartController,
+              ),
             ],
           ),
         ),
@@ -634,23 +273,118 @@ class _ShopScreenState extends State<ShopScreen> {
 
     if (product.isNotEmpty) {
       Get.to(
-        BeveragesScreen(
+        CategoryScreen(
           title: 'Search results for "$keyword"',
           product: product,
         ),
       );
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder:
-      //         (context) => BeveragesScreen(
-      //           title: 'Search results for "$keyword"',
-      //           product: product,
-      //         ),
-      //   ),
-      // );
     } else {
       showErrorDialog(context, 'No product found for "$keyword"');
     }
+  }
+
+  Widget buildProductList({
+    required RxList<Product> productList,
+    required CartController cartController,
+  }) {
+    return Obx(() {
+      if (productList.isEmpty) {
+        return Center(child: CircularProgressIndicator());
+      } else {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 250.h,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: productList.length > 3 ? 3 : productList.length,
+                itemBuilder: (context, index) {
+                  final product = productList[index];
+                  return GestureDetector(
+                    onTap: () => Get.to(ProductDetailScreen(product: product)),
+                    child: Card(
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.r),
+                        side: BorderSide(color: AppColor.gray, width: 1),
+                      ),
+                      child: Container(
+                        width: 180.w,
+                        padding: EdgeInsets.all(12.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Center(
+                              child: Image.network(
+                                product.image,
+                                height: 90.h,
+                                width: 90.w,
+                                fit: BoxFit.contain,
+                                errorBuilder:
+                                    (context, error, stackTrace) =>
+                                        Icon(Icons.error, size: 50.sp),
+                              ),
+                            ),
+                            SizedBox(height: 10.h),
+                            Text(
+                              product.title,
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.bold,
+                                color: AppColor.black,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            SizedBox(height: 4.h),
+                            Text(
+                              product.unitPrice,
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                color: AppColor.gray,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            SizedBox(height: 10.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '\$${product.price.toStringAsFixed(2)}',
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColor.black,
+                                  ),
+                                ),
+                                Container(
+                                  width: 36.w,
+                                  height: 36.h,
+                                  decoration: BoxDecoration(
+                                    color: AppColor.green,
+                                    borderRadius: BorderRadius.circular(10.r),
+                                  ),
+                                  child: buildAddToCartButton(
+                                    product,
+                                    cartController,
+                                    context,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      }
+    });
   }
 }

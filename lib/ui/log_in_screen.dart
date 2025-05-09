@@ -116,7 +116,7 @@ class _LoginState extends State<Login> {
                               ),
                             ),
                             TextSpan(
-                              text: 'Singup',
+                              text: 'Signup',
                               style: TextStyle(
                                 fontSize: 20.sp,
                                 color: AppColor.green,
