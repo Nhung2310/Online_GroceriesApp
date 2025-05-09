@@ -65,10 +65,7 @@ class CartController extends GetxController {
               .get();
 
       return cartItemsSnapshot.docs.map((doc) {
-        return Cart.fromMap(
-          doc.data() as Map<String, dynamic>,
-          doc.id, // Lấy productId từ ID document
-        );
+        return Cart.fromMap(doc.data() as Map<String, dynamic>, doc.id);
       }).toList();
     } catch (e) {
       throw Exception('Error fetching cart: $e');

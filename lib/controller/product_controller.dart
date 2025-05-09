@@ -17,7 +17,6 @@ class ProductController extends GetxController {
     fetchProductsAll();
   }
 
-  // lấy danh sách từ firestore
   Future<void> fetchProductsIsExclusiveOffer() async {
     try {
       final QuerySnapshot result =
@@ -29,13 +28,11 @@ class ProductController extends GetxController {
       var productList =
           result.docs.map((doc) {
             var data = doc.data() as Map<String, dynamic>;
-            data['id'] = doc.id; // Thêm id từ Firestore
+            data['id'] = doc.id;
             return Product.fromMap(data);
           }).toList();
 
-      exclusiveOfferProducts.assignAll(
-        productList,
-      ); // Cập nhật danh sách sản phẩm
+      exclusiveOfferProducts.assignAll(productList);
     } catch (e) {
       print('Error fetching products: $e');
     }
@@ -54,11 +51,11 @@ class ProductController extends GetxController {
             var data = doc.data() as Map<String, dynamic>;
             print(data);
 
-            data['id'] = doc.id; // Thêm id từ Firestore
+            data['id'] = doc.id;
             return Product.fromMap(data);
           }).toList();
 
-      bestSellingProducts.assignAll(productList); // Cập nhật danh sách sản phẩm
+      bestSellingProducts.assignAll(productList);
     } catch (e) {
       print('Error fetching products: $e');
     }
@@ -75,11 +72,11 @@ class ProductController extends GetxController {
       var productList =
           result.docs.map((doc) {
             var data = doc.data() as Map<String, dynamic>;
-            data['id'] = doc.id; // Thêm id từ Firestore
+            data['id'] = doc.id;
             return Product.fromMap(data);
           }).toList();
 
-      groceriesProducts.assignAll(productList); // Cập nhật danh sách sản phẩm
+      groceriesProducts.assignAll(productList);
     } catch (e) {
       print('Error fetching products: $e');
     }
