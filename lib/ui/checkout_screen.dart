@@ -167,7 +167,8 @@ class CheckoutScreen extends StatelessWidget {
                   try {
                     await cartController.clearCart();
                     await cartController.fetchCartItems();
-                    Get.off(() => OrderAccepted());
+                    // Get.off(() => OrderAccepted());
+                    Get.offNamed('/order-accepted');
                   } catch (e) {
                     Get.snackbar('Error', 'Cannot place order: $e');
                   }

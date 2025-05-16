@@ -178,16 +178,17 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       print('Fetched products count: ${product.length}');
 
                       if (product.isNotEmpty) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder:
-                                (context) => CategoryScreen(
-                                  title: categories[index]['name'],
-                                  product: product,
-                                ),
-                          ),
-                        );
+                        Get.toNamed('/category', arguments: product);
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder:
+                        //         (context) => CategoryScreen(
+                        //           title: categories[index]['name'],
+                        //           product: product,
+                        //         ),
+                        //   ),
+                        // );
                       } else {
                         showErrorDialog(
                           context,
@@ -244,13 +245,14 @@ class _ExploreScreenState extends State<ExploreScreen> {
     dismissDialog(context);
 
     if (product.isNotEmpty) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder:
-              (context) => CategoryScreen(title: '$keyword', product: product),
-        ),
-      );
+      Get.toNamed('/category', arguments: product);
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder:
+      //         (context) => CategoryScreen(title: '$keyword', product: product),
+      //   ),
+      // );
     } else {
       showErrorDialog(context, 'No product found for "$keyword"');
     }

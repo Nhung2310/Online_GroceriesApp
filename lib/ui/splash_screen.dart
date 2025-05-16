@@ -6,6 +6,7 @@ import 'package:online_groceries_app/ui/home_screen.dart';
 import 'package:online_groceries_app/ui/log_in_screen.dart';
 import 'package:online_groceries_app/ui/onbording_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get/get.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -30,20 +31,23 @@ class _SplashScreenState extends State<SplashScreen> {
 
     if (!hasSeenOnboarding) {
       prefs.setBool('has_seen_onboarding', true);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const Onbording()),
-      );
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => const Onbording()),
+      // );
+      Get.offAllNamed('/onbording');
     } else if (isLoggedIn) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => const HomeScreen()),
+      // );
+      Get.offAllNamed('/home');
     } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const Login()),
-      );
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => const Login()),
+      // );
+      Get.offAllNamed('/log_in');
     }
   }
 

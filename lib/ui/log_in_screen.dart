@@ -10,6 +10,7 @@ import 'package:online_groceries_app/ui/sign_up_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/widget/error_dialog.dart';
 import 'package:online_groceries_app/widget/loading_dialog.dart';
+import 'package:get/get.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -125,12 +126,7 @@ class _LoginState extends State<Login> {
                               recognizer:
                                   TapGestureRecognizer()
                                     ..onTap = () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => SignUp(),
-                                        ),
-                                      );
+                                      Get.toNamed('/sign_up');
                                     },
                             ),
                           ],
@@ -151,20 +147,35 @@ class _LoginState extends State<Login> {
     if (_formKey.currentState!.validate()) {
       showLoadingDialog(context);
       //dismissDialog(context);
-      final error = await AuthService.logInAndCheckVerifyEmai(
+      final errorLogin = await AuthService.logInAndCheckVerifyEmai(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
         context: context,
       );
       dismissDialog(context);
-      if (error == null) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-          (Route<dynamic> route) => false,
+      if (errorLogin == null) {
+        Get.offAllNamed('/home');
+        // Navigator.pushReplacement(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => const HomeScreen(),
+        //   ),
+        // );
+      } else if (errorLogin == 'email-not-verified') {
+        Get.offAllNamed(
+          '/email_verified',
+          arguments: emailController.text.trim(),
         );
+        // Navigator.pushReplacement(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => EmailVerifiedScreen(
+        //       email: emailController.text.trim(),
+        //     ),
+        //   ),
+        // );
       } else {
-        showErrorDialog(context, error);
+        showErrorDialog(context, errorLogin);
       }
     }
   }

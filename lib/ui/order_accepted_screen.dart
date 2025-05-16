@@ -64,7 +64,7 @@ class OrderAccepted extends StatelessWidget {
                   width: 300.w,
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.off(() => HomeScreen());
+                      Get.offAll(() => HomeScreen());
                     },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 15.h),

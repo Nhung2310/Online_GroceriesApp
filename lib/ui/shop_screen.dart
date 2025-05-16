@@ -130,22 +130,13 @@ class _ShopScreenState extends State<ShopScreen> {
               ),
               SizedBox(height: 30.h),
               text('Exclusive Offer', () {
-                Get.to(
-                  CategoryScreen(
-                    title: 'Exclusive Offer',
-                    product: productController.exclusiveOfferProducts,
-                  ),
+                Get.toNamed(
+                  '/category',
+                  arguments: [
+                    'Exclusive Offer',
+                    productController.exclusiveOfferProducts,
+                  ],
                 );
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder:
-                //         (context) => BeveragesScreen(
-                //           title: 'Exclusive Offer',
-                //           product: productController.exclusiveOfferProducts,
-                //         ),
-                //   ),
-                // );
               }),
 
               buildProductList(
@@ -155,14 +146,10 @@ class _ShopScreenState extends State<ShopScreen> {
               SizedBox(height: 30.h),
 
               text('Best Selling', () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder:
-                        (context) => CategoryScreen(
-                          title: 'Best Selling',
-                          product: productController.bestSellingProducts,
-                        ),
+                Get.to(
+                  CategoryScreen(
+                    title: 'Best Selling',
+                    product: productController.bestSellingProducts,
                   ),
                 );
               }),

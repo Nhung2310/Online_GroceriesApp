@@ -43,13 +43,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
               final product = widget.product[index];
               return GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder:
-                          (context) => ProductDetailScreen(product: product),
-                    ),
-                  );
+                  Get.to(() => ProductDetailScreen(product: product));
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder:
+                  //         (context) => ProductDetailScreen(product: product),
+                  //   ),
+                  // );
                 },
                 child: Card(
                   elevation: 0,

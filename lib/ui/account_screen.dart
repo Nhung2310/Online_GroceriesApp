@@ -6,6 +6,7 @@ import 'package:online_groceries_app/app_color.dart';
 import 'package:online_groceries_app/ui/log_in_screen.dart';
 import 'package:online_groceries_app/widget/loading_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get/get.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -169,11 +170,11 @@ class _AccountScreenState extends State<AccountScreen> {
 
       await FirebaseAuth.instance.signOut();
       dismissDialog(context);
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => Login()),
-      );
+      Get.offAllNamed('/login');
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => Login()),
+      // );
     } catch (e) {
       print('Error while logging out: $e');
 

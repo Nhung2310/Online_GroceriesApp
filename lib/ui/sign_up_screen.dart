@@ -11,6 +11,7 @@ import 'package:online_groceries_app/widget/password_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/widget/error_dialog.dart';
 import 'package:online_groceries_app/widget/loading_dialog.dart';
+import 'package:get/get.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -170,12 +171,13 @@ class _SingUpState extends State<SignUp> {
                               recognizer:
                                   TapGestureRecognizer()
                                     ..onTap = () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => SignUp(),
-                                        ),
-                                      );
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //     builder: (context) => SignUp(),
+                                      //   ),
+                                      // );
+                                      Get.offAllNamed('/log_in');
                                     },
                             ),
                           ],
@@ -212,13 +214,17 @@ class _SingUpState extends State<SignUp> {
       if (error == null) {
         //await sendVerificationEmail(context);
         onclickLogin(context);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder:
-                (context) =>
-                    EmailVerifiedScreen(email: emailController.text.trim()),
-          ),
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder:
+        //         (context) =>
+        //             EmailVerifiedScreen(email: emailController.text.trim()),
+        //   ),
+        // );
+        Get.offAllNamed(
+          '/email_verified',
+          arguments: emailController.text.trim(),
         );
       } else {
         showErrorDialog(context, error);

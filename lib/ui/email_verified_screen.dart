@@ -4,11 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:online_groceries_app/ui/home_screen.dart';
 
 import 'package:online_groceries_app/ui/log_in_screen.dart';
+import 'package:get/get.dart';
 
 class EmailVerifiedScreen extends StatefulWidget {
   final String email;
@@ -49,10 +51,11 @@ class _EmailVerifiedScreenState extends State<EmailVerifiedScreen> {
 
       if (user != null && user.emailVerified) {
         timer.cancel();
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-        );
+        Get.offAllNamed('/home');
+        // Navigator.pushReplacement(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => HomeScreen()),
+        // );
       }
     });
   }
