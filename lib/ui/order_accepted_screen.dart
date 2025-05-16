@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:online_groceries_app/ui/checkout_screen.dart';
+
 import 'package:online_groceries_app/ui/home_screen.dart';
-import 'package:online_groceries_app/ui/shop_screen.dart';
+
 import 'package:get/get.dart';
 
 class OrderAccepted extends StatelessWidget {

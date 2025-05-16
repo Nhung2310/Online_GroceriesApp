@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:online_groceries_app/controller/explore_controller.dart';
 import 'package:online_groceries_app/model/product.dart';
-import 'package:online_groceries_app/ui/category_screen.dart';
+
 import 'package:online_groceries_app/widget/error_dialog.dart';
 import 'package:online_groceries_app/widget/loading_dialog.dart';
 import 'package:get/get.dart';

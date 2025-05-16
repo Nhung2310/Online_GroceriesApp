@@ -60,136 +60,137 @@ class _CartScreenState extends State<CartScreen> {
                       child: Column(
                         children: [
                           Divider(),
-                          Row(
-                            children: [
-                              Image.network(
-                                item.image,
-                                width: 100.w,
-                                height: 100.w,
-                                fit: BoxFit.contain,
-                                errorBuilder:
-                                    (context, error, stackTrace) =>
-                                        const Icon(Icons.error),
-                              ),
-                              SizedBox(width: 10.w),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          item.title,
-                                          style: TextStyle(fontSize: 16.sp),
-                                        ),
+                          buildCartItem(item),
+                          // Row(
+                          //   children: [
+                          //     Image.network(
+                          //       item.image,
+                          //       width: 100.w,
+                          //       height: 100.w,
+                          //       fit: BoxFit.contain,
+                          //       errorBuilder:
+                          //           (context, error, stackTrace) =>
+                          //               const Icon(Icons.error),
+                          //     ),
+                          //     SizedBox(width: 10.w),
+                          //     Expanded(
+                          //       child: Column(
+                          //         crossAxisAlignment: CrossAxisAlignment.start,
+                          //         children: [
+                          //           Row(
+                          //             mainAxisAlignment:
+                          //                 MainAxisAlignment.spaceBetween,
+                          //             children: [
+                          //               Text(
+                          //                 item.title,
+                          //                 style: TextStyle(fontSize: 16.sp),
+                          //               ),
 
-                                        Align(
-                                          alignment: Alignment.topRight,
-                                          child: IconButton(
-                                            icon: const Icon(Icons.close),
-                                            onPressed: () async {
-                                              await cartController
-                                                  .removeFromCart(
-                                                    item.productId,
-                                                  );
+                          //               Align(
+                          //                 alignment: Alignment.topRight,
+                          //                 child: IconButton(
+                          //                   icon: const Icon(Icons.close),
+                          //                   onPressed: () async {
+                          //                     await cartController
+                          //                         .removeFromCart(
+                          //                           item.productId,
+                          //                         );
 
-                                              await cartController
-                                                  .refreshCart();
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                          //                     await cartController
+                          //                         .refreshCart();
+                          //                   },
+                          //                 ),
+                          //               ),
+                          //             ],
+                          //           ),
 
-                                    Text(
-                                      item.unitPrice,
-                                      style: TextStyle(
-                                        fontSize: 14.sp,
-                                        color: AppColor.gray,
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            IconButton(
-                                              onPressed: () async {
-                                                if (item.quantity > 1) {
-                                                  await cartController
-                                                      .updateQuantity(
-                                                        item.productId,
-                                                        item.quantity - 1,
-                                                      );
-                                                } else if (item.quantity == 1) {
-                                                  await cartController
-                                                      .removeFromCart(
-                                                        item.productId,
-                                                      );
-                                                }
-                                                await cartController
-                                                    .refreshCart();
-                                              },
-                                              icon: const Icon(Icons.remove),
-                                            ),
-                                            Container(
-                                              width: 50.w,
-                                              padding: EdgeInsets.symmetric(
-                                                vertical: 10.h,
-                                              ),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: AppColor.graysearch,
-                                                  width: 2,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(20.r),
-                                                shape: BoxShape.rectangle,
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  '${item.quantity}',
-                                                  style: TextStyle(
-                                                    fontSize: 14.sp,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            IconButton(
-                                              onPressed: () async {
-                                                await cartController
-                                                    .updateQuantity(
-                                                      item.productId,
-                                                      item.quantity + 1,
-                                                    );
-                                                await cartController
-                                                    .refreshCart();
-                                              },
-                                              icon: Icon(
-                                                Icons.add,
-                                                color: AppColor.green,
-                                              ),
-                                            ),
-                                            SizedBox(width: 30.w),
-                                            Text(
-                                              '\$${item.price}',
-                                              style: TextStyle(
-                                                fontSize: 16.sp,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+                          //           Text(
+                          //             item.unitPrice,
+                          //             style: TextStyle(
+                          //               fontSize: 14.sp,
+                          //               color: AppColor.gray,
+                          //             ),
+                          //           ),
+                          //           Row(
+                          //             mainAxisAlignment:
+                          //                 MainAxisAlignment.spaceBetween,
+                          //             children: [
+                          //               Row(
+                          //                 children: [
+                          //                   IconButton(
+                          //                     onPressed: () async {
+                          //                       if (item.quantity > 1) {
+                          //                         await cartController
+                          //                             .updateQuantity(
+                          //                               item.productId,
+                          //                               item.quantity - 1,
+                          //                             );
+                          //                       } else if (item.quantity == 1) {
+                          //                         await cartController
+                          //                             .removeFromCart(
+                          //                               item.productId,
+                          //                             );
+                          //                       }
+                          //                       await cartController
+                          //                           .refreshCart();
+                          //                     },
+                          //                     icon: const Icon(Icons.remove),
+                          //                   ),
+                          //                   Container(
+                          //                     width: 50.w,
+                          //                     padding: EdgeInsets.symmetric(
+                          //                       vertical: 10.h,
+                          //                     ),
+                          //                     decoration: BoxDecoration(
+                          //                       border: Border.all(
+                          //                         color: AppColor.graysearch,
+                          //                         width: 2,
+                          //                       ),
+                          //                       borderRadius:
+                          //                           BorderRadius.circular(20.r),
+                          //                       shape: BoxShape.rectangle,
+                          //                     ),
+                          //                     child: Center(
+                          //                       child: Text(
+                          //                         '${item.quantity}',
+                          //                         style: TextStyle(
+                          //                           fontSize: 14.sp,
+                          //                         ),
+                          //                       ),
+                          //                     ),
+                          //                   ),
+                          //                   IconButton(
+                          //                     onPressed: () async {
+                          //                       await cartController
+                          //                           .updateQuantity(
+                          //                             item.productId,
+                          //                             item.quantity + 1,
+                          //                           );
+                          //                       await cartController
+                          //                           .refreshCart();
+                          //                     },
+                          //                     icon: Icon(
+                          //                       Icons.add,
+                          //                       color: AppColor.green,
+                          //                     ),
+                          //                   ),
+                          //                   SizedBox(width: 30.w),
+                          //                   Text(
+                          //                     '\$${item.price}',
+                          //                     style: TextStyle(
+                          //                       fontSize: 16.sp,
+                          //                       fontWeight: FontWeight.bold,
+                          //                     ),
+                          //                   ),
+                          //                 ],
+                          //               ),
+                          //             ],
+                          //           ),
+                          //         ],
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
                         ],
                       ),
                     );
@@ -266,6 +267,110 @@ class _CartScreenState extends State<CartScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildCartItem(Cart item) {
+    return Row(
+      children: [
+        Image.network(
+          item.image,
+          width: 100.w,
+          height: 100.w,
+          fit: BoxFit.contain,
+          errorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+        ),
+        SizedBox(width: 10.w),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(item.title, style: TextStyle(fontSize: 16.sp)),
+
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () async {
+                        await cartController.removeFromCart(item.productId);
+
+                        await cartController.refreshCart();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+
+              Text(
+                item.unitPrice,
+                style: TextStyle(fontSize: 14.sp, color: AppColor.gray),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: () async {
+                          if (item.quantity > 1) {
+                            await cartController.updateQuantity(
+                              item.productId,
+                              item.quantity - 1,
+                            );
+                          } else if (item.quantity == 1) {
+                            await cartController.removeFromCart(item.productId);
+                          }
+                          await cartController.refreshCart();
+                        },
+                        icon: const Icon(Icons.remove),
+                      ),
+                      Container(
+                        width: 50.w,
+                        padding: EdgeInsets.symmetric(vertical: 10.h),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: AppColor.graysearch,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(20.r),
+                          shape: BoxShape.rectangle,
+                        ),
+                        child: Center(
+                          child: Text(
+                            '${item.quantity}',
+                            style: TextStyle(fontSize: 14.sp),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () async {
+                          await cartController.updateQuantity(
+                            item.productId,
+                            item.quantity + 1,
+                          );
+                          await cartController.refreshCart();
+                        },
+                        icon: Icon(Icons.add, color: AppColor.green),
+                      ),
+                      SizedBox(width: 30.w),
+                      Text(
+                        '\$${item.price}',
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

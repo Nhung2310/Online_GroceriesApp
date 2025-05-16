@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:online_groceries_app/controller/cart_controller.dart';
-import 'package:online_groceries_app/model/cart.dart';
-import 'package:online_groceries_app/ui/order_accepted_screen.dart';
-import 'package:online_groceries_app/ui/shop_screen.dart';
+
 import 'package:get/get.dart';
 
 class CheckoutScreen extends StatelessWidget {
@@ -28,14 +26,8 @@ class CheckoutScreen extends StatelessWidget {
             Row(
               children: [
                 SizedBox(width: 10.w),
-                Text(
-                  'Checkout',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+
+                TitleGray('Checkout'),
                 Spacer(),
                 IconButton(
                   onPressed: () {
@@ -49,81 +41,48 @@ class CheckoutScreen extends StatelessWidget {
             Row(
               children: [
                 SizedBox(width: 10.w),
-                Text(
-                  'Delivery',
-                  style: TextStyle(fontSize: 14.sp, color: AppColor.gray),
-                ),
-                Spacer(),
+                TitleGray('Delivery'),
 
-                Text(
-                  'Select Method',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.arrow_forward_ios),
-                ),
+                Spacer(),
+                TitleBold('Select Method'),
+
+                IconButtonForward(),
               ],
             ),
             Divider(),
             Row(
               children: [
                 SizedBox(width: 10.w),
-                Text(
-                  'Payment',
-                  style: TextStyle(fontSize: 14.sp, color: AppColor.gray),
-                ),
+                TitleGray('Payment'),
+
                 Spacer(),
                 Icon(Icons.payment, color: AppColor.green),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.arrow_forward_ios),
-                ),
+                IconButtonForward(),
               ],
             ),
             Divider(),
             Row(
               children: [
                 SizedBox(width: 10.w),
-                Text(
-                  'Promo Code',
-                  style: TextStyle(fontSize: 14.sp, color: AppColor.gray),
-                ),
-                Spacer(),
+                TitleGray('Promo Code'),
 
-                Text(
-                  'Pich discount',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.arrow_forward_ios),
-                ),
+                Spacer(),
+                TitleBold('Pich discount'),
+                IconButtonForward(),
               ],
             ),
             Divider(),
             Row(
               children: [
                 SizedBox(width: 10.w),
-                Text(
-                  'Total Cost',
-                  style: TextStyle(fontSize: 14.sp, color: AppColor.gray),
-                ),
+                TitleGray('Total Cost'),
+
                 Spacer(),
                 Text(
                   '\$${price.toStringAsFixed(2)}',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.arrow_forward_ios),
-                ),
+                IconButtonForward(),
               ],
             ),
 
@@ -190,5 +149,21 @@ class CheckoutScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget TitleBold(String title) {
+    return Text(
+      title,
+      textAlign: TextAlign.center,
+      style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+    );
+  }
+
+  Widget TitleGray(String title) {
+    return Text(title, style: TextStyle(fontSize: 14.sp, color: AppColor.gray));
+  }
+
+  Widget IconButtonForward() {
+    return IconButton(onPressed: () {}, icon: Icon(Icons.arrow_forward_ios));
   }
 }

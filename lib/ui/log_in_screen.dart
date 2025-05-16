@@ -4,9 +4,9 @@ import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:online_groceries_app/services/auth_service.dart';
 import 'package:online_groceries_app/widget/email_field_check.dart';
-import 'package:online_groceries_app/ui/home_screen.dart';
+
 import 'package:online_groceries_app/widget/password_field.dart';
-import 'package:online_groceries_app/ui/sign_up_screen.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/widget/error_dialog.dart';
 import 'package:online_groceries_app/widget/loading_dialog.dart';

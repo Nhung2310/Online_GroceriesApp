@@ -4,7 +4,7 @@ import 'package:online_groceries_app/app_color.dart';
 import 'package:online_groceries_app/controller/cart_controller.dart';
 import 'package:online_groceries_app/controller/favorites_controller.dart';
 import 'package:online_groceries_app/model/cart.dart';
-import 'package:online_groceries_app/model/favorites.dart';
+
 import 'package:online_groceries_app/model/product.dart';
 import 'package:online_groceries_app/widget/favorite_button.dart';
 import 'package:get/get.dart';
@@ -111,59 +111,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 style: TextStyle(fontSize: 14.sp, color: AppColor.gray),
               ),
               SizedBox(height: 30.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          if (tam > 1) {
-                            setState(() {
-                              tam--;
-                            });
-                          }
-                        },
-                        icon: Icon(Icons.remove),
-                      ),
-                      Container(
-                        width: 50.w,
-                        padding: EdgeInsets.symmetric(vertical: 10.h),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: AppColor.graysearch,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(20.r),
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: Center(
-                          child: Text(
-                            tam.toString(),
-                            style: TextStyle(fontSize: 14.sp),
-                          ),
-                        ),
-                      ),
+              buildPrice(),
 
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            tam++;
-                          });
-                        },
-                        icon: Icon(Icons.add, color: AppColor.green),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    "\$${widget.product.price}",
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
               SizedBox(height: 30.h),
               Divider(),
               SizedBox(height: 10.h),
@@ -206,6 +155,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               SizedBox(height: 30.h),
               Divider(),
               SizedBox(height: 10.h),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -222,80 +172,122 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               SizedBox(height: 30.h),
               Divider(),
               SizedBox(height: 10.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Review',
-                    style: TextStyle(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Row(
-                        children: List.generate(5, (index) {
-                          return Icon(
-                            index < widget.product.review
-                                ? Icons.star
-                                : Icons.star_border,
-                            color:
-                                index < widget.product.review
-                                    ? const Color.fromARGB(255, 231, 110, 53)
-                                    : const Color.fromARGB(255, 158, 158, 158),
-                            size: 30.sp,
-                          );
-                        }),
-                      ),
-                      SizedBox(width: 10.w),
-                      Icon(Icons.arrow_forward_ios, color: AppColor.black),
-                    ],
-                  ),
-                ],
-              ),
+              buildReview(),
+
               SizedBox(height: 30.h),
-              Center(
-                child: SizedBox(
-                  width: 300.w,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      try {
-                        final cartItem = Cart(
-                          productId: product.id,
-                          title: product.title,
-                          price: product.price,
-                          quantity: tam,
-                          unitPrice: product.unitPrice,
-                          image: product.image,
-                        );
-                        await cartController.addToCart(cartItem);
-                        await cartController.refreshCart();
-                        Get.snackbar('Success', 'Successfully added to cart!');
-                      } catch (e) {
-                        ScaffoldMessenger.of(
-                          context,
-                        ).showSnackBar(SnackBar(content: Text('Error: $e')));
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 15.h),
-                      backgroundColor: AppColor.green,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.r),
-                      ),
-                    ),
-                    child: Text(
-                      'Add To Basket',
-                      style: TextStyle(fontSize: 18.sp, color: AppColor.white),
-                    ),
-                  ),
-                ),
-              ),
+              buildAddToCartButton(product, cartController, context),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildAddToCartButton(
+    Product product,
+    CartController cartController,
+    BuildContext context,
+  ) {
+    return IconButton(
+      icon: Icon(Icons.add, color: AppColor.white, size: 20.sp),
+      onPressed: () async {
+        try {
+          final cartItem = Cart(
+            productId: product.id,
+            title: product.title,
+            price: product.price,
+            quantity: 1,
+            unitPrice: product.unitPrice,
+            image: product.image,
+          );
+          await cartController.addToCart(cartItem);
+          await cartController.refreshCart();
+          Get.snackbar('Success', 'Successfully added to cart!');
+        } catch (e) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Error: $e')));
+        }
+      },
+    );
+  }
+
+  Widget buildReview() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'Review',
+          style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
+        ),
+        Row(
+          children: [
+            Row(
+              children: List.generate(5, (index) {
+                return Icon(
+                  index < widget.product.review
+                      ? Icons.star
+                      : Icons.star_border,
+                  color:
+                      index < widget.product.review
+                          ? const Color.fromARGB(255, 231, 110, 53)
+                          : const Color.fromARGB(255, 158, 158, 158),
+                  size: 30.sp,
+                );
+              }),
+            ),
+            SizedBox(width: 10.w),
+            Icon(Icons.arrow_forward_ios, color: AppColor.black),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget buildPrice() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            IconButton(
+              onPressed: () {
+                if (tam > 1) {
+                  setState(() {
+                    tam--;
+                  });
+                }
+              },
+              icon: Icon(Icons.remove),
+            ),
+            Container(
+              width: 50.w,
+              padding: EdgeInsets.symmetric(vertical: 10.h),
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColor.graysearch, width: 2),
+                borderRadius: BorderRadius.circular(20.r),
+                shape: BoxShape.rectangle,
+              ),
+              child: Center(
+                child: Text(tam.toString(), style: TextStyle(fontSize: 14.sp)),
+              ),
+            ),
+
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  tam++;
+                });
+              },
+              icon: Icon(Icons.add, color: AppColor.green),
+            ),
+          ],
+        ),
+        Text(
+          "\$${widget.product.price}",
+          style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+        ),
+      ],
     );
   }
 }

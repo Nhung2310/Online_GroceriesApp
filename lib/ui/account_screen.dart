@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
-import 'package:online_groceries_app/ui/log_in_screen.dart';
+
 import 'package:online_groceries_app/widget/loading_dialog.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:get/get.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -165,8 +165,6 @@ class _AccountScreenState extends State<AccountScreen> {
   Future<void> logOut(BuildContext context) async {
     try {
       showLoadingDialog(context);
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('is_logged_in', false);
 
       await FirebaseAuth.instance.signOut();
       dismissDialog(context);

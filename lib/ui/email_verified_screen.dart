@@ -7,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
-import 'package:online_groceries_app/ui/home_screen.dart';
 
 import 'package:online_groceries_app/ui/log_in_screen.dart';
 import 'package:get/get.dart';
