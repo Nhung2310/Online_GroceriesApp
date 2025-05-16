@@ -66,12 +66,13 @@ class MyApp extends StatelessWidget {
               name: '/check_out',
               page: () => CheckoutScreen(price: Get.arguments),
             ),
+
             GetPage(
               name: '/category',
               page:
                   () => CategoryScreen(
-                    title: Get.arguments,
-                    product: Get.arguments,
+                    title: Get.arguments['title'],
+                    product: Get.arguments['product'],
                   ),
             ),
             GetPage(name: '/cart', page: () => CartScreen()),

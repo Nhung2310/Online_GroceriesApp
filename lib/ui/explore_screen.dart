@@ -178,7 +178,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       print('Fetched products count: ${product.length}');
 
                       if (product.isNotEmpty) {
-                        Get.toNamed('/category', arguments: product);
+                        Get.toNamed(
+                          '/category',
+                          arguments: {
+                            'title': categories[index]['name'],
+                            'product': product,
+                          },
+                        );
                         // Navigator.push(
                         //   context,
                         //   MaterialPageRoute(
