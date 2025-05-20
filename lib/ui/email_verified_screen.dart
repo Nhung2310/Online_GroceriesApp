@@ -7,66 +7,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
+import 'package:online_groceries_app/app_routes_name.dart';
+import 'package:online_groceries_app/controller/email_verified_controller.dart';
 
 import 'package:online_groceries_app/ui/log_in_screen.dart';
 import 'package:get/get.dart';
 
-class EmailVerifiedScreen extends StatefulWidget {
-  final String email;
-  const EmailVerifiedScreen({super.key, required this.email});
-  @override
-  State<EmailVerifiedScreen> createState() => _EmailVerifiedScreenState();
-}
-
-class _EmailVerifiedScreenState extends State<EmailVerifiedScreen> {
-  late Timer _timer;
-  //int _countdownTime = 30;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    checkEmailVerifiedAndRedirect();
-    //startCountDown();
-  }
-
-  Future<void> sendEmailVerification() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null && !user.emailVerified) {
-      await user.sendEmailVerification();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Please check your email to confirm your account!'),
-        ),
-      );
-    }
-  }
-
-  Future<void> checkEmailVerifiedAndRedirect() async {
-    Timer.periodic(Duration(seconds: 1), (timer) async {
-      User? user = FirebaseAuth.instance.currentUser;
-      await user?.reload();
-      if (!mounted) return;
-
-      if (user != null && user.emailVerified) {
-        timer.cancel();
-        Get.offAllNamed('/home');
-        // Navigator.pushReplacement(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => HomeScreen()),
-        // );
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
-
+class EmailVerifiedScreen extends GetView<EmailVerifiedController> {
   @override
   Widget build(BuildContext context) {
+    final String email = Get.arguments ?? 'your email';
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -109,7 +59,7 @@ class _EmailVerifiedScreenState extends State<EmailVerifiedScreen> {
                 children: [
                   TextSpan(text: 'We have sent an email to '),
                   TextSpan(
-                    text: '${widget.email}',
+                    text: email,
                     style: TextStyle(color: AppColor.black),
                   ),
                   TextSpan(text: ' with a link to access your account.'),
@@ -118,32 +68,33 @@ class _EmailVerifiedScreenState extends State<EmailVerifiedScreen> {
             ),
 
             SizedBox(height: 20.h),
-            Center(
-              child: SizedBox(
-                width: 200.w,
-
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => Login()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 15.h),
-                    backgroundColor: AppColor.green,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50.r),
-                    ),
-                  ),
-                  child: Text(
-                    'Cancel ',
-                    style: TextStyle(fontSize: 18.sp, color: AppColor.white),
-                  ),
-                ),
-              ),
-            ),
+            buildCancelButton(),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildCancelButton() {
+    return Center(
+      child: SizedBox(
+        width: 200.w,
+
+        child: ElevatedButton(
+          onPressed: () {
+            Get.offAllNamed(AppRoutesName.login);
+          },
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.symmetric(vertical: 15.h),
+            backgroundColor: AppColor.green,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50.r),
+            ),
+          ),
+          child: Text(
+            'Cancel ',
+            style: TextStyle(fontSize: 18.sp, color: AppColor.white),
+          ),
         ),
       ),
     );

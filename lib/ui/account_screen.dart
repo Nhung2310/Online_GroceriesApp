@@ -3,41 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
+import 'package:online_groceries_app/app_routes_name.dart';
+import 'package:online_groceries_app/controller/account_controller.dart';
 
 import 'package:online_groceries_app/widget/loading_dialog.dart';
 
 import 'package:get/get.dart';
 
-class AccountScreen extends StatefulWidget {
+class AccountScreen extends GetView<AccountController> {
   const AccountScreen({super.key});
-
-  @override
-  State<AccountScreen> createState() => _AccountScreenState();
-}
-
-class _AccountScreenState extends State<AccountScreen> {
-  String userName = '';
-  String userEmail = '';
-
-  void initState() {
-    super.initState();
-    _getUserInfo();
-  }
-
-  Future<void> _getUserInfo() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      setState(() {
-        userName = user.displayName ?? "No Name";
-        userEmail = user.email ?? "No Email";
-      });
-    } else {
-      setState(() {
-        userName = " ";
-        userEmail = " ";
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +38,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     Row(
                       children: [
                         Text(
-                          userName,
+                          controller.userName.value,
                           style: TextStyle(
                             color: AppColor.black,
                             fontWeight: FontWeight.bold,
@@ -78,7 +52,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     ),
 
                     Text(
-                      userEmail,
+                      controller.userEmail.value,
                       style: TextStyle(color: AppColor.black, fontSize: 12.sp),
                       softWrap: true,
                     ),
@@ -122,7 +96,7 @@ class _AccountScreenState extends State<AccountScreen> {
             padding: const EdgeInsets.all(30.0),
             child: GestureDetector(
               onTap: () {
-                logOut(context);
+                controller.logOut(context);
               },
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
@@ -160,25 +134,5 @@ class _AccountScreenState extends State<AccountScreen> {
       trailing: Icon(Icons.arrow_forward_ios),
       onTap: () {},
     );
-  }
-
-  Future<void> logOut(BuildContext context) async {
-    try {
-      showLoadingDialog(context);
-
-      await FirebaseAuth.instance.signOut();
-      dismissDialog(context);
-      Get.offAllNamed('/login');
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => Login()),
-      // );
-    } catch (e) {
-      print('Error while logging out: $e');
-
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Logout failed: $e')));
-    }
   }
 }

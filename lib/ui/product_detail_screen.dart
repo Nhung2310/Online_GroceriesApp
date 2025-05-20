@@ -3,29 +3,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:online_groceries_app/controller/cart_controller.dart';
 import 'package:online_groceries_app/controller/favorites_controller.dart';
+import 'package:online_groceries_app/controller/product_detail_controller.dart';
 import 'package:online_groceries_app/model/cart.dart';
 
 import 'package:online_groceries_app/model/product.dart';
 import 'package:online_groceries_app/widget/favorite_button.dart';
 import 'package:get/get.dart';
 
-class ProductDetailScreen extends StatefulWidget {
-  final Product product;
-  const ProductDetailScreen({Key? key, required this.product})
-    : super(key: key);
+class ProductDetailScreen extends GetView<ProductDetailController> {
+  //final Product product;
 
-  @override
-  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
-}
-
-class _ProductDetailScreenState extends State<ProductDetailScreen> {
   int tam = 1;
   bool _isExpanded = false;
   final CartController cartController = CartController();
   final FavoritesController favoritesController = FavoritesController();
   @override
   Widget build(BuildContext context) {
-    final product = widget.product;
+    final product = controller.product;
 
     return Scaffold(
       extendBodyBehindAppBar: false,
@@ -111,8 +105,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 style: TextStyle(fontSize: 14.sp, color: AppColor.gray),
               ),
               SizedBox(height: 30.h),
-              buildPrice(),
+              Obx(() => buildPrice()),
 
+              // buildPrice(),
               SizedBox(height: 30.h),
               Divider(),
               SizedBox(height: 10.h),
@@ -125,9 +120,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                   IconButton(
                     onPressed: () {
-                      setState(() {
-                        _isExpanded = !_isExpanded;
-                      });
+                      controller.toggleExpanded();
                     },
                     icon: Icon(
                       _isExpanded
@@ -140,18 +133,26 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ],
               ),
               SizedBox(height: 10.h),
-              _isExpanded
-                  ? Text(
-                    product.description,
-                    style: TextStyle(fontSize: 14.sp, color: AppColor.gray),
-                  )
-                  : Text(
-                    product.description,
-                    style: TextStyle(fontSize: 12.sp, color: AppColor.gray),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-
+              Obx(
+                () =>
+                    controller.isExpanded.value
+                        ? Text(
+                          product.description,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: AppColor.gray,
+                          ),
+                        )
+                        : Text(
+                          product.description,
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            color: AppColor.gray,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+              ),
               SizedBox(height: 30.h),
               Divider(),
               SizedBox(height: 10.h),
@@ -172,10 +173,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               SizedBox(height: 30.h),
               Divider(),
               SizedBox(height: 10.h),
-              buildReview(),
+              buildReview(product),
 
               SizedBox(height: 30.h),
-              buildAddToCartButton(product, cartController, context),
+              buildAddToCartButton(
+                product,
+                Get.find<CartController>(),
+                context,
+              ),
             ],
           ),
         ),
@@ -212,7 +217,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 
-  Widget buildReview() {
+  Widget buildReview(Product product) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -225,11 +230,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             Row(
               children: List.generate(5, (index) {
                 return Icon(
-                  index < widget.product.review
-                      ? Icons.star
-                      : Icons.star_border,
+                  index < product.review ? Icons.star : Icons.star_border,
                   color:
-                      index < widget.product.review
+                      index < product.review
                           ? const Color.fromARGB(255, 231, 110, 53)
                           : const Color.fromARGB(255, 158, 158, 158),
                   size: 30.sp,
@@ -252,13 +255,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           children: [
             IconButton(
               onPressed: () {
-                if (tam > 1) {
-                  setState(() {
-                    tam--;
-                  });
-                }
+                controller.decrementQuantity();
               },
-              icon: Icon(Icons.remove),
+              icon: const Icon(Icons.remove),
             ),
             Container(
               width: 50.w,
@@ -266,25 +265,24 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               decoration: BoxDecoration(
                 border: Border.all(color: AppColor.graysearch, width: 2),
                 borderRadius: BorderRadius.circular(20.r),
-                shape: BoxShape.rectangle,
               ),
               child: Center(
-                child: Text(tam.toString(), style: TextStyle(fontSize: 14.sp)),
+                child: Text(
+                  controller.quantity.value.toString(),
+                  style: TextStyle(fontSize: 14.sp),
+                ),
               ),
             ),
-
             IconButton(
               onPressed: () {
-                setState(() {
-                  tam++;
-                });
+                controller.incrementQuantity();
               },
               icon: Icon(Icons.add, color: AppColor.green),
             ),
           ],
         ),
         Text(
-          "\$${widget.product.price}",
+          '\$${controller.totalPrice}',
           style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
         ),
       ],

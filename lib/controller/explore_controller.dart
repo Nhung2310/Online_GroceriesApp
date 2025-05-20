@@ -1,9 +1,65 @@
-import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/model/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ExploreController extends GetxController {
+  TextEditingController searchController = TextEditingController();
+  final isLoading = false.obs;
+
+  final List<Map<String, dynamic>> categories = [
+    {
+      'name': 'Frash Fruits & Vegetable',
+      'color': const Color(0xFFE5F5E7),
+      'img': AppAssets.icFrashFruitsVagetable,
+    },
+    {
+      'name': 'Cooking Oil & Ghee',
+      'color': const Color(0xFFFFF3E5),
+      'img': AppAssets.icCookingOilGhee,
+    },
+    {
+      'name': 'Meat & Fish',
+      'color': const Color(0xFFFEE5E5),
+      'img': AppAssets.icMeatFish,
+    },
+    {
+      'name': 'Bakery & Snacks',
+      'color': const Color(0xFFF5E5F5),
+      'img': AppAssets.icBakerySnacks,
+    },
+    {
+      'name': 'Dairy & Eggs',
+      'color': const Color(0xFFF5F0E5),
+      'img': AppAssets.icDairyEggs,
+    },
+    {
+      'name': 'Beverage',
+      'color': const Color(0xFFE5E5F5),
+      'img': AppAssets.icBeverages,
+    },
+  ];
+
+  String mapCategoryNameToType(String name) {
+    switch (name) {
+      case 'Frash Fruits & Vegetable':
+        return 'Fruits & Vegetable';
+      case 'Cooking Oil & Ghee':
+        return 'Cooking Oil & Ghee';
+      case 'Meat & Fish':
+        return 'Meat & Fish';
+      case 'Bakery & Snacks':
+        return 'Bakery & Snacks';
+      case 'Dairy & Eggs':
+        return 'Dairy & Eggs';
+      case 'Beverage':
+        return 'Beverages';
+      default:
+        return '';
+    }
+  }
+
   Future<List<Product>> searchProduct(String keyword) async {
     try {
       final QuerySnapshot result =

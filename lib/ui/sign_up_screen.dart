@@ -3,26 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
-import 'package:online_groceries_app/services/auth_service.dart';
+import 'package:online_groceries_app/app_routes_name.dart';
+import 'package:online_groceries_app/controller/sign_up_controller.dart';
+
 import 'package:online_groceries_app/widget/email_field_check.dart';
 
 import 'package:online_groceries_app/widget/password_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:online_groceries_app/widget/error_dialog.dart';
-import 'package:online_groceries_app/widget/loading_dialog.dart';
+
 import 'package:get/get.dart';
 
-class SignUp extends StatefulWidget {
+class SignUp extends GetView<SignUpController> {
   const SignUp({super.key});
-  @override
-  State<SignUp> createState() => _SingUpState();
-}
 
-class _SingUpState extends State<SignUp> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  // final _formKey = GlobalKey<FormState>();
+  // final TextEditingController usernameController = TextEditingController();
+  // final TextEditingController emailController = TextEditingController();
+  // final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +30,7 @@ class _SingUpState extends State<SignUp> {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
             child: Form(
-              key: _formKey,
+              key: controller.formKey,
 
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -65,7 +62,7 @@ class _SingUpState extends State<SignUp> {
                   ),
 
                   TextFormField(
-                    controller: usernameController,
+                    controller: controller.usernameController,
                     decoration: InputDecoration(
                       labelText: 'Use Name',
                       border: UnderlineInputBorder(),
@@ -80,9 +77,9 @@ class _SingUpState extends State<SignUp> {
                   ),
                   SizedBox(height: 10.h),
 
-                  EmailFieldWithCheck(controller: emailController),
+                  EmailFieldWithCheck(controller: controller.emailController),
                   SizedBox(height: 10.h),
-                  PasswordField(controller: passwordController),
+                  PasswordField(controller: controller.passwordController),
                   SizedBox(height: 20.h),
                   RichText(
                     text: TextSpan(
@@ -125,7 +122,7 @@ class _SingUpState extends State<SignUp> {
                       width: 300.w,
                       child: ElevatedButton(
                         onPressed: () async {
-                          await onclickSignUp(context);
+                          await controller.onclickSignUp(context);
                         },
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(vertical: 15.h),
@@ -176,7 +173,7 @@ class _SingUpState extends State<SignUp> {
                                       //     builder: (context) => SignUp(),
                                       //   ),
                                       // );
-                                      Get.offAllNamed('/log_in');
+                                      Get.offAllNamed(AppRoutesName.signUp);
                                     },
                             ),
                           ],
@@ -191,46 +188,5 @@ class _SingUpState extends State<SignUp> {
         ),
       ),
     );
-  }
-
-  Future<void> onclickLogin(BuildContext context) async {
-    final error = await AuthService.logIn(
-      email: emailController.text.trim(),
-      password: passwordController.text.trim(),
-    );
-  }
-
-  Future<void> onclickSignUp(BuildContext context) async {
-    if (_formKey.currentState!.validate()) {
-      showLoadingDialog(context);
-      final error = await AuthService.signUp(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-        username: usernameController.text.trim(),
-      );
-      // setState(() => isLoading = false);
-      dismissDialog(context);
-      if (error == null) {
-        //await sendVerificationEmail(context);
-        onclickLogin(context);
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder:
-        //         (context) =>
-        //             EmailVerifiedScreen(email: emailController.text.trim()),
-        //   ),
-        // );
-        Get.offAllNamed(
-          '/email_verified',
-          arguments: emailController.text.trim(),
-        );
-      } else {
-        showErrorDialog(context, error);
-        // ScaffoldMessenger.of(
-        //   context,
-        // ).showSnackBar(SnackBar(content: Text(error)));
-      }
-    }
   }
 }

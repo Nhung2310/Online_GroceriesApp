@@ -27,7 +27,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
   }
 
   Future<void> checkIfFavorite() async {
-    final items = await widget.favoritesController.getFavoritesItems();
+    final items = await widget.favoritesController.favoritesList;
     final exists = items.any((item) => item.productId == widget.product.id);
     setState(() {
       isFavorite = exists;

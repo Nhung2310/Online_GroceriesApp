@@ -2,30 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:online_groceries_app/app_color.dart';
+import 'package:online_groceries_app/app_routes_name.dart';
 import 'package:online_groceries_app/controller/cart_controller.dart';
+import 'package:online_groceries_app/controller/category_controller.dart';
 
 import 'package:online_groceries_app/model/product.dart';
 import 'package:online_groceries_app/ui/product_detail_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/model/cart.dart';
 
-class CategoryScreen extends StatefulWidget {
-  final String title;
-  final List<Product> product;
-  const CategoryScreen({super.key, required this.title, required this.product});
+class CategoryScreen extends GetView<CategoryController> {
+  //final String title;
+  //final List<Product> product;
 
-  @override
-  State<CategoryScreen> createState() => _CategoryScreenState();
-}
-
-class _CategoryScreenState extends State<CategoryScreen> {
-  // final CartController cartController = CartController();
   final CartController cartController = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: AppBar(title: Text(controller.title.value)),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
@@ -38,12 +33,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
               crossAxisSpacing: 10.w,
               mainAxisSpacing: 10.h,
             ),
-            itemCount: widget.product.length,
+            itemCount: controller.productList.length,
             itemBuilder: (context, index) {
-              final product = widget.product[index];
+              final product = controller.productList[index];
               return GestureDetector(
                 onTap: () {
-                  Get.to(() => ProductDetailScreen(product: product));
+                  Get.to(AppRoutesName.productDetail, arguments: product);
+                  //  Get.to(() => ProductDetailScreen(product: product));
                 },
                 child: Card(
                   elevation: 0,

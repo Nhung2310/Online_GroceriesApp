@@ -1,5 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:online_groceries_app/app_routes_name.dart';
+import 'package:online_groceries_app/binding/account_binding.dart';
+import 'package:online_groceries_app/binding/cart_binding.dart';
+import 'package:online_groceries_app/binding/category_binding.dart';
+import 'package:online_groceries_app/binding/checkout_binding.dart';
+import 'package:online_groceries_app/binding/email_binding.dart';
+import 'package:online_groceries_app/binding/explore_binding.dart';
+import 'package:online_groceries_app/binding/favourite_binding.dart';
+import 'package:online_groceries_app/binding/home_binding.dart';
+import 'package:online_groceries_app/binding/login_binding.dart';
+import 'package:online_groceries_app/binding/onbording_binding.dart';
+import 'package:online_groceries_app/binding/order_accepted_binding.dart';
+import 'package:online_groceries_app/binding/product_detail_binding.dart';
+import 'package:online_groceries_app/binding/shop_binding.dart';
+import 'package:online_groceries_app/binding/sign_up_binding.dart';
+import 'package:online_groceries_app/binding/splash_binding.dart';
+import 'package:online_groceries_app/controller/sign_up_controller.dart';
 import 'package:online_groceries_app/firebase_options.dart';
+import 'package:online_groceries_app/services/root_binding.dart';
+import 'package:online_groceries_app/services/setting_services.dart';
 import 'package:online_groceries_app/ui/account_screen.dart';
 import 'package:online_groceries_app/ui/cart_screen.dart';
 import 'package:online_groceries_app/ui/category_screen.dart';
@@ -17,14 +36,15 @@ import 'package:online_groceries_app/ui/splash_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
-import 'package:online_groceries_app/controller/product_controller.dart';
+
 import 'package:online_groceries_app/ui/product_detail_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  Get.put(ProductController());
+  await Get.putAsync(() => SettingServices().init());
+  //Get.put(SignupController());
+  //Get.put(ProductController());
 
   runApp(const MyApp());
 }
@@ -41,42 +61,91 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          home: const SplashScreen(),
-
-          initialRoute: '/',
+          initialRoute: AppRoutesName.splash,
           getPages: [
-            GetPage(name: '/', page: () => const SplashScreen()),
-            GetPage(name: '/sign_up', page: () => SignUp()),
-            GetPage(name: '/shop', page: () => ShopScreen()),
             GetPage(
-              name: '/product_detail',
-              page: () => ProductDetailScreen(product: Get.arguments),
-            ),
-            GetPage(name: '/order_accepted', page: () => OrderAccepted()),
-            GetPage(name: '/onbording', page: () => Onbording()),
-            GetPage(name: '/log_in', page: () => Login()),
-            GetPage(name: '/home', page: () => HomeScreen()),
-            GetPage(name: '/favourite', page: () => FavouriteScreen()),
-            GetPage(name: '/explore', page: () => ExploreScreen()),
-            GetPage(
-              name: '/email_verified',
-              page: () => EmailVerifiedScreen(email: Get.arguments),
+              name: AppRoutesName.splash,
+              page: () => const SplashScreen(),
+              binding: SplashBinding(),
             ),
             GetPage(
-              name: '/check_out',
+              name: AppRoutesName.signUp,
+              page: () => SignUp(),
+              binding: SignUpBinding(),
+            ),
+            GetPage(
+              name: AppRoutesName.shop,
+              page: () => ShopScreen(),
+              binding: ShopBinding(),
+            ),
+            GetPage(
+              name: AppRoutesName.productDetail,
+              page: () => ProductDetailScreen(),
+              binding: ProductDetailBinding(),
+            ),
+            GetPage(
+              name: AppRoutesName.orderAccepted,
+              page: () => OrderAccepted(),
+              binding: OrderAcceptedBinding(),
+            ),
+            GetPage(
+              name: AppRoutesName.onbording,
+              page: () => Onbording(),
+              binding: OnbordingBinding(),
+            ),
+            GetPage(
+              name: AppRoutesName.login,
+              page: () => Login(),
+              binding: LoginBinding(),
+            ),
+            GetPage(
+              name: AppRoutesName.home,
+              page: () => HomeScreen(),
+              bindings: [
+                HomeBinding(),
+                ShopBinding(),
+                ExploreBinding(),
+                CartBinding(),
+                FavouriteBinding(),
+                AccountBinding(),
+              ],
+            ),
+            GetPage(
+              name: AppRoutesName.favourite,
+              page: () => FavouriteScreen(),
+              binding: FavouriteBinding(),
+            ),
+            GetPage(
+              name: AppRoutesName.explore,
+              page: () => ExploreScreen(),
+              binding: ExploreBinding(),
+            ),
+            GetPage(
+              name: AppRoutesName.emailVerified,
+              page: () => EmailVerifiedScreen(),
+              binding: EmailBinding(),
+            ),
+            GetPage(
+              name: AppRoutesName.checkOut,
               page: () => CheckoutScreen(price: Get.arguments),
+              binding: CheckoutBinding(),
             ),
 
             GetPage(
-              name: '/category',
-              page:
-                  () => CategoryScreen(
-                    title: Get.arguments['title'],
-                    product: Get.arguments['product'],
-                  ),
+              name: AppRoutesName.category,
+              page: () => CategoryScreen(),
+              binding: CategoryBinding(),
             ),
-            GetPage(name: '/cart', page: () => CartScreen()),
-            GetPage(name: '/account', page: () => AccountScreen()),
+            GetPage(
+              name: AppRoutesName.cart,
+              page: () => CartScreen(),
+              binding: CartBinding(),
+            ),
+            GetPage(
+              name: AppRoutesName.account,
+              page: () => AccountScreen(),
+              binding: AccountBinding(),
+            ),
             // Add other routes her
           ],
         );

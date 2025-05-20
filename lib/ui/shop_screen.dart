@@ -4,32 +4,18 @@ import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
+import 'package:online_groceries_app/app_routes_name.dart';
 import 'package:online_groceries_app/controller/cart_controller.dart';
-import 'package:online_groceries_app/controller/product_controller.dart';
+import 'package:online_groceries_app/controller/shop_controller.dart';
 import 'package:online_groceries_app/model/product.dart';
 import 'package:online_groceries_app/ui/category_screen.dart';
-import 'package:online_groceries_app/ui/product_detail_screen.dart';
+
 import 'package:online_groceries_app/model/cart.dart';
 import 'package:online_groceries_app/widget/error_dialog.dart';
 import 'package:online_groceries_app/widget/loading_dialog.dart';
 
-class ShopScreen extends StatefulWidget {
+class ShopScreen extends GetView<ShopController> {
   const ShopScreen({super.key});
-  @override
-  State<ShopScreen> createState() => _ShopScreenState();
-}
-
-class _ShopScreenState extends State<ShopScreen> {
-  final ProductController productController = Get.put(ProductController());
-
-  TextEditingController searchController = TextEditingController();
-
-  final CartController cartController = CartController();
-  @override
-  void dispose() {
-    searchController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +53,7 @@ class _ShopScreenState extends State<ShopScreen> {
               ),
               SizedBox(height: 20.h),
               TextField(
-                controller: searchController,
+                controller: controller.searchController,
                 decoration: InputDecoration(
                   hintText: 'Search Store',
                   hintStyle: TextStyle(color: AppColor.gray, fontSize: 14.sp),
@@ -106,7 +92,7 @@ class _ShopScreenState extends State<ShopScreen> {
                 ),
                 style: TextStyle(fontSize: 14.sp, color: AppColor.black),
                 onSubmitted: (value) {
-                  searchProduct(value);
+                  searchProduct(context, value);
                 },
               ),
               SizedBox(height: 20.h),
@@ -134,29 +120,30 @@ class _ShopScreenState extends State<ShopScreen> {
                   '/category',
                   arguments: [
                     'Exclusive Offer',
-                    productController.exclusiveOfferProducts,
+                    controller.productController.exclusiveOfferProducts,
                   ],
                 );
               }),
 
               buildProductList(
-                productList: productController.exclusiveOfferProducts,
-                cartController: cartController,
+                productList:
+                    controller.productController.exclusiveOfferProducts,
+                cartController: controller.cartController,
               ),
               SizedBox(height: 30.h),
 
               text('Best Selling', () {
                 Get.to(
                   CategoryScreen(
-                    title: 'Best Selling',
-                    product: productController.bestSellingProducts,
+                    // title: 'Best Selling',
+                    // product:controller.productController.bestSellingProducts,
                   ),
                 );
               }),
 
               buildProductList(
-                productList: productController.bestSellingProducts,
-                cartController: cartController,
+                productList: controller.productController.bestSellingProducts,
+                cartController: controller.cartController,
               ),
 
               SizedBox(height: 30.h),
@@ -164,15 +151,15 @@ class _ShopScreenState extends State<ShopScreen> {
               text('Groceries', () {
                 Get.to(
                   CategoryScreen(
-                    title: 'Groceries',
-                    product: productController.groceriesProducts,
+                    // title: 'Groceries',
+                    // product:controller.productController.groceriesProducts,
                   ),
                 );
               }),
 
               buildProductList(
-                productList: productController.groceriesProducts,
-                cartController: cartController,
+                productList: controller.productController.groceriesProducts,
+                cartController: controller.cartController,
               ),
             ],
           ),
@@ -248,18 +235,24 @@ class _ShopScreenState extends State<ShopScreen> {
     );
   }
 
-  void searchProduct(String keyword) async {
+  void searchProduct(BuildContext context, String keyword) async {
     if (keyword.isEmpty) {
       showErrorDialog(context, 'Please enter a search keyword');
       return;
     }
     showLoadingDialog(context);
 
-    List<Product> product = await productController.searchProduct(keyword);
+    List<Product> product = await controller.productController.searchProduct(
+      keyword,
+    );
     dismissDialog(context);
 
     if (product.isNotEmpty) {
-      Get.to(CategoryScreen(title: '$keyword', product: product));
+      Get.to(
+        CategoryScreen(
+          // title: '$keyword', product: product
+        ),
+      );
     } else {
       showErrorDialog(context, 'No product found for "$keyword"');
     }
@@ -284,7 +277,12 @@ class _ShopScreenState extends State<ShopScreen> {
                 itemBuilder: (context, index) {
                   final product = productList[index];
                   return GestureDetector(
-                    onTap: () => Get.to(ProductDetailScreen(product: product)),
+                    onTap:
+                        () => Get.toNamed(
+                          AppRoutesName.productDetail,
+                          arguments: product,
+                        ),
+                    // onTap: () => Get.to(ProductDetailScreen(product: product)),
                     child: Card(
                       elevation: 0,
                       shape: RoundedRectangleBorder(

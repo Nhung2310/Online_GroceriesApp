@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:online_groceries_app/app_routes_name.dart';
 
 import 'package:online_groceries_app/controller/explore_controller.dart';
 import 'package:online_groceries_app/model/product.dart';
@@ -11,67 +12,8 @@ import 'package:online_groceries_app/widget/error_dialog.dart';
 import 'package:online_groceries_app/widget/loading_dialog.dart';
 import 'package:get/get.dart';
 
-class ExploreScreen extends StatefulWidget {
+class ExploreScreen extends GetView<ExploreController> {
   const ExploreScreen({super.key});
-
-  @override
-  State<ExploreScreen> createState() => _ExploreScreenState();
-}
-
-class _ExploreScreenState extends State<ExploreScreen> {
-  TextEditingController searchController = TextEditingController();
-  final ExploreController exploreController = Get.put(ExploreController());
-  final List<Map<String, dynamic>> categories = [
-    {
-      'name': 'Frash Fruits & Vegetable',
-      'color': const Color(0xFFE5F5E7),
-      'img': AppAssets.icFrashFruitsVagetable,
-    },
-    {
-      'name': 'Cooking Oil & Ghee',
-      'color': const Color(0xFFFFF3E5),
-      'img': AppAssets.icCookingOilGhee,
-    },
-    {
-      'name': 'Meat & Fish',
-      'color': const Color(0xFFFEE5E5),
-      'img': AppAssets.icMeatFish,
-    },
-    {
-      'name': 'Bakery & Snacks',
-      'color': const Color(0xFFF5E5F5),
-      'img': AppAssets.icBakerySnacks,
-    },
-    {
-      'name': 'Dairy & Eggs',
-      'color': const Color(0xFFF5F0E5),
-      'img': AppAssets.icDairyEggs,
-    },
-    {
-      'name': 'Beverage',
-      'color': const Color(0xFFE5E5F5),
-      'img': AppAssets.icBeverages,
-    },
-  ];
-
-  String mapCategoryNameToType(String name) {
-    switch (name) {
-      case 'Frash Fruits & Vegetable':
-        return 'Fruits & Vegetable';
-      case 'Cooking Oil & Ghee':
-        return 'Cooking Oil & Ghee';
-      case 'Meat & Fish':
-        return 'Meat & Fish';
-      case 'Bakery & Snacks':
-        return 'Bakery & Snacks';
-      case 'Dairy & Eggs':
-        return 'Dairy & Eggs';
-      case 'Beverage':
-        return 'Beverages';
-      default:
-        return '';
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,49 +38,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 ),
               ),
               SizedBox(height: 20.h),
-              TextField(
-                controller: searchController,
-                decoration: InputDecoration(
-                  hintText: 'Search Store',
-                  hintStyle: TextStyle(color: AppColor.gray, fontSize: 14.sp),
-                  prefixIcon: Icon(
-                    Icons.search,
-                    color: AppColor.black,
-                    size: 20.sp,
-                  ),
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: 10.h,
-                    horizontal: 15.w,
-                  ),
-                  filled: true,
-                  fillColor: AppColor.graysearch,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15.r),
-                    borderSide: BorderSide(
-                      color: AppColor.graysearch,
-                      width: 1,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15.r),
-                    borderSide: BorderSide(
-                      color: AppColor.graysearch,
-                      width: 1,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15.r),
-                    borderSide: BorderSide(
-                      color: AppColor.graysearch,
-                      width: 1,
-                    ),
-                  ),
-                ),
-                style: TextStyle(fontSize: 14.sp, color: AppColor.black),
-                onSubmitted: (value) {
-                  searchProduct(value);
-                },
-              ),
+              buildTextField(context),
 
               SizedBox(height: 20.h),
               GridView.builder(
@@ -150,21 +50,20 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   mainAxisSpacing: 15.h,
                   childAspectRatio: 1,
                 ),
-                itemCount: categories.length,
+                itemCount: controller.categories.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () async {
-                      // showLoadingDialog(context);
-
-                      String categoryName = categories[index]['name'] ?? '';
+                      String categoryName =
+                          controller.categories[index]['name'] ?? '';
                       if (categoryName.isEmpty) {
-                        // dismissDialog(context);
                         showErrorDialog(context, 'Category name not found');
                         return;
                       }
-                      String type = mapCategoryNameToType(categoryName);
+                      String type = controller.mapCategoryNameToType(
+                        categoryName,
+                      );
                       if (type.isEmpty) {
-                        // dismissDialog(context);
                         showErrorDialog(
                           context,
                           'Invalid category name: $categoryName',
@@ -173,53 +72,44 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       }
 
                       print('Fetching products for type: $type');
-                      List<Product> product = await exploreController
-                          .fetchProductsByType(type);
+                      List<Product> product =
+                          await Get.find<ExploreController>()
+                              .fetchProductsByType(type);
                       print('Fetched products count: ${product.length}');
 
                       if (product.isNotEmpty) {
                         Get.toNamed(
-                          '/category',
+                          AppRoutesName.category,
                           arguments: {
-                            'title': categories[index]['name'],
+                            'title': controller.categories[index]['name'],
                             'product': product,
                           },
                         );
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder:
-                        //         (context) => CategoryScreen(
-                        //           title: categories[index]['name'],
-                        //           product: product,
-                        //         ),
-                        //   ),
-                        // );
                       } else {
                         showErrorDialog(
                           context,
-                          'No products found for ${categories[index]['name']}',
+                          'No products found for ${controller.categories[index]['name']}',
                         );
                       }
                     },
 
                     child: Container(
                       decoration: BoxDecoration(
-                        color: categories[index]['color'],
+                        color: controller.categories[index]['color'],
                         borderRadius: BorderRadius.circular(15.r),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            categories[index]['img'],
+                            controller.categories[index]['img'],
                             width: 50.w,
                             height: 50.h,
                             fit: BoxFit.fill,
                           ),
 
                           Text(
-                            categories[index]['name'],
+                            controller.categories[index]['name'],
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 16.sp,
@@ -240,27 +130,53 @@ class _ExploreScreenState extends State<ExploreScreen> {
     );
   }
 
-  void searchProduct(String keyword) async {
+  void searchProduct(BuildContext context, String keyword) async {
     if (keyword.isEmpty) {
       showErrorDialog(context, 'Please enter a search keyword');
       return;
     }
     showLoadingDialog(context);
 
-    List<Product> product = await exploreController.searchProduct(keyword);
+    List<Product> product = await Get.find<ExploreController>().searchProduct(
+      keyword,
+    );
+
     dismissDialog(context);
 
     if (product.isNotEmpty) {
-      Get.toNamed('/category', arguments: product);
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder:
-      //         (context) => CategoryScreen(title: '$keyword', product: product),
-      //   ),
-      // );
+      Get.toNamed(AppRoutesName.category, arguments: product);
     } else {
       showErrorDialog(context, 'No product found for "$keyword"');
     }
+  }
+
+  Widget buildTextField(BuildContext context) {
+    return TextField(
+      controller: controller.searchController,
+      decoration: InputDecoration(
+        hintText: 'Search Store',
+        hintStyle: TextStyle(color: AppColor.gray, fontSize: 14.sp),
+        prefixIcon: Icon(Icons.search, color: AppColor.black, size: 20.sp),
+        contentPadding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
+        filled: true,
+        fillColor: AppColor.graysearch,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15.r),
+          borderSide: BorderSide(color: AppColor.graysearch, width: 1),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15.r),
+          borderSide: BorderSide(color: AppColor.graysearch, width: 1),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15.r),
+          borderSide: BorderSide(color: AppColor.graysearch, width: 1),
+        ),
+      ),
+      style: TextStyle(fontSize: 14.sp, color: AppColor.black),
+      onSubmitted: (value) {
+        searchProduct(context, value);
+      },
+    );
   }
 }

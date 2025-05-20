@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/app_color.dart';
+import 'package:online_groceries_app/app_routes_name.dart';
 import 'package:online_groceries_app/controller/cart_controller.dart';
 
 import 'package:get/get.dart';
+import 'package:online_groceries_app/controller/checkout_controller.dart';
 
-class CheckoutScreen extends StatelessWidget {
+class CheckoutScreen extends GetView<CheckoutController> {
   final double price;
 
   const CheckoutScreen({super.key, required this.price});
 
   @override
   Widget build(BuildContext context) {
-    final CartController cartController = Get.find<CartController>();
+    //final CartController cartController = Get.find<CartController>();
     return FractionallySizedBox(
       heightFactor: 0.6,
       child: Container(
@@ -124,10 +126,11 @@ class CheckoutScreen extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () async {
                   try {
-                    await cartController.clearCart();
-                    await cartController.fetchCartItems();
-                    // Get.off(() => OrderAccepted());
-                    Get.offNamed('/order-accepted');
+                    await Get.find<CartController>().clearCart();
+
+                    await Get.find<CartController>().fetchCartItems();
+
+                    Get.offNamed(AppRoutesName.orderAccepted);
                   } catch (e) {
                     Get.snackbar('Error', 'Cannot place order: $e');
                   }

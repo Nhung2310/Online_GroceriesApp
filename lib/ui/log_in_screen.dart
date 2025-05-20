@@ -2,6 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
+import 'package:online_groceries_app/app_routes_name.dart';
+import 'package:online_groceries_app/controller/login_controller.dart';
 import 'package:online_groceries_app/services/auth_service.dart';
 import 'package:online_groceries_app/widget/email_field_check.dart';
 
@@ -12,16 +14,12 @@ import 'package:online_groceries_app/widget/error_dialog.dart';
 import 'package:online_groceries_app/widget/loading_dialog.dart';
 import 'package:get/get.dart';
 
-class Login extends StatefulWidget {
+class Login extends GetView<LoginController> {
   const Login({super.key});
-  @override
-  State<Login> createState() => _LoginState();
-}
 
-class _LoginState extends State<Login> {
-  final _formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  // final _formKey = GlobalKey<FormState>();
+  // final emailController = TextEditingController();
+  // final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +31,7 @@ class _LoginState extends State<Login> {
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
             //  padding: const EdgeInsets.symmetric(),
             child: Form(
-              key: _formKey,
+              key: controller.formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,9 +63,9 @@ class _LoginState extends State<Login> {
 
                   SizedBox(height: 10.h),
 
-                  EmailFieldWithCheck(controller: emailController),
+                  EmailFieldWithCheck(controller: controller.emailController),
                   SizedBox(height: 10.h),
-                  PasswordField(controller: passwordController),
+                  PasswordField(controller: controller.passwordController),
                   SizedBox(height: 10.h),
                   Align(
                     alignment: Alignment.centerRight,
@@ -126,7 +124,7 @@ class _LoginState extends State<Login> {
                               recognizer:
                                   TapGestureRecognizer()
                                     ..onTap = () {
-                                      Get.toNamed('/sign_up');
+                                      Get.toNamed(AppRoutesName.signUp);
                                     },
                             ),
                           ],
@@ -144,17 +142,18 @@ class _LoginState extends State<Login> {
   }
 
   Future<void> onclickLogin(BuildContext context) async {
-    if (_formKey.currentState!.validate()) {
+    if (controller.formKey.currentState!.validate()) {
       showLoadingDialog(context);
       //dismissDialog(context);
       final errorLogin = await AuthService.logInAndCheckVerifyEmai(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
+        email: controller.emailController.text.trim(),
+        password: controller.passwordController.text.trim(),
         context: context,
       );
       dismissDialog(context);
       if (errorLogin == null) {
-        Get.offAllNamed('/home');
+        Get.offAllNamed(AppRoutesName.home);
+
         // Navigator.pushReplacement(
         //   context,
         //   MaterialPageRoute(
@@ -163,9 +162,10 @@ class _LoginState extends State<Login> {
         // );
       } else if (errorLogin == 'email-not-verified') {
         Get.offAllNamed(
-          '/email_verified',
-          arguments: emailController.text.trim(),
+          AppRoutesName.emailVerified,
+          arguments: controller.emailController.text.trim(),
         );
+
         // Navigator.pushReplacement(
         //   context,
         //   MaterialPageRoute(
