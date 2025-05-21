@@ -62,6 +62,7 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           initialRoute: AppRoutesName.splash,
+          initialBinding: SplashBinding(),
           getPages: [
             GetPage(
               name: AppRoutesName.splash,
@@ -109,11 +110,6 @@ class MyApp extends StatelessWidget {
                 FavouriteBinding(),
                 AccountBinding(),
               ],
-            ),
-            GetPage(
-              name: AppRoutesName.favourite,
-              page: () => FavouriteScreen(),
-              binding: FavouriteBinding(),
             ),
             GetPage(
               name: AppRoutesName.explore,

@@ -5,6 +5,6 @@ class OrderAcceptedBinding extends Bindings {
   @override
   void dependencies() {
     // Lazy load the OrderAcceptedController when it's needed
-    Get.lazyPut(() => OrderAcceptecController());
+    Get.put(OrderAcceptecController());
   }
 }

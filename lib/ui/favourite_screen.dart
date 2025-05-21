@@ -15,112 +15,114 @@ class FavouriteScreen extends GetView<FavoritesController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Scaffold(
-        backgroundColor: AppColor.white,
-        body: Padding(
-          padding: EdgeInsets.fromLTRB(10, 50, 10, 30),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Text(
-                  'Favourite',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 24.sp,
-                    fontWeight: FontWeight.bold,
-                    color: AppColor.black,
-                  ),
+    return Scaffold(
+      backgroundColor: AppColor.white,
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(10, 50, 10, 30),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text(
+                'Favourite',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 24.sp,
+                  fontWeight: FontWeight.bold,
+                  color: AppColor.black,
                 ),
-
-                controller.isLoading.value
-                    ? const Center(child: CircularProgressIndicator())
-                    : controller.favoritesList.isEmpty
-                    ? const Center(child: Text('Your Favorites is empty'))
-                    : ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: controller.favoritesList.length,
-                      itemBuilder: (context, index) {
-                        Favorites item = controller.favoritesList[index];
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: 10.h),
-                          child: Column(
-                            children: [
-                              Divider(),
-                              Row(
+              ),
+              Obx(
+                () =>
+                    controller.isLoading.value
+                        ? const Center(child: CircularProgressIndicator())
+                        : controller.favoritesList.isEmpty
+                        ? const Center(child: Text('Your Favorites is empty'))
+                        : ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: controller.favoritesList.length,
+                          itemBuilder: (context, index) {
+                            Favorites item = controller.favoritesList[index];
+                            return Padding(
+                              padding: EdgeInsets.only(bottom: 10.h),
+                              child: Column(
                                 children: [
-                                  Image.network(
-                                    item.image,
-                                    width: 100.w,
-                                    height: 100.w,
-                                    fit: BoxFit.contain,
-                                    errorBuilder:
-                                        (context, error, stackTrace) =>
-                                            const Icon(Icons.error),
-                                  ),
-                                  SizedBox(width: 10.w),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          item.title,
-                                          style: TextStyle(fontSize: 16.sp),
+                                  Divider(),
+                                  Row(
+                                    children: [
+                                      Image.network(
+                                        item.image,
+                                        width: 100.w,
+                                        height: 100.w,
+                                        fit: BoxFit.contain,
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                const Icon(Icons.error),
+                                      ),
+                                      SizedBox(width: 10.w),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              item.title,
+                                              style: TextStyle(fontSize: 16.sp),
+                                            ),
+
+                                            Text(
+                                              item.unitPrice,
+                                              style: TextStyle(
+                                                fontSize: 14.sp,
+                                                color: AppColor.gray,
+                                              ),
+                                            ),
+                                          ],
                                         ),
+                                      ),
 
-                                        Text(
-                                          item.unitPrice,
-                                          style: TextStyle(
-                                            fontSize: 14.sp,
-                                            color: AppColor.gray,
-                                          ),
+                                      Text(
+                                        '\$${item.price}',
+                                        style: TextStyle(
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                      ],
-                                    ),
-                                  ),
+                                      ),
 
-                                  Text(
-                                    '\$${item.price}',
-                                    style: TextStyle(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-
-                                  IconButton(
-                                    onPressed: () {
-                                      final product =
-                                          Get.find<ProductController>()
-                                              .getProductById(item.productId);
-                                      if (product != null) {
-                                        Get.toNamed(
-                                          AppRoutesName.productDetail,
-                                          arguments: product,
-                                        );
-                                      } else {
-                                        Get.snackbar(
-                                          'Lỗi',
-                                          'Không tìm thấy sản phẩm!',
-                                        );
-                                      }
-                                    },
-                                    icon: Icon(Icons.arrow_forward_ios),
+                                      IconButton(
+                                        onPressed: () {
+                                          final product =
+                                              Get.find<ProductController>()
+                                                  .getProductById(
+                                                    item.productId,
+                                                  );
+                                          if (product != null) {
+                                            Get.toNamed(
+                                              AppRoutesName.productDetail,
+                                              arguments: product,
+                                            );
+                                          } else {
+                                            Get.snackbar(
+                                              'Lỗi',
+                                              'Không tìm thấy sản phẩm!',
+                                            );
+                                          }
+                                        },
+                                        icon: Icon(Icons.arrow_forward_ios),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                SizedBox(height: 20.h),
-                Divider(),
-                SizedBox(height: 40.h),
-                buildCartItem(),
-              ],
-            ),
+                            );
+                          },
+                        ),
+              ),
+              SizedBox(height: 20.h),
+              Divider(),
+              SizedBox(height: 40.h),
+              buildCartItem(),
+            ],
           ),
         ),
       ),

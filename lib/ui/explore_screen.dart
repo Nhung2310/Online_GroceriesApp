@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/app_routes_name.dart';
 
 import 'package:online_groceries_app/controller/explore_controller.dart';
+import 'package:online_groceries_app/controller/product_controller.dart';
 import 'package:online_groceries_app/model/product.dart';
 
 import 'package:online_groceries_app/widget/error_dialog.dart';
@@ -72,9 +73,9 @@ class ExploreScreen extends GetView<ExploreController> {
                       }
 
                       print('Fetching products for type: $type');
-                      List<Product> product =
-                          await Get.find<ExploreController>()
-                              .fetchProductsByType(type);
+                      final productController = Get.find<ProductController>();
+                      List<Product> product = await productController
+                          .fetchProductsByType(type);
                       print('Fetched products count: ${product.length}');
 
                       if (product.isNotEmpty) {
@@ -82,7 +83,7 @@ class ExploreScreen extends GetView<ExploreController> {
                           AppRoutesName.category,
                           arguments: {
                             'title': controller.categories[index]['name'],
-                            'product': product,
+                            'products': product,
                           },
                         );
                       } else {
@@ -136,15 +137,15 @@ class ExploreScreen extends GetView<ExploreController> {
       return;
     }
     showLoadingDialog(context);
-
-    List<Product> product = await Get.find<ExploreController>().searchProduct(
-      keyword,
-    );
-
+    final productController = Get.find<ProductController>();
+    List<Product> product = await productController.fetchSearchProduct(keyword);
     dismissDialog(context);
 
     if (product.isNotEmpty) {
-      Get.toNamed(AppRoutesName.category, arguments: product);
+      Get.toNamed(
+        AppRoutesName.category,
+        arguments: {'products': product, 'title': '$keyword'},
+      );
     } else {
       showErrorDialog(context, 'No product found for "$keyword"');
     }

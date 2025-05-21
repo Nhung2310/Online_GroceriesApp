@@ -6,6 +6,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 import 'package:online_groceries_app/app_routes_name.dart';
 import 'package:online_groceries_app/controller/cart_controller.dart';
+import 'package:online_groceries_app/controller/product_controller.dart';
 import 'package:online_groceries_app/controller/shop_controller.dart';
 import 'package:online_groceries_app/model/product.dart';
 import 'package:online_groceries_app/ui/category_screen.dart';
@@ -241,17 +242,14 @@ class ShopScreen extends GetView<ShopController> {
       return;
     }
     showLoadingDialog(context);
-
-    List<Product> product = await controller.productController.searchProduct(
-      keyword,
-    );
+    final productController = Get.find<ProductController>();
+    List<Product> product = await productController.fetchSearchProduct(keyword);
     dismissDialog(context);
 
     if (product.isNotEmpty) {
-      Get.to(
-        CategoryScreen(
-          // title: '$keyword', product: product
-        ),
+      Get.toNamed(
+        AppRoutesName.category,
+        arguments: {'products': product, 'title': '$keyword'},
       );
     } else {
       showErrorDialog(context, 'No product found for "$keyword"');
@@ -264,7 +262,7 @@ class ShopScreen extends GetView<ShopController> {
   }) {
     return Obx(() {
       if (productList.isEmpty) {
-        return Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator());
       } else {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -282,7 +280,6 @@ class ShopScreen extends GetView<ShopController> {
                           AppRoutesName.productDetail,
                           arguments: product,
                         ),
-                    // onTap: () => Get.to(ProductDetailScreen(product: product)),
                     child: Card(
                       elevation: 0,
                       shape: RoundedRectangleBorder(
@@ -367,4 +364,114 @@ class ShopScreen extends GetView<ShopController> {
       }
     });
   }
+
+  //   Widget buildProductList({
+  //     required RxList<Product> productList,
+  //     required CartController cartController,
+  //   }) {
+  //     return Obx(() {
+  //       if (productList.isEmpty) {
+  //         return Center(child: CircularProgressIndicator());
+  //       } else {
+  //         return Column(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: [
+  //             SizedBox(
+  //               height: 250.h,
+  //               child: ListView.builder(
+  //                 scrollDirection: Axis.horizontal,
+  //                 itemCount: productList.length > 3 ? 3 : productList.length,
+  //                 itemBuilder: (context, index) {
+  //                   final product = productList[index];
+  //                   return GestureDetector(
+  //                     onTap:
+  //                         () => Get.toNamed(
+  //                           AppRoutesName.productDetail,
+  //                           arguments: product,
+  //                         ),
+  //                     // onTap: () => Get.to(ProductDetailScreen(product: product)),
+  //                     child: Card(
+  //                       elevation: 0,
+  //                       shape: RoundedRectangleBorder(
+  //                         borderRadius: BorderRadius.circular(10.r),
+  //                         side: BorderSide(color: AppColor.gray, width: 1),
+  //                       ),
+  //                       child: Container(
+  //                         width: 180.w,
+  //                         padding: EdgeInsets.all(12.w),
+  //                         child: Column(
+  //                           crossAxisAlignment: CrossAxisAlignment.start,
+  //                           children: [
+  //                             Center(
+  //                               child: Image.network(
+  //                                 product.image,
+  //                                 height: 90.h,
+  //                                 width: 90.w,
+  //                                 fit: BoxFit.contain,
+  //                                 errorBuilder:
+  //                                     (context, error, stackTrace) =>
+  //                                         Icon(Icons.error, size: 50.sp),
+  //                               ),
+  //                             ),
+  //                             SizedBox(height: 10.h),
+  //                             Text(
+  //                               product.title,
+  //                               style: TextStyle(
+  //                                 fontSize: 16.sp,
+  //                                 fontWeight: FontWeight.bold,
+  //                                 color: AppColor.black,
+  //                               ),
+  //                               maxLines: 1,
+  //                               overflow: TextOverflow.ellipsis,
+  //                             ),
+  //                             SizedBox(height: 4.h),
+  //                             Text(
+  //                               product.unitPrice,
+  //                               style: TextStyle(
+  //                                 fontSize: 12.sp,
+  //                                 color: AppColor.gray,
+  //                               ),
+  //                               maxLines: 1,
+  //                               overflow: TextOverflow.ellipsis,
+  //                             ),
+  //                             SizedBox(height: 10.h),
+  //                             Row(
+  //                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                               children: [
+  //                                 Text(
+  //                                   '\$${product.price.toStringAsFixed(2)}',
+  //                                   style: TextStyle(
+  //                                     fontSize: 16.sp,
+  //                                     fontWeight: FontWeight.bold,
+  //                                     color: AppColor.black,
+  //                                   ),
+  //                                 ),
+  //                                 Container(
+  //                                   width: 36.w,
+  //                                   height: 36.h,
+  //                                   decoration: BoxDecoration(
+  //                                     color: AppColor.green,
+  //                                     borderRadius: BorderRadius.circular(10.r),
+  //                                   ),
+  //                                   child: buildAddToCartButton(
+  //                                     product,
+  //                                     cartController,
+  //                                     context,
+  //                                   ),
+  //                                 ),
+  //                               ],
+  //                             ),
+  //                           ],
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   );
+  //                 },
+  //               ),
+  //             ),
+  //           ],
+  //         );
+  //       }
+  //     });
+  //   }
 }

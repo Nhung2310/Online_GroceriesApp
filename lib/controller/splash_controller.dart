@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:online_groceries_app/app_routes_name.dart';
@@ -21,7 +23,14 @@ class SplashController extends GetxController {
         await prefs.setBool('has_seen_onboarding', true);
         Get.offAllNamed(AppRoutesName.onbording);
       } else if (isLoggedIn) {
-        Get.offAllNamed(AppRoutesName.home);
+        User? user = FirebaseAuth.instance.currentUser;
+        await user?.reload();
+        if (user != null && user.emailVerified) {
+          Get.offAllNamed(AppRoutesName.home);
+        } else {
+          await FirebaseAuth.instance.signOut();
+          Get.offAllNamed(AppRoutesName.login);
+        }
       } else {
         Get.offAllNamed(AppRoutesName.login);
       }

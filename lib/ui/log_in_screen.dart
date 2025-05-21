@@ -81,7 +81,7 @@ class Login extends GetView<LoginController> {
 
                       child: ElevatedButton(
                         onPressed: () async {
-                          await onclickLogin(context);
+                          await controller.onclickLogin(context);
                         },
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(vertical: 15.h),
@@ -139,44 +139,5 @@ class Login extends GetView<LoginController> {
         ),
       ),
     );
-  }
-
-  Future<void> onclickLogin(BuildContext context) async {
-    if (controller.formKey.currentState!.validate()) {
-      showLoadingDialog(context);
-      //dismissDialog(context);
-      final errorLogin = await AuthService.logInAndCheckVerifyEmai(
-        email: controller.emailController.text.trim(),
-        password: controller.passwordController.text.trim(),
-        context: context,
-      );
-      dismissDialog(context);
-      if (errorLogin == null) {
-        Get.offAllNamed(AppRoutesName.home);
-
-        // Navigator.pushReplacement(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => const HomeScreen(),
-        //   ),
-        // );
-      } else if (errorLogin == 'email-not-verified') {
-        Get.offAllNamed(
-          AppRoutesName.emailVerified,
-          arguments: controller.emailController.text.trim(),
-        );
-
-        // Navigator.pushReplacement(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => EmailVerifiedScreen(
-        //       email: emailController.text.trim(),
-        //     ),
-        //   ),
-        // );
-      } else {
-        showErrorDialog(context, errorLogin);
-      }
-    }
   }
 }

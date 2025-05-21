@@ -10,7 +10,7 @@ class SplashScreen extends GetView<SplashController> {
 
   @override
   Widget build(BuildContext context) {
-    Future.microtask(() => controller.navigateAfterDelay());
+    // Future.microtask(() => controller.navigateAfterDelay());
     return Scaffold(
       body: Container(
         color: AppColor.green,

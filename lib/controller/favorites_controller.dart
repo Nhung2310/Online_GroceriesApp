@@ -12,11 +12,10 @@ class FavoritesController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
     fetchFavoritesItems();
   }
 
-  Future<List<Favorites>> fetchFavoritesItems() async {
+  Future<void> fetchFavoritesItems() async {
     if (userId.isEmpty) {
       throw Exception('User not logged in');
     }
@@ -28,11 +27,19 @@ class FavoritesController extends GetxController {
               .doc(userId)
               .collection('favorites')
               .get();
+      print('Fetched ${cartItemsSnapshot.docs.length} favorite items');
+      var favorite =
+          cartItemsSnapshot.docs.map((doc) {
+            return Favorites.fromMap(
+              doc.data() as Map<String, dynamic>,
+              doc.id,
+            );
+          }).toList();
 
-      return cartItemsSnapshot.docs.map((doc) {
-        return Favorites.fromMap(doc.data() as Map<String, dynamic>, doc.id);
-      }).toList();
+      favoritesList.assignAll(favorite);
+      isLoading.value = false;
     } catch (e) {
+      print('Caught error: $e');
       throw Exception('Error fetching favorites: $e');
     }
   }
@@ -53,6 +60,8 @@ class FavoritesController extends GetxController {
 
       if (!cartItemSnapshot.exists) {
         await cartItemRef.set(cartItem.toMap());
+
+        await fetchFavoritesItems();
       }
     } catch (e) {
       throw Exception('Error adding to favorites: $e');
@@ -71,6 +80,8 @@ class FavoritesController extends GetxController {
           .collection('favorites')
           .doc(productId)
           .delete();
+
+      await fetchFavoritesItems();
     } catch (e) {
       throw Exception('Error removing from favorites: $e');
     }

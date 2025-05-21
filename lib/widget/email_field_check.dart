@@ -20,11 +20,21 @@ class _EmailFieldWithCheckState extends State<EmailFieldWithCheck> {
   @override
   void initState() {
     super.initState();
-    widget.controller.addListener(() {
+    widget.controller.addListener(_onTextChanged);
+  }
+
+  void _onTextChanged() {
+    if (mounted) {
       setState(() {
         _isValidEmail = isEmailValid(widget.controller.text);
       });
-    });
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.controller.removeListener(_onTextChanged);
+    super.dispose();
   }
 
   @override
@@ -43,10 +53,10 @@ class _EmailFieldWithCheckState extends State<EmailFieldWithCheck> {
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
           return 'Email cannot be blank.';
-        } else if (isEmailValid(value))
-          //   return 'Invalid email.';
-          // }
-          return null;
+        } else if (!isEmailValid(value)) {
+          return 'Invalid email.';
+        }
+        return null;
       },
     );
   }
