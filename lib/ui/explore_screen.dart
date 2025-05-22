@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/app_routes_name.dart';
@@ -31,7 +30,7 @@ class ExploreScreen extends GetView<ExploreController> {
               SizedBox(height: 50.h),
               Center(
                 child: Text(
-                  'Find Products',
+                  'Find Products'.tr,
                   style: TextStyle(
                     fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
@@ -58,7 +57,7 @@ class ExploreScreen extends GetView<ExploreController> {
                       String categoryName =
                           controller.categories[index]['name'] ?? '';
                       if (categoryName.isEmpty) {
-                        showErrorDialog(context, 'Category name not found');
+                        showErrorDialog(context, 'Category name not found'.tr);
                         return;
                       }
                       String type = controller.mapCategoryNameToType(
@@ -67,16 +66,16 @@ class ExploreScreen extends GetView<ExploreController> {
                       if (type.isEmpty) {
                         showErrorDialog(
                           context,
-                          'Invalid category name: $categoryName',
+                          'Invalid category name: $categoryName'.tr,
                         );
                         return;
                       }
 
-                      print('Fetching products for type: $type');
+                      print('Fetching products for type: $type'.tr);
                       final productController = Get.find<ProductController>();
                       List<Product> product = await productController
                           .fetchProductsByType(type);
-                      print('Fetched products count: ${product.length}');
+                      print('Fetched products count: ${product.length}'.tr);
 
                       if (product.isNotEmpty) {
                         Get.toNamed(
@@ -89,7 +88,8 @@ class ExploreScreen extends GetView<ExploreController> {
                       } else {
                         showErrorDialog(
                           context,
-                          'No products found for ${controller.categories[index]['name']}',
+                          'No products found for ${controller.categories[index]['name']}'
+                              .tr,
                         );
                       }
                     },
@@ -133,7 +133,7 @@ class ExploreScreen extends GetView<ExploreController> {
 
   void searchProduct(BuildContext context, String keyword) async {
     if (keyword.isEmpty) {
-      showErrorDialog(context, 'Please enter a search keyword');
+      showErrorDialog(context, 'Please enter a search keyword'.tr);
       return;
     }
     showLoadingDialog(context);
@@ -147,7 +147,7 @@ class ExploreScreen extends GetView<ExploreController> {
         arguments: {'products': product, 'title': '$keyword'},
       );
     } else {
-      showErrorDialog(context, 'No product found for "$keyword"');
+      showErrorDialog(context, 'No product found for "$keyword"'.tr);
     }
   }
 
@@ -155,7 +155,7 @@ class ExploreScreen extends GetView<ExploreController> {
     return TextField(
       controller: controller.searchController,
       decoration: InputDecoration(
-        hintText: 'Search Store',
+        hintText: 'Search Store'.tr,
         hintStyle: TextStyle(color: AppColor.gray, fontSize: 14.sp),
         prefixIcon: Icon(Icons.search, color: AppColor.black, size: 20.sp),
         contentPadding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),

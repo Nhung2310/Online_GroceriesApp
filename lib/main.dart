@@ -15,9 +15,7 @@ import 'package:online_groceries_app/binding/product_detail_binding.dart';
 import 'package:online_groceries_app/binding/shop_binding.dart';
 import 'package:online_groceries_app/binding/sign_up_binding.dart';
 import 'package:online_groceries_app/binding/splash_binding.dart';
-import 'package:online_groceries_app/controller/sign_up_controller.dart';
 import 'package:online_groceries_app/firebase_options.dart';
-import 'package:online_groceries_app/services/root_binding.dart';
 import 'package:online_groceries_app/services/setting_services.dart';
 import 'package:online_groceries_app/ui/account_screen.dart';
 import 'package:online_groceries_app/ui/cart_screen.dart';
@@ -25,7 +23,6 @@ import 'package:online_groceries_app/ui/category_screen.dart';
 import 'package:online_groceries_app/ui/checkout_screen.dart';
 import 'package:online_groceries_app/ui/email_verified_screen.dart';
 import 'package:online_groceries_app/ui/explore_screen.dart';
-import 'package:online_groceries_app/ui/favourite_screen.dart';
 import 'package:online_groceries_app/ui/home_screen.dart';
 import 'package:online_groceries_app/ui/log_in_screen.dart';
 import 'package:online_groceries_app/ui/onbording_screen.dart';
@@ -36,15 +33,13 @@ import 'package:online_groceries_app/ui/splash_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
-
 import 'package:online_groceries_app/ui/product_detail_screen.dart';
+import 'messages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await Get.putAsync(() => SettingServices().init());
-  //Get.put(SignupController());
-  //Get.put(ProductController());
 
   runApp(const MyApp());
 }
@@ -60,6 +55,9 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
+          translations: Messages(),
+          locale: Locale('en', 'US'),
+          fallbackLocale: Locale('vi', 'VN'),
           debugShowCheckedModeBanner: false,
           initialRoute: AppRoutesName.splash,
           initialBinding: SplashBinding(),

@@ -30,7 +30,7 @@ class SplashScreen extends GetView<SplashController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'necta',
+                    'necta'.tr,
                     style: TextStyle(
                       fontSize: 35,
                       color: AppColor.white,
@@ -38,7 +38,7 @@ class SplashScreen extends GetView<SplashController> {
                     ),
                   ),
                   Text(
-                    'online groceries',
+                    'online groceries'.tr,
                     style: TextStyle(fontSize: 12, color: AppColor.white),
                   ),
                 ],

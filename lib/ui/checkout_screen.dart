@@ -29,11 +29,12 @@ class CheckoutScreen extends GetView<CheckoutController> {
               children: [
                 SizedBox(width: 10.w),
 
-                TitleGray('Checkout'),
+                TitleGray('Checkout'.tr),
                 Spacer(),
                 IconButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    // Navigator.pop(context);
+                    Get.back();
                   },
                   icon: Icon(Icons.close),
                 ),
@@ -43,10 +44,10 @@ class CheckoutScreen extends GetView<CheckoutController> {
             Row(
               children: [
                 SizedBox(width: 10.w),
-                TitleGray('Delivery'),
+                TitleGray('Delivery'.tr),
 
                 Spacer(),
-                TitleBold('Select Method'),
+                TitleBold('Select Method'.tr),
 
                 IconButtonForward(),
               ],
@@ -55,7 +56,7 @@ class CheckoutScreen extends GetView<CheckoutController> {
             Row(
               children: [
                 SizedBox(width: 10.w),
-                TitleGray('Payment'),
+                TitleGray('Payment'.tr),
 
                 Spacer(),
                 Icon(Icons.payment, color: AppColor.green),
@@ -66,10 +67,10 @@ class CheckoutScreen extends GetView<CheckoutController> {
             Row(
               children: [
                 SizedBox(width: 10.w),
-                TitleGray('Promo Code'),
+                TitleGray('Promo Code'.tr),
 
                 Spacer(),
-                TitleBold('Pich discount'),
+                TitleBold('Pich discount'.tr),
                 IconButtonForward(),
               ],
             ),
@@ -77,7 +78,7 @@ class CheckoutScreen extends GetView<CheckoutController> {
             Row(
               children: [
                 SizedBox(width: 10.w),
-                TitleGray('Total Cost'),
+                TitleGray('Total Cost'.tr),
 
                 Spacer(),
                 Text(
@@ -95,22 +96,22 @@ class CheckoutScreen extends GetView<CheckoutController> {
                 style: TextStyle(fontSize: 16.sp),
                 children: [
                   TextSpan(
-                    text: 'By placing an order you agree to our',
+                    text: 'By placing an order you agree to our'.tr,
                     style: TextStyle(color: AppColor.gray),
                   ),
                   TextSpan(
-                    text: ' Terms',
+                    text: ' Terms'.tr,
                     style: TextStyle(
                       color: AppColor.black,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   TextSpan(
-                    text: ' And',
+                    text: ' And'.tr,
                     style: TextStyle(color: AppColor.gray),
                   ),
                   TextSpan(
-                    text: ' Conditions',
+                    text: ' Conditions'.tr,
                     style: TextStyle(
                       color: AppColor.black,
                       fontWeight: FontWeight.bold,
@@ -132,7 +133,7 @@ class CheckoutScreen extends GetView<CheckoutController> {
 
                     Get.offNamed(AppRoutesName.orderAccepted);
                   } catch (e) {
-                    Get.snackbar('Error', 'Cannot place order: $e');
+                    Get.snackbar('Error'.tr, 'Cannot place order: $e'.tr);
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -143,7 +144,7 @@ class CheckoutScreen extends GetView<CheckoutController> {
                   ),
                 ),
                 child: Text(
-                  'Place Order',
+                  'Place Order'.tr,
                   style: TextStyle(fontSize: 14.sp, color: AppColor.white),
                 ),
               ),

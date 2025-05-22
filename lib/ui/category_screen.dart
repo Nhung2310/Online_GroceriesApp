@@ -7,7 +7,7 @@ import 'package:online_groceries_app/controller/cart_controller.dart';
 import 'package:online_groceries_app/controller/category_controller.dart';
 
 import 'package:online_groceries_app/model/product.dart';
-import 'package:online_groceries_app/ui/product_detail_screen.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/model/cart.dart';
 
@@ -149,11 +149,11 @@ class CategoryScreen extends GetView<CategoryController> {
           );
           await cartController.addToCart(cartItem);
           await cartController.refreshCart();
-          Get.snackbar('Success', 'Successfully added to cart!');
+          Get.snackbar('Success'.tr, 'Successfully added to cart!'.tr);
         } catch (e) {
           ScaffoldMessenger.of(
             context,
-          ).showSnackBar(SnackBar(content: Text('Error: $e')));
+          ).showSnackBar(SnackBar(content: Text('Error: $e'.tr)));
         }
       },
     );

@@ -1,12 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
-import 'package:online_groceries_app/app_routes_name.dart';
-import 'package:online_groceries_app/controller/account_controller.dart';
 
-import 'package:online_groceries_app/widget/loading_dialog.dart';
+import 'package:online_groceries_app/controller/account_controller.dart';
 
 import 'package:get/get.dart';
 
@@ -62,34 +59,83 @@ class AccountScreen extends GetView<AccountController> {
             ),
           ),
           Divider(),
-          itemOptionAccount(Icons.assignment_outlined, 'Orders'),
+          itemOptionAccount(Icons.assignment_outlined, 'Orders'.tr),
 
           Divider(),
-          itemOptionAccount(Icons.co_present_rounded, 'My Details'),
+          itemOptionAccount(Icons.co_present_rounded, 'My Details'.tr),
 
           Divider(),
           itemOptionAccount(
             Icons.person_pin_circle_outlined,
-            'Delivery Address',
+            'Delivery Address'.tr,
           ),
 
           Divider(),
-          itemOptionAccount(Icons.payment_outlined, 'Payment Methods'),
+          itemOptionAccount(Icons.payment_outlined, 'Payment Methods'.tr),
 
           Divider(),
-          itemOptionAccount(Icons.discount_outlined, 'Promo Cord'),
+          itemOptionAccount(Icons.discount_outlined, 'Promo Cord'.tr),
 
           Divider(),
           itemOptionAccount(
             Icons.notifications_active_outlined,
-            'Notifecations',
+            'Notifecations'.tr,
           ),
 
           Divider(),
-          itemOptionAccount(Icons.help_outline_sharp, 'Help'),
+          itemOptionAccount(Icons.help_outline_sharp, 'Help'.tr),
 
           Divider(),
-          itemOptionAccount(Icons.warning_rounded, "About"),
+          itemOptionAccount(Icons.warning_rounded, "About".tr),
+          Divider(),
+          // itemOptionAccount(Icons.settings, "Setting".tr),
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: Text(
+              "Setting".tr,
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            ),
+            onTap: () {
+              Get.bottomSheet(
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        "Chọn ngôn ngữ",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      ListTile(
+                        title: const Text("Tiếng Việt"),
+                        onTap: () {
+                          Get.updateLocale(const Locale('vi', 'VN'));
+                          Get.back();
+                        },
+                      ),
+                      ListTile(
+                        title: const Text("English"),
+                        onTap: () {
+                          Get.updateLocale(const Locale('en', 'US'));
+                          Get.back();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
 
           Divider(),
           Padding(
@@ -111,7 +157,7 @@ class AccountScreen extends GetView<AccountController> {
 
                     SizedBox(width: 90.w),
                     Text(
-                      'Log Out',
+                      'Log Out'.tr,
                       style: TextStyle(color: AppColor.green, fontSize: 16.sp),
                     ),
                   ],

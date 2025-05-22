@@ -3,7 +3,6 @@ import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/controller/order_acceptec_controller.dart';
-import 'package:online_groceries_app/services/setting_services.dart';
 
 import 'package:online_groceries_app/ui/home_screen.dart';
 
@@ -31,13 +30,14 @@ class OrderAccepted extends GetView<OrderAcceptecController> {
               SizedBox(height: 50.h),
               Text(
                 textAlign: TextAlign.center,
-                'Your Order has been accepted',
+                'Your Order has been accepted'.tr,
                 style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20.h),
               Text(
                 textAlign: TextAlign.center,
-                'Your items has been placcd and is on it’s way to being processed',
+                'Your items has been placcd and is on it’s way to being processed'
+                    .tr,
                 style: TextStyle(color: AppColor.gray, fontSize: 16.sp),
               ),
               SizedBox(height: 50.h),
@@ -54,7 +54,7 @@ class OrderAccepted extends GetView<OrderAcceptecController> {
                       ),
                     ),
                     child: Text(
-                      'Track Order',
+                      'Track Order'.tr,
                       style: TextStyle(fontSize: 14.sp, color: AppColor.white),
                     ),
                   ),
@@ -76,7 +76,7 @@ class OrderAccepted extends GetView<OrderAcceptecController> {
                       ),
                     ),
                     child: Text(
-                      'Back to home',
+                      'Back to home'.tr,
                       style: TextStyle(fontSize: 14.sp, color: AppColor.black),
                     ),
                   ),

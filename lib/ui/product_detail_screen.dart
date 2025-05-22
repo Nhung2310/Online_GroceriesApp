@@ -20,8 +20,8 @@ class ProductDetailScreen extends GetView<ProductController> {
       final product = controller.product.value;
       if (product == null) {
         return Scaffold(
-          appBar: AppBar(title: const Text('Error')),
-          body: const Center(child: Text('Product not found')),
+          appBar: AppBar(title: Text('Error'.tr)),
+          body: Center(child: Text('Product not found'.tr)),
         );
       }
 
@@ -112,7 +112,7 @@ class ProductDetailScreen extends GetView<ProductController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Product Detail',
+                      'Product Detail'.tr,
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -151,7 +151,7 @@ class ProductDetailScreen extends GetView<ProductController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Nutritions',
+                      'Nutritions'.tr,
                       style: TextStyle(
                         fontSize: 15.sp,
                         fontWeight: FontWeight.bold,
@@ -198,11 +198,11 @@ class ProductDetailScreen extends GetView<ProductController> {
             );
             await cartController.addToCart(cartItem);
             await cartController.refreshCart();
-            Get.snackbar('Thành công', 'Đã thêm vào giỏ hàng!');
+            Get.snackbar('Success'.tr, 'Successfully added to cart!'.tr);
           } catch (e) {
             ScaffoldMessenger.of(
               context,
-            ).showSnackBar(SnackBar(content: Text('Lỗi: $e')));
+            ).showSnackBar(SnackBar(content: Text('Error: $e'.tr)));
           }
         },
         style: ElevatedButton.styleFrom(
@@ -213,7 +213,7 @@ class ProductDetailScreen extends GetView<ProductController> {
           ),
         ),
         child: Text(
-          'Thêm vào giỏ hàng',
+          'Add To Basket'.tr,
           style: TextStyle(fontSize: 18.sp, color: Colors.white),
         ),
       ),
@@ -225,7 +225,7 @@ class ProductDetailScreen extends GetView<ProductController> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'Đánh giá',
+          'Review'.tr,
           style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
         ),
         Row(

@@ -46,7 +46,7 @@ class ShopScreen extends GetView<ShopController> {
                   children: [
                     Icon(Icons.location_on, color: AppColor.gray, size: 20.sp),
                     Text(
-                      'HCM, Vietnam',
+                      'HCM, Vietnam'.tr,
                       style: TextStyle(color: AppColor.black, fontSize: 16.sp),
                     ),
                   ],
@@ -56,7 +56,7 @@ class ShopScreen extends GetView<ShopController> {
               TextField(
                 controller: controller.searchController,
                 decoration: InputDecoration(
-                  hintText: 'Search Store',
+                  hintText: 'Search Store'.tr,
                   hintStyle: TextStyle(color: AppColor.gray, fontSize: 14.sp),
                   prefixIcon: Icon(
                     Icons.search,
@@ -116,11 +116,11 @@ class ShopScreen extends GetView<ShopController> {
                 ),
               ),
               SizedBox(height: 30.h),
-              text('Exclusive Offer', () {
+              text('Exclusive Offer'.tr, () {
                 Get.toNamed(
                   '/category',
                   arguments: [
-                    'Exclusive Offer',
+                    'Exclusive Offer'.tr,
                     controller.productController.exclusiveOfferProducts,
                   ],
                 );
@@ -133,7 +133,7 @@ class ShopScreen extends GetView<ShopController> {
               ),
               SizedBox(height: 30.h),
 
-              text('Best Selling', () {
+              text('Best Selling'.tr, () {
                 Get.to(
                   CategoryScreen(
                     // title: 'Best Selling',
@@ -149,7 +149,7 @@ class ShopScreen extends GetView<ShopController> {
 
               SizedBox(height: 30.h),
 
-              text('Groceries', () {
+              text('Groceries'.tr, () {
                 Get.to(
                   CategoryScreen(
                     // title: 'Groceries',
@@ -199,7 +199,7 @@ class ShopScreen extends GetView<ShopController> {
         GestureDetector(
           onTap: onSeeAllTap,
           child: Text(
-            'See all',
+            'See all'.tr,
             style: TextStyle(color: AppColor.green, fontSize: 14.sp),
           ),
         ),
@@ -226,11 +226,11 @@ class ShopScreen extends GetView<ShopController> {
           );
           await cartController.addToCart(cartItem);
           await cartController.refreshCart();
-          Get.snackbar('Success', 'Successfully added to cart!');
+          Get.snackbar('Success'.tr, 'Successfully added to cart!'.tr);
         } catch (e) {
           ScaffoldMessenger.of(
             context,
-          ).showSnackBar(SnackBar(content: Text('Error: $e')));
+          ).showSnackBar(SnackBar(content: Text('Error: $e'.tr)));
         }
       },
     );
@@ -238,7 +238,7 @@ class ShopScreen extends GetView<ShopController> {
 
   void searchProduct(BuildContext context, String keyword) async {
     if (keyword.isEmpty) {
-      showErrorDialog(context, 'Please enter a search keyword');
+      showErrorDialog(context, 'Please enter a search keyword'.tr);
       return;
     }
     showLoadingDialog(context);
@@ -252,7 +252,7 @@ class ShopScreen extends GetView<ShopController> {
         arguments: {'products': product, 'title': '$keyword'},
       );
     } else {
-      showErrorDialog(context, 'No product found for "$keyword"');
+      showErrorDialog(context, 'No product found for "$keyword"'.tr);
     }
   }
 
@@ -364,114 +364,4 @@ class ShopScreen extends GetView<ShopController> {
       }
     });
   }
-
-  //   Widget buildProductList({
-  //     required RxList<Product> productList,
-  //     required CartController cartController,
-  //   }) {
-  //     return Obx(() {
-  //       if (productList.isEmpty) {
-  //         return Center(child: CircularProgressIndicator());
-  //       } else {
-  //         return Column(
-  //           crossAxisAlignment: CrossAxisAlignment.start,
-  //           children: [
-  //             SizedBox(
-  //               height: 250.h,
-  //               child: ListView.builder(
-  //                 scrollDirection: Axis.horizontal,
-  //                 itemCount: productList.length > 3 ? 3 : productList.length,
-  //                 itemBuilder: (context, index) {
-  //                   final product = productList[index];
-  //                   return GestureDetector(
-  //                     onTap:
-  //                         () => Get.toNamed(
-  //                           AppRoutesName.productDetail,
-  //                           arguments: product,
-  //                         ),
-  //                     // onTap: () => Get.to(ProductDetailScreen(product: product)),
-  //                     child: Card(
-  //                       elevation: 0,
-  //                       shape: RoundedRectangleBorder(
-  //                         borderRadius: BorderRadius.circular(10.r),
-  //                         side: BorderSide(color: AppColor.gray, width: 1),
-  //                       ),
-  //                       child: Container(
-  //                         width: 180.w,
-  //                         padding: EdgeInsets.all(12.w),
-  //                         child: Column(
-  //                           crossAxisAlignment: CrossAxisAlignment.start,
-  //                           children: [
-  //                             Center(
-  //                               child: Image.network(
-  //                                 product.image,
-  //                                 height: 90.h,
-  //                                 width: 90.w,
-  //                                 fit: BoxFit.contain,
-  //                                 errorBuilder:
-  //                                     (context, error, stackTrace) =>
-  //                                         Icon(Icons.error, size: 50.sp),
-  //                               ),
-  //                             ),
-  //                             SizedBox(height: 10.h),
-  //                             Text(
-  //                               product.title,
-  //                               style: TextStyle(
-  //                                 fontSize: 16.sp,
-  //                                 fontWeight: FontWeight.bold,
-  //                                 color: AppColor.black,
-  //                               ),
-  //                               maxLines: 1,
-  //                               overflow: TextOverflow.ellipsis,
-  //                             ),
-  //                             SizedBox(height: 4.h),
-  //                             Text(
-  //                               product.unitPrice,
-  //                               style: TextStyle(
-  //                                 fontSize: 12.sp,
-  //                                 color: AppColor.gray,
-  //                               ),
-  //                               maxLines: 1,
-  //                               overflow: TextOverflow.ellipsis,
-  //                             ),
-  //                             SizedBox(height: 10.h),
-  //                             Row(
-  //                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                               children: [
-  //                                 Text(
-  //                                   '\$${product.price.toStringAsFixed(2)}',
-  //                                   style: TextStyle(
-  //                                     fontSize: 16.sp,
-  //                                     fontWeight: FontWeight.bold,
-  //                                     color: AppColor.black,
-  //                                   ),
-  //                                 ),
-  //                                 Container(
-  //                                   width: 36.w,
-  //                                   height: 36.h,
-  //                                   decoration: BoxDecoration(
-  //                                     color: AppColor.green,
-  //                                     borderRadius: BorderRadius.circular(10.r),
-  //                                   ),
-  //                                   child: buildAddToCartButton(
-  //                                     product,
-  //                                     cartController,
-  //                                     context,
-  //                                   ),
-  //                                 ),
-  //                               ],
-  //                             ),
-  //                           ],
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   );
-  //                 },
-  //               ),
-  //             ),
-  //           ],
-  //         );
-  //       }
-  //     });
-  //   }
 }

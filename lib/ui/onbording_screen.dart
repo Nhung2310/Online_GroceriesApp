@@ -6,7 +6,6 @@ import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:online_groceries_app/app_routes_name.dart';
 import 'package:online_groceries_app/controller/onbording_controller.dart';
-import 'package:online_groceries_app/ui/log_in_screen.dart';
 
 class Onbording extends GetView<OnbordingController> {
   const Onbording({super.key});
@@ -37,7 +36,7 @@ class Onbording extends GetView<OnbordingController> {
                     ),
                     Center(
                       child: Text(
-                        'Welcome\n to our store',
+                        'Welcome\n to our store'.tr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: AppColor.white,
@@ -47,7 +46,7 @@ class Onbording extends GetView<OnbordingController> {
                       ),
                     ),
                     Text(
-                      'Ger your groceries in as fast as one hour',
+                      'Ger your groceries in as fast as one hour'.tr,
                       style: TextStyle(color: AppColor.white, fontSize: 10),
                     ),
                     SizedBox(height: 20),
@@ -65,7 +64,7 @@ class Onbording extends GetView<OnbordingController> {
                           ),
                         ),
                         child: Text(
-                          "Get Started",
+                          "Get Started".tr,
                           style: TextStyle(fontSize: 18, color: Colors.white),
                         ),
                       ),

@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,8 +6,6 @@ import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:online_groceries_app/app_routes_name.dart';
 import 'package:online_groceries_app/controller/email_verified_controller.dart';
-
-import 'package:online_groceries_app/ui/log_in_screen.dart';
 import 'package:get/get.dart';
 
 class EmailVerifiedScreen extends GetView<EmailVerifiedController> {
@@ -37,7 +32,7 @@ class EmailVerifiedScreen extends GetView<EmailVerifiedController> {
             SizedBox(height: 50.h),
             Center(
               child: Text(
-                'Confirm',
+                'Confirm'.tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20.sp,
@@ -57,12 +52,12 @@ class EmailVerifiedScreen extends GetView<EmailVerifiedController> {
                   color: AppColor.gray,
                 ),
                 children: [
-                  TextSpan(text: 'We have sent an email to '),
+                  TextSpan(text: 'We have sent an email to '.tr),
                   TextSpan(
                     text: email,
                     style: TextStyle(color: AppColor.black),
                   ),
-                  TextSpan(text: ' with a link to access your account.'),
+                  TextSpan(text: ' with a link to access your account.'.tr),
                 ],
               ),
             ),
@@ -92,7 +87,7 @@ class EmailVerifiedScreen extends GetView<EmailVerifiedController> {
             ),
           ),
           child: Text(
-            'Cancel ',
+            'Cancel '.tr,
             style: TextStyle(fontSize: 18.sp, color: AppColor.white),
           ),
         ),

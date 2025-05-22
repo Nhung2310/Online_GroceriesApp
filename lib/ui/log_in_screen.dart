@@ -4,14 +4,13 @@ import 'package:online_groceries_app/app_assets.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:online_groceries_app/app_routes_name.dart';
 import 'package:online_groceries_app/controller/login_controller.dart';
-import 'package:online_groceries_app/services/auth_service.dart';
+
 import 'package:online_groceries_app/widget/email_field_check.dart';
 
 import 'package:online_groceries_app/widget/password_field.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:online_groceries_app/widget/error_dialog.dart';
-import 'package:online_groceries_app/widget/loading_dialog.dart';
+
 import 'package:get/get.dart';
 
 class Login extends GetView<LoginController> {
@@ -48,7 +47,7 @@ class Login extends GetView<LoginController> {
                   ),
                   SizedBox(height: 50.h),
                   Text(
-                    'Loging',
+                    'Loging'.tr,
                     style: TextStyle(
                       fontSize: 25.sp,
                       fontWeight: FontWeight.bold,
@@ -57,7 +56,7 @@ class Login extends GetView<LoginController> {
                   ),
 
                   Text(
-                    'Entern your email and password',
+                    'Entern your email and password'.tr,
                     style: TextStyle(fontSize: 15.sp, color: AppColor.gray),
                   ),
 
@@ -70,7 +69,7 @@ class Login extends GetView<LoginController> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      'Forgot Password?',
+                      'Forgot Password?'.tr,
                       style: TextStyle(fontSize: 13.sp, color: AppColor.gray),
                     ),
                   ),
@@ -91,7 +90,7 @@ class Login extends GetView<LoginController> {
                           ),
                         ),
                         child: Text(
-                          "Log in",
+                          "Log in".tr,
                           style: TextStyle(
                             fontSize: 18.sp,
                             color: Colors.white,
@@ -108,14 +107,14 @@ class Login extends GetView<LoginController> {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: 'Don’t have an account? ',
+                              text: 'Don’t have an account? '.tr,
                               style: TextStyle(
                                 fontSize: 20.sp,
                                 color: AppColor.gray,
                               ),
                             ),
                             TextSpan(
-                              text: 'Signup',
+                              text: 'Sign Up'.tr,
                               style: TextStyle(
                                 fontSize: 20.sp,
                                 color: AppColor.green,

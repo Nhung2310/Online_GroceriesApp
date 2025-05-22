@@ -10,32 +10,32 @@ class ExploreController extends GetxController {
 
   final List<Map<String, dynamic>> categories = [
     {
-      'name': 'Frash Fruits & Vegetable',
+      'name': 'Frash Fruits & Vegetable'.tr,
       'color': const Color(0xFFE5F5E7),
       'img': AppAssets.icFrashFruitsVagetable,
     },
     {
-      'name': 'Cooking Oil & Ghee',
+      'name': 'Cooking Oil & Ghee'.tr,
       'color': const Color(0xFFFFF3E5),
       'img': AppAssets.icCookingOilGhee,
     },
     {
-      'name': 'Meat & Fish',
+      'name': 'Meat & Fish'.tr,
       'color': const Color(0xFFFEE5E5),
       'img': AppAssets.icMeatFish,
     },
     {
-      'name': 'Bakery & Snacks',
+      'name': 'Bakery & Snacks'.tr,
       'color': const Color(0xFFF5E5F5),
       'img': AppAssets.icBakerySnacks,
     },
     {
-      'name': 'Dairy & Eggs',
+      'name': 'Dairy & Eggs'.tr,
       'color': const Color(0xFFF5F0E5),
       'img': AppAssets.icDairyEggs,
     },
     {
-      'name': 'Beverage',
+      'name': 'Beverage'.tr,
       'color': const Color(0xFFE5E5F5),
       'img': AppAssets.icBeverages,
     },

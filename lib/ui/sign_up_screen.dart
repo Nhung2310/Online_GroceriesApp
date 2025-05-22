@@ -48,7 +48,7 @@ class SignUp extends GetView<SignUpController> {
                   ),
                   SizedBox(height: 50.h),
                   Text(
-                    'Sign Up',
+                    'Sign Up'.tr,
                     style: TextStyle(
                       fontSize: 25.sp,
                       fontWeight: FontWeight.bold,
@@ -57,19 +57,19 @@ class SignUp extends GetView<SignUpController> {
                   ),
 
                   Text(
-                    'Enter your credentials to continue',
+                    'Enter your credentials to continue'.tr,
                     style: TextStyle(fontSize: 15.sp, color: AppColor.gray),
                   ),
 
                   TextFormField(
                     controller: controller.usernameController,
                     decoration: InputDecoration(
-                      labelText: 'Use Name',
+                      labelText: 'Use Name'.tr,
                       border: UnderlineInputBorder(),
                     ),
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'The name field cannot be empty.';
+                        return 'The name field cannot be empty.'.tr;
                       }
                       return null;
                     },
@@ -85,28 +85,28 @@ class SignUp extends GetView<SignUpController> {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: 'By continuing you agree to our ',
+                          text: 'By continuing you agree to our '.tr,
                           style: TextStyle(
                             fontSize: 20.sp,
                             color: AppColor.gray,
                           ),
                         ),
                         TextSpan(
-                          text: 'Terms of Service ',
+                          text: 'Terms of Service '.tr,
                           style: TextStyle(
                             fontSize: 20.sp,
                             color: AppColor.green,
                           ),
                         ),
                         TextSpan(
-                          text: 'and ',
+                          text: 'and '.tr,
                           style: TextStyle(
                             fontSize: 20.sp,
                             color: AppColor.gray,
                           ),
                         ),
                         TextSpan(
-                          text: 'Pricacy ',
+                          text: 'Pricacy '.tr,
                           style: TextStyle(
                             fontSize: 20.sp,
                             color: AppColor.green,
@@ -132,7 +132,7 @@ class SignUp extends GetView<SignUpController> {
                           ),
                         ),
                         child: Text(
-                          "Sign Up ",
+                          "Sign Up ".tr,
                           style: TextStyle(
                             fontSize: 18.sp,
                             color: AppColor.white,
@@ -150,7 +150,7 @@ class SignUp extends GetView<SignUpController> {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: 'Already have an account? ',
+                              text: 'Already have an account? '.tr,
                               style: TextStyle(
                                 fontSize: 20.sp,
                                 color: AppColor.black,
@@ -158,7 +158,7 @@ class SignUp extends GetView<SignUpController> {
                               ),
                             ),
                             TextSpan(
-                              text: ' Signup',
+                              text: ' Signup'.tr,
                               style: TextStyle(
                                 fontSize: 20.sp,
                                 color: AppColor.green,

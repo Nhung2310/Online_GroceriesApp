@@ -6,7 +6,7 @@ import 'package:online_groceries_app/controller/cart_controller.dart';
 import 'package:online_groceries_app/controller/favorites_controller.dart';
 import 'package:online_groceries_app/controller/product_controller.dart';
 import 'package:online_groceries_app/model/favorites.dart';
-import 'package:online_groceries_app/ui/product_detail_screen.dart';
+
 import 'package:get/get.dart';
 import 'package:online_groceries_app/model/cart.dart';
 
@@ -23,7 +23,7 @@ class FavouriteScreen extends GetView<FavoritesController> {
           child: Column(
             children: [
               Text(
-                'Favourite',
+                'Favourite'.tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24.sp,
@@ -36,7 +36,7 @@ class FavouriteScreen extends GetView<FavoritesController> {
                     controller.isLoading.value
                         ? const Center(child: CircularProgressIndicator())
                         : controller.favoritesList.isEmpty
-                        ? const Center(child: Text('Your Favorites is empty'))
+                        ? Center(child: Text('Your Favorites is empty'.tr))
                         : ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
@@ -103,8 +103,8 @@ class FavouriteScreen extends GetView<FavoritesController> {
                                             );
                                           } else {
                                             Get.snackbar(
-                                              'Lỗi',
-                                              'Không tìm thấy sản phẩm!',
+                                              'Error'.tr,
+                                              'Your Favorites is empty'.tr,
                                             );
                                           }
                                         },
@@ -147,8 +147,8 @@ class FavouriteScreen extends GetView<FavoritesController> {
                   : () async {
                     if (controller.favoritesList.isEmpty) {
                       Get.snackbar(
-                        'Favorites is empty',
-                        'There are no items in your wishlist to add to cart',
+                        'Favorites is empty'.tr,
+                        'There are no items in your wishlist to add to cart'.tr,
                       );
                       return;
                     }
@@ -169,12 +169,12 @@ class FavouriteScreen extends GetView<FavoritesController> {
                       }
                     }
                     Get.snackbar(
-                      'Success',
-                      'Successfully added all items to cart!',
+                      'Success'.tr,
+                      'Successfully added all items to cart!'.tr,
                     );
                   },
           child: Text(
-            'Add All To Cart',
+            'Add All To Cart'.tr,
             style: TextStyle(fontSize: 16.sp, color: AppColor.white),
           ),
         ),

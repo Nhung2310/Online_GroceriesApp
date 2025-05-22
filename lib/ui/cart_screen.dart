@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/state_manager.dart';
+import 'package:get/utils.dart';
 import 'package:online_groceries_app/app_color.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_groceries_app/controller/cart_controller.dart';
@@ -22,7 +23,7 @@ class CartScreen extends GetView<CartController> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                'My Cart',
+                'My Cart'.tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24.sp,
@@ -38,7 +39,7 @@ class CartScreen extends GetView<CartController> {
                 if (cartItems.isEmpty) {
                   return Padding(
                     padding: EdgeInsets.only(top: 20),
-                    child: const Center(child: Text('Your cart is empty')),
+                    child: Center(child: Text('Your cart is empty'.tr)),
                   );
                 }
                 return ListView.builder(
@@ -77,8 +78,8 @@ class CartScreen extends GetView<CartController> {
                   onPressed: () {
                     if (cartController.cartItems.isEmpty) {
                       Get.snackbar(
-                        'Cart is empty',
-                        'There are no items in the cart to order',
+                        'Cart is empty'.tr,
+                        'There are no items in the cart to order'.tr,
                       );
                       return;
                     }
@@ -95,7 +96,7 @@ class CartScreen extends GetView<CartController> {
                       Expanded(
                         child: Center(
                           child: Text(
-                            'Go to Checkout',
+                            'Go to Checkout'.tr,
                             style: TextStyle(
                               fontSize: 16.sp,
                               color: AppColor.white,
